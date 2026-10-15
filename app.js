@@ -381,6 +381,8 @@ function updateTimers() {
 }
 function updateTranscriptionUI() {
   const { recording, transcriptionEnabled } = state;
+  $("transcriptPanel").classList.toggle("transcription-on", transcriptionEnabled);
+  $("transcriptPanel").classList.toggle("transcription-off", !transcriptionEnabled);
   const transcriptionStatus = recording
     ? transcriptionEnabled ? "PÅGÅR" : "AV"
     : state.hasStarted
