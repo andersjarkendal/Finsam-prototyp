@@ -355,6 +355,12 @@ a:focus-visible,button:focus-visible{outline-color:#003366}
 .recording-status-card{border-color:#b8c8d9;background:#eef3f8;color:#003366}
 .recording-status-label{color:#536b84}
 .recording-status-card>b{color:#003366}
+.recording-status-card[data-status-card]{position:relative;padding-right:48px;cursor:grab;touch-action:none;user-select:none;transition:transform .14s ease,box-shadow .14s ease,border-color .14s ease}
+.recording-status-card[data-status-card]:active{cursor:grabbing}
+.recording-status-card[data-status-card].is-dragging{z-index:2;transform:scale(1.025);box-shadow:0 8px 20px rgba(0,35,75,.2);border-color:#003366;cursor:grabbing}
+.recording-status-card[data-status-card]:focus-visible{outline:4px solid #ffcc00;outline-offset:3px}
+.status-drag-grip{position:absolute;top:50%;right:12px;transform:translateY(-50%);display:grid;place-items:center;width:28px;height:34px;border:1px solid #c5d2e0;border-radius:7px;background:#fff;color:#536b84;font-size:20px;line-height:1;letter-spacing:-5px;padding-right:5px;pointer-events:none}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 .transcript-toggle-header{border-color:#c5d2e0;background:#f1f5f9}
 .transcription-toggle input:checked+.toggle-switch{background:#003366;border-color:#00264d}
 .transcript-text.is-typing::after{color:#003366}
