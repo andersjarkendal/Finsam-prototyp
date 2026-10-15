@@ -884,3 +884,20 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   background:#fff9e6;
   border-color:#d5ad25;
 }
+
+
+.finish-session-button:disabled,
+.finish-session-button:disabled:hover{
+  border-color:#d1dae4;
+  background:#eef2f6;
+  color:#8998a8;
+  box-shadow:none;
+  cursor:not-allowed;
+}
+.finish-session-help{
+  display:block;
+  color:#61758d;
+  font-size:12px;
+  line-height:1.4;
+  text-align:left;
+}
