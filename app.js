@@ -358,7 +358,6 @@ function setRecording(active) {
   $("phoneRecordText").textContent = active ? "Ljud spelas in" : state.hasStarted ? "Fortsätt ljudinspelning" : "Starta ljudinspelning";
   $("phonePause").disabled = !active;
   $("phoneRecordState").textContent = active ? "LJUDINSPELNING PÅGÅR" : state.hasStarted ? "LJUD PAUSAT" : "MOBIL REDO ATT SPELA IN LJUD";
-  $("waveLiveLabel").textContent = active ? "SPELAR IN · DEMO" : state.hasStarted ? "PAUSAD" : "VÄNTAR";
   $("phoneRecordCard").classList.toggle("recording", active);
   updateAudioStatus();
   updateTranscriptionUI();
@@ -581,7 +580,16 @@ $("editFinal").addEventListener("click", () => {
 });
 $("finishSession").addEventListener("click", () => { setRecording(false); showToast("Förhöret avslutades i demot."); });
 $("addNote").addEventListener("click", () => showToast("Anteckningsfält ingår inte i den här första demon."));
-for (let i = 0; i < 120; i++) { const bar = document.createElement("i"); $("phoneWave").appendChild(bar); }
+const speechPhrases = [[4, 13], [17, 27], [32, 43], [48, 56]];
+for (let i = 0; i < 120; i++) {
+  const bar = document.createElement("i");
+  const position = i % 60;
+  const speaking = speechPhrases.some(([start, end]) => position >= start && position <= end);
+  const variation = Math.min(1, Math.abs(Math.sin(position * 1.71) + Math.sin(position * .47) * .48) / 1.35);
+  const level = speaking ? .2 + variation * .8 : .025 + variation * .045;
+  bar.style.height = `${Math.round(2 + level * 38)}px`;
+  $("phoneWave").appendChild(bar);
+}
 renderSummaries();
 updatePairingUI();
 updateAudioStatus();
