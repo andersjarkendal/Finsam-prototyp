@@ -660,7 +660,7 @@ function createSummary() {
   }
   const chunk = state.lines.slice(state.lastSummarized);
   state.lastSummarized = state.lines.length;
-  state.summaries.push({ title: `Del ${state.summaries.length + 1}`, time: clock(state.elapsed), text: makeSummaryText(chunk) });
+  state.summaries.push({ title: `Del ${state.summaries.length + 1}`, time: clock(state.elapsed), text: makeSummaryText(chunk), collapsed: false });
   renderSummaries();
   renderFollowupQuestions(state.summaries.length);
   showToast("Delsammanfattning skapad · Förhörsanalys visar upp till 3 följdfrågor.");
@@ -679,7 +679,13 @@ function renderSummaries() {
     $("firstSummary").addEventListener("click", createSummary);
     return;
   }
-  list.innerHTML = state.summaries.map((summary, index) => `<article class="summary-card"><div class="summary-card-head"><b>${summary.title}</b><span>${summary.time} · <button class="text-button edit-summary" data-index="${index}">Redigera</button></span></div><p class="summary-card-text">${summary.text}</p></article>`).join("");
+  list.innerHTML = state.summaries.map((summary, index) => {
+    const collapsed = summary.collapsed === true;
+    const hidden = collapsed ? " hidden" : "";
+    const expanded = String(!collapsed);
+    const toggleLabel = collapsed ? "Visa" : "Fäll ihop";
+    return '<article class="summary-card"><div class="summary-card-head"><b>' + summary.title + '</b><div class="summary-card-actions"><span class="summary-card-time">' + summary.time + '</span><button type="button" class="text-button edit-summary" data-index="' + index + '">Redigera</button><button type="button" class="summary-collapse" data-index="' + index + '" aria-expanded="' + expanded + '" aria-controls="summaryText-' + index + '">' + toggleLabel + '</button></div></div><p class="summary-card-text" id="summaryText-' + index + '"' + hidden + '>' + summary.text + '</p></article>';
+  }).join("");
   list.querySelectorAll(".edit-summary").forEach(button => button.addEventListener("click", () => {
     const card = button.closest(".summary-card");
     const idx = Number(button.dataset.index);
@@ -692,6 +698,18 @@ function renderSummaries() {
     const editor = document.createElement("textarea"); editor.value = state.summaries[idx].text;
     p.replaceWith(editor); button.textContent = "Spara";
   }));
+  list.querySelectorAll(".summary-collapse").forEach(button => button.addEventListener("click", () => {
+    const idx = Number(button.dataset.index);
+    const summary = state.summaries[idx];
+    const card = button.closest(".summary-card");
+    summary.collapsed = !summary.collapsed;
+    const text = card.querySelector(".summary-card-text");
+    if (text) text.hidden = summary.collapsed;
+    button.setAttribute("aria-expanded", String(!summary.collapsed));
+    button.textContent = summary.collapsed ? "Visa" : "Fäll ihop";
+    button.setAttribute("aria-label", (summary.collapsed ? "Visa " : "Fäll ihop ") + summary.title);
+  }));
+;
 }
 function updateFinishSessionAvailability() {
   const ready = state.finalCreated && !state.finalDirty;
