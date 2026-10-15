@@ -894,3 +894,45 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   box-shadow:none;
   cursor:not-allowed;
 }
+
+/* Strong, centered empty-state action for creating the first partial summary. */
+.empty-summary{
+  gap:8px;
+  justify-content:center;
+  min-height:280px;
+  padding:28px 18px;
+}
+.empty-summary b{
+  color:#003366;
+  font-size:20px;
+  font-weight:850;
+  line-height:1.25;
+}
+.empty-summary small{
+  color:#536b84;
+  font-size:15px;
+  line-height:1.45;
+  margin-top:2px;
+}
+.empty-summary #firstSummary{
+  width:min(560px,100%);
+  min-height:76px;
+  margin-top:22px;
+  padding:16px 24px;
+  border:2px solid #e2bd36;
+  border-radius:12px;
+  background:#fff5cc;
+  color:#003366;
+  font-size:21px;
+  font-weight:850;
+  box-shadow:0 4px 12px rgba(0,51,102,.12);
+}
+.empty-summary #firstSummary:hover{
+  border-color:#c89e00;
+  background:#ffefaa;
+  transform:translateY(-2px);
+}
+.empty-summary #firstSummary:focus-visible{
+  outline:4px solid #003366;
+  outline-offset:3px;
+}
