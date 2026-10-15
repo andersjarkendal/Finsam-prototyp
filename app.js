@@ -508,16 +508,7 @@ $("followupSuggestions").addEventListener("click", event => {
 });
 
 document.addEventListener("click", event => {
-  if (event.target.closest(".followup-close")) {
-    closeFollowupCard(true);
-    return;
-  }
-  const asked = event.target.closest(".followup-asked");
-  if (!asked) return;
-  const questionCard = openFollowupQuestion?.detail.contains(asked)
-    ? openFollowupQuestion.card
-    : asked.closest(".followup-card");
-  if (questionCard) questionCard.querySelector(".followup-asked input").checked = true;
+  if (event.target.closest(".followup-close")) closeFollowupCard(true);
 });
 
 document.addEventListener("change", event => {
@@ -537,16 +528,6 @@ document.addEventListener("change", event => {
     panel.classList.toggle("is-hidden-by-user", !event.target.checked);
     if (!event.target.checked) closeFollowupCard(false);
   }
-});
-
-$("followupSuggestions").addEventListener("pointerdown", event => {
-  const handle = event.target.closest(".followup-expanded-head");
-  if (!handle || !openFollowupQuestion || !openFollowupQuestion.detail.contains(handle) || event.target.closest(".followup-close")) return;
-  if (event.button !== undefined && event.button !== 0) return;
-  const rect = openFollowupQuestion.detail.getBoundingClientRect();
-  activeFollowupDrag = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, left: rect.left, top: rect.top, handle };
-  handle.classList.add("is-dragging");
-  event.preventDefault();
 });
 
 document.addEventListener("pointerdown", event => {
