@@ -861,16 +861,21 @@ updateAudioStatus();
 updateTranscriptionUI();
 
 
-// Keep the desktop transcript and summary columns at the measured handset-panel height.
+// Fill the available desktop viewport below the case header and recording status.
 (()=>{
   const grid=document.getElementById('workGrid');
   const handset=grid?.querySelector('.mobile-preview-panel');
   if(!grid||!handset)return;
-  const media=window.matchMedia('(min-width:1121px)');
+  const media=window.matchMedia('(min-width:1141px)');
+  const footer=grid.closest('.desktop-view')?.nextElementSibling;
   const syncPanelHeight=()=>{
-    if(!media.matches){grid.style.removeProperty('--workspace-panel-height');return;}
-    const height=Math.ceil(handset.getBoundingClientRect().height);
-    if(height>0)grid.style.setProperty('--workspace-panel-height',height+'px');
+    if(!media.matches){grid.style.removeProperty('--workspace-panel-height');handset.style.removeProperty('height');return;}
+    const handsetHeight=handset.getBoundingClientRect().height;
+    const gridTop=grid.getBoundingClientRect().top+window.scrollY;
+    const footerHeight=footer&&getComputedStyle(footer).display!=='none'?footer.getBoundingClientRect().height:0;
+    const availableHeight=window.innerHeight-gridTop-footerHeight-30;
+    const height=Math.ceil(Math.max(handsetHeight,availableHeight));
+    if(height>0){grid.style.setProperty('--workspace-panel-height',height+'px');handset.style.height=height+'px';}
   };
   if('ResizeObserver' in window)new ResizeObserver(syncPanelHeight).observe(handset);
   window.addEventListener('resize',syncPanelHeight,{passive:true});
