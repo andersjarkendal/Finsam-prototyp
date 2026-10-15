@@ -205,7 +205,7 @@ function clampRemotePosition(x) {
 function renderRemotePosition(x) {
   remotePosition.x = clampRemotePosition(x);
   remoteControlUnit.style.left = `${remotePosition.x}px`;
-  remoteControlUnit.style.top = "0px";
+  remoteControlUnit.style.top = "4px";
   remoteControlUnit.style.transform = "none";
 }
 function initializeRemotePosition() {
