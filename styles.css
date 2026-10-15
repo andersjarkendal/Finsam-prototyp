@@ -1207,3 +1207,15 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 
 /* Align the summary creation action to the left without its removed helper copy. */
 .summary-content-toolbar{justify-content:flex-start}
+
+ 
+/* Per-summary collapse control and compact header layout. */
+.summary-card-head{align-items:center;gap:12px}
+.summary-card-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex:0 0 auto}
+.summary-card-time{color:#73869a;font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.summary-card-actions .edit-summary{min-height:38px}
+.summary-collapse{min-height:38px;padding:5px 11px;border:1px solid #b7c8d9;border-radius:7px;background:#fff;color:#123d63;font-size:13px;font-weight:800;white-space:nowrap}
+.summary-collapse:hover{border-color:#003366;background:#f3f7fb}
+.summary-collapse:focus-visible{outline:3px solid #ffcc00;outline-offset:2px}
+.summary-card-text[hidden]{display:none!important}
+@media(max-width:620px){.summary-card-head{align-items:flex-start}.summary-card-actions{gap:7px;flex-wrap:wrap}.summary-card-time{font-size:11px}.summary-collapse{min-height:36px;padding:4px 8px;font-size:12px}}
