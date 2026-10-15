@@ -1056,3 +1056,31 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .transcript-mark-button{min-height:52px;padding:8px 6px;font-size:13px;white-space:normal}
   .transcript-marking-status{font-size:12px}
 }
+
+/* Keep the transcript panel aligned; let only its text area grow and scroll. */
+.work-grid{align-items:stretch}
+.transcript-panel{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  min-height:0!important;
+  max-height:100%;
+  overflow:hidden;
+}
+.transcript-panel-heading{flex:0 0 auto}
+.transcript-scroll{
+  box-sizing:border-box;
+  flex:1 1 0%;
+  height:0;
+  min-height:0!important;
+  max-height:none!important;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+.transcript-marking-toolbar{flex:0 0 auto}
+@media(max-width:850px){
+  .transcript-panel{height:660px;min-height:0!important;max-height:660px}
+  .transcript-scroll{height:0;min-height:0!important;max-height:none!important}
+}
