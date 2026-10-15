@@ -65,81 +65,151 @@ const transcriptList = $("transcriptList");
 const transcriptPlaceholder = $("transcriptPlaceholder");
 const toast = $("toast");
 
-// Let each user arrange the recording and transcription status cards to suit them.
+// Keep each status panel movable within its parent, while preserving their left-to-right order.
 const recordingStatuses = $("recordingStatuses");
-const statusOrderStorageKey = "finsam-status-card-order";
+const statusPositionStorageKey = "finsam-status-card-positions-v1";
 const statusCards = Array.from(recordingStatuses.querySelectorAll("[data-status-card]"));
-function saveStatusCardOrder() {
-  try {
-    localStorage.setItem(statusOrderStorageKey, JSON.stringify(Array.from(recordingStatuses.querySelectorAll("[data-status-card]"), card => card.id)));
-  } catch (_) { /* Storage can be unavailable in private browsing; reordering still works. */ }
-}
-function restoreStatusCardOrder() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(statusOrderStorageKey) || "null");
-    const available = new Map(statusCards.map(card => [card.id, card]));
-    if (!Array.isArray(saved) || saved.length !== available.size || saved.some(id => !available.has(id)) || new Set(saved).size !== available.size) return;
-    saved.forEach(id => recordingStatuses.appendChild(available.get(id)));
-  } catch (_) { /* Keep the default order when saved settings cannot be read. */ }
-}
-function moveStatusCard(card, beforeCard = null) {
-  if (beforeCard === card) return;
-  if ((beforeCard && card.nextElementSibling === beforeCard) || (!beforeCard && card === recordingStatuses.lastElementChild)) return;
-  if (beforeCard) recordingStatuses.insertBefore(card, beforeCard);
-  else recordingStatuses.appendChild(card);
-  saveStatusCardOrder();
-}
-restoreStatusCardOrder();
+const audioStatusCard = $("audioStatusCard");
+const transcriptionStatusCard = $("transcriptionStatusCard");
+const statusGap = 12;
+let statusPositions = null;
 let activeStatusDrag = null;
+
+function statusCardSize(card) {
+  const rect = card.getBoundingClientRect();
+  return { width: rect.width, height: rect.height };
+}
+function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+function defaultStatusPositions() {
+  const width = recordingStatuses.clientWidth;
+  const height = recordingStatuses.clientHeight;
+  const audio = statusCardSize(audioStatusCard);
+  const transcription = statusCardSize(transcriptionStatusCard);
+  const gap = Math.min(statusGap, Math.max(0, width - audio.width - transcription.width));
+  const pairWidth = audio.width + gap + transcription.width;
+  const left = Math.max(0, (width - pairWidth) / 2);
+  const top = Math.max(0, (height - Math.max(audio.height, transcription.height)) / 2);
+  return {
+    audioStatusCard: { x: left, y: top },
+    transcriptionStatusCard: { x: left + audio.width + gap, y: top }
+  };
+}
+function constrainStatusPositions(next, movingId = null) {
+  const width = recordingStatuses.clientWidth;
+  const height = recordingStatuses.clientHeight;
+  const audioSize = statusCardSize(audioStatusCard);
+  const transcriptionSize = statusCardSize(transcriptionStatusCard);
+  const gap = Math.min(statusGap, Math.max(0, width - audioSize.width - transcriptionSize.width));
+  const maxAudioX = Math.max(0, width - audioSize.width);
+  const maxTranscriptionX = Math.max(0, width - transcriptionSize.width);
+  const maxAudioY = Math.max(0, height - audioSize.height);
+  const maxTranscriptionY = Math.max(0, height - transcriptionSize.height);
+  const positions = {
+    audioStatusCard: {
+      x: clamp(Number(next.audioStatusCard.x) || 0, 0, maxAudioX),
+      y: clamp(Number(next.audioStatusCard.y) || 0, 0, maxAudioY)
+    },
+    transcriptionStatusCard: {
+      x: clamp(Number(next.transcriptionStatusCard.x) || 0, 0, maxTranscriptionX),
+      y: clamp(Number(next.transcriptionStatusCard.y) || 0, 0, maxTranscriptionY)
+    }
+  };
+
+  // Audio stays entirely to the left of transcription. When the viewport is
+  // too narrow for the requested positions, move the other panel as needed.
+  if (movingId === "audioStatusCard") {
+    positions.audioStatusCard.x = Math.min(positions.audioStatusCard.x, positions.transcriptionStatusCard.x - audioSize.width - gap);
+    if (positions.audioStatusCard.x < 0) {
+      positions.audioStatusCard.x = 0;
+      positions.transcriptionStatusCard.x = Math.min(maxTranscriptionX, audioSize.width + gap);
+    }
+  } else if (movingId === "transcriptionStatusCard") {
+    positions.transcriptionStatusCard.x = Math.max(positions.transcriptionStatusCard.x, positions.audioStatusCard.x + audioSize.width + gap);
+    if (positions.transcriptionStatusCard.x > maxTranscriptionX) {
+      positions.transcriptionStatusCard.x = maxTranscriptionX;
+      positions.audioStatusCard.x = Math.max(0, maxTranscriptionX - audioSize.width - gap);
+    }
+  } else if (positions.transcriptionStatusCard.x < positions.audioStatusCard.x + audioSize.width + gap) {
+    const pairWidth = audioSize.width + gap + transcriptionSize.width;
+    const left = Math.max(0, (width - pairWidth) / 2);
+    positions.audioStatusCard.x = left;
+    positions.transcriptionStatusCard.x = Math.min(maxTranscriptionX, left + audioSize.width + gap);
+  }
+  return positions;
+}
+function renderStatusPositions(next, movingId = null) {
+  statusPositions = constrainStatusPositions(next, movingId);
+  for (const card of statusCards) {
+    const position = statusPositions[card.id];
+    card.style.left = `${position.x}px`;
+    card.style.top = `${position.y}px`;
+  }
+}
+function saveStatusPositions() {
+  try {
+    localStorage.setItem(statusPositionStorageKey, JSON.stringify(statusPositions));
+  } catch (_) { /* Storage can be unavailable; positioning still works until reload. */ }
+}
+function initializeStatusPositions() {
+  const defaults = defaultStatusPositions();
+  try {
+    const saved = JSON.parse(localStorage.getItem(statusPositionStorageKey) || "null");
+    if (saved?.audioStatusCard && saved?.transcriptionStatusCard) {
+      renderStatusPositions(saved);
+      return;
+    }
+  } catch (_) { /* Use the default positions when saved settings cannot be read. */ }
+  renderStatusPositions(defaults);
+}
+initializeStatusPositions();
 for (const card of statusCards) {
   card.addEventListener("pointerdown", event => {
     if (event.button !== undefined && event.button !== 0) return;
-    activeStatusDrag = { card, pointerId: event.pointerId };
+    activeStatusDrag = {
+      card,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      origin: { ...statusPositions[card.id] }
+    };
     card.classList.add("is-dragging");
     event.preventDefault();
   });
   card.addEventListener("keydown", event => {
-    const cards = Array.from(recordingStatuses.querySelectorAll("[data-status-card]"));
-    const currentIndex = cards.indexOf(card);
-    if (["ArrowLeft", "ArrowUp"].includes(event.key) && currentIndex > 0) {
-      event.preventDefault();
-      moveStatusCard(card, cards[currentIndex - 1]);
-      card.focus();
-    } else if (["ArrowRight", "ArrowDown"].includes(event.key) && currentIndex < cards.length - 1) {
-      event.preventDefault();
-      moveStatusCard(card, cards[currentIndex + 1].nextElementSibling);
-      card.focus();
-    } else if (event.key === "Home") {
-      event.preventDefault();
-      moveStatusCard(card, cards[0]);
-      card.focus();
-    } else if (event.key === "End") {
-      event.preventDefault();
-      moveStatusCard(card);
-      card.focus();
-    }
+    const current = { ...statusPositions[card.id] };
+    const step = event.shiftKey ? 64 : 20;
+    if (event.key === "ArrowLeft") current.x -= step;
+    else if (event.key === "ArrowRight") current.x += step;
+    else if (event.key === "ArrowUp") current.y -= step;
+    else if (event.key === "ArrowDown") current.y += step;
+    else if (event.key === "Home") current.x = 0;
+    else if (event.key === "End") current.x = recordingStatuses.clientWidth - statusCardSize(card).width;
+    else return;
+    event.preventDefault();
+    renderStatusPositions({ ...statusPositions, [card.id]: current }, card.id);
+    saveStatusPositions();
   });
 }
-// Track on window so moving a card never interrupts the gesture when the
-// pointer leaves the card or the DOM order changes during the drag.
 window.addEventListener("pointermove", event => {
   const drag = activeStatusDrag;
   if (!drag || drag.pointerId !== event.pointerId) return;
-  const card = drag.card;
-  const sibling = Array.from(recordingStatuses.querySelectorAll("[data-status-card]")).find(other => other !== card);
-  if (!sibling) return;
-  const bounds = sibling.getBoundingClientRect();
-  const horizontal = getComputedStyle(recordingStatuses).flexDirection.startsWith("row");
-  const before = horizontal ? event.clientX < bounds.left + bounds.width / 2 : event.clientY < bounds.top + bounds.height / 2;
-  moveStatusCard(card, before ? sibling : sibling.nextElementSibling);
+  renderStatusPositions({
+    ...statusPositions,
+    [drag.card.id]: {
+      x: drag.origin.x + event.clientX - drag.startX,
+      y: drag.origin.y + event.clientY - drag.startY
+    }
+  }, drag.card.id);
 });
 function finishStatusDrag(event) {
   if (!activeStatusDrag || (event && activeStatusDrag.pointerId !== event.pointerId)) return;
   activeStatusDrag.card.classList.remove("is-dragging");
   activeStatusDrag = null;
+  saveStatusPositions();
 }
 window.addEventListener("pointerup", finishStatusDrag);
 window.addEventListener("pointercancel", finishStatusDrag);
+window.addEventListener("resize", () => renderStatusPositions(statusPositions));
 
 function pad(n) { return String(n).padStart(2, "0"); }
 function clock(seconds) { return `${pad(Math.floor(seconds / 60))}:${pad(seconds % 60)}`; }
