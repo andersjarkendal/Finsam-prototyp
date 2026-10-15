@@ -430,8 +430,6 @@ function updateRemoteControls() {
     ? "Inspelning pågår"
     : state.hasStarted ? "Fortsätt inspelning" : "Starta inspelning";
   pauseButton.disabled = !connected || !state.recording;
-  $("remoteTranscriptionToggle").setAttribute("aria-checked", String(state.transcriptionEnabled));
-  $("remoteTranscriptionState").textContent = state.transcriptionEnabled ? "På" : "Av";
   updateRemoteControls();
 }
 
@@ -853,7 +851,6 @@ $("phoneRecord").addEventListener("click", startRecording);
 $("phonePause").addEventListener("click", () => setRecording(false));
 $("remoteRecord").addEventListener("click", startRecording);
 $("remotePause").addEventListener("click", () => setRecording(false));
-$("remoteTranscriptionToggle").addEventListener("click", () => $("transcriptionToggle").click());
 $("transcriptionToggle").addEventListener("change", event => {
   state.transcriptionEnabled = event.target.checked;
   if (state.transcriptionEnabled) advanceTyping();
