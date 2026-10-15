@@ -155,7 +155,10 @@ function initializeStatusPositions() {
   try {
     const saved = JSON.parse(localStorage.getItem(statusPositionStorageKey) || "null");
     if (saved?.audioStatusCard && saved?.transcriptionStatusCard) {
-      renderStatusPositions(saved);
+      renderStatusPositions({
+        audioStatusCard: { x: saved.audioStatusCard.x, y: defaults.audioStatusCard.y },
+        transcriptionStatusCard: { x: saved.transcriptionStatusCard.x, y: defaults.transcriptionStatusCard.y }
+      });
       return;
     }
   } catch (_) { /* Use the default positions when saved settings cannot be read. */ }
@@ -169,7 +172,6 @@ for (const card of statusCards) {
       card,
       pointerId: event.pointerId,
       startX: event.clientX,
-      startY: event.clientY,
       origin: { ...statusPositions[card.id] }
     };
     card.classList.add("is-dragging");
@@ -180,8 +182,6 @@ for (const card of statusCards) {
     const step = event.shiftKey ? 64 : 20;
     if (event.key === "ArrowLeft") current.x -= step;
     else if (event.key === "ArrowRight") current.x += step;
-    else if (event.key === "ArrowUp") current.y -= step;
-    else if (event.key === "ArrowDown") current.y += step;
     else if (event.key === "Home") current.x = 0;
     else if (event.key === "End") current.x = recordingStatuses.clientWidth - statusCardSize(card).width;
     else return;
@@ -197,7 +197,7 @@ window.addEventListener("pointermove", event => {
     ...statusPositions,
     [drag.card.id]: {
       x: drag.origin.x + event.clientX - drag.startX,
-      y: drag.origin.y + event.clientY - drag.startY
+      y: drag.origin.y
     }
   }, drag.card.id);
 });
@@ -209,7 +209,13 @@ function finishStatusDrag(event) {
 }
 window.addEventListener("pointerup", finishStatusDrag);
 window.addEventListener("pointercancel", finishStatusDrag);
-window.addEventListener("resize", () => renderStatusPositions(statusPositions));
+window.addEventListener("resize", () => {
+  const centered = defaultStatusPositions();
+  renderStatusPositions({
+    audioStatusCard: { ...statusPositions.audioStatusCard, y: centered.audioStatusCard.y },
+    transcriptionStatusCard: { ...statusPositions.transcriptionStatusCard, y: centered.transcriptionStatusCard.y }
+  });
+});
 
 function pad(n) { return String(n).padStart(2, "0"); }
 function clock(seconds) { return `${pad(Math.floor(seconds / 60))}:${pad(seconds % 60)}`; }
