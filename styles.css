@@ -381,3 +381,52 @@ a:focus-visible,button:focus-visible{outline-color:#003366}
 .pairing-panel-button{box-shadow:0 4px 12px rgba(0,51,102,.16)}
 ::selection{background:#ffcc00;color:#003366}
 @media(prefers-reduced-motion:reduce){.phone-record-card.recording .phone-wave i{animation:none}}
+
+/* Two clear views inside the summary workspace. */
+.parts-panel{min-height:620px;height:100%;overflow:hidden}
+.summary-tabs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:7px;padding:14px 14px 0;border-bottom:1px solid #d9e2eb;background:#f7f9fb}
+.summary-tab{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:76px;padding:11px 10px;border:1px solid #d9e2eb;border-bottom:4px solid transparent;border-radius:9px 9px 0 0;background:#edf2f7;color:#234767;text-align:center;font-size:15px;font-weight:800;line-height:1.3;transition:background .16s ease,border-color .16s ease}
+.summary-tab:hover{background:#fff9df}
+.summary-tab.active{background:#fff5cc;color:#003366;border-color:#e5ca61;border-bottom-color:#003366}
+.summary-tab .count-badge{flex:0 0 auto;background:#003366;color:#fff;font-size:13px;min-width:28px;height:28px;border-radius:99px;display:grid;place-items:center}
+.summary-tab-panel{display:none;flex:1;min-height:0;flex-direction:column}
+.summary-tab-panel.active:not([hidden]){display:flex}
+.summary-content-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 17px 8px}
+.summary-content-toolbar>div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.summary-content-toolbar>div>b{font-size:15px;line-height:1.3;color:#003366}
+.summary-content-toolbar>div>span{font-size:12px;line-height:1.4;color:#52677d}
+.summary-content-toolbar .button-small{flex:0 0 auto;margin:0;min-height:44px;padding:0 12px;font-size:13px}
+.parts-panel .summary-list{padding:7px 17px 12px;min-height:250px;overflow:auto}
+.parts-panel .parts-note{margin-top:auto;border-top:1px solid #d9e2eb;background:#f8fafc;color:#4b6076}
+.parts-panel .parts-note span{color:#003366}
+#protocolTabPanel{gap:12px;padding:14px;overflow:auto}
+#protocolTabPanel .final-summary-bar{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:10px 12px;margin:0;padding:15px;border:1px solid #ead37f;border-radius:10px;background:#fff8dc}
+#protocolTabPanel .final-icon{grid-row:1;width:42px;height:42px}
+#protocolTabPanel .final-copy{min-width:0}
+#protocolTabPanel .final-copy b{font-size:16px;line-height:1.3}
+#protocolTabPanel .final-copy span{font-size:12px;line-height:1.45;color:#4b6076}
+#protocolTabPanel .final-count{grid-column:2;margin:0;font-size:12px;color:#536b84}
+#protocolTabPanel .final-summary-bar .button{grid-column:1/-1;width:100%;min-height:50px;margin:0;font-size:14px}
+.summary-stale-note{margin:0;padding:12px;border:1px solid #e3c963;border-left:5px solid #ffcc00;border-radius:7px;background:#fff9df;color:#173f63;font-size:13px;font-weight:700;line-height:1.5}
+#protocolTabPanel .final-result{margin:0;padding:16px;border:1px solid #d9e2eb;border-top:4px solid #ffcc00;border-radius:9px;box-shadow:none}
+#protocolTabPanel .final-result-head{gap:10px}
+#protocolTabPanel .final-result-head .panel-title{font-size:16px;line-height:1.35}
+#protocolTabPanel .final-result-body{max-height:600px;overflow:auto;font-size:14px;line-height:1.7;color:#294761}
+@media(max-width:620px){
+  .parts-panel{min-height:560px}
+  .summary-tabs{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);padding:10px 10px 0;gap:6px}
+  .summary-tab{min-height:72px;padding:9px 7px;font-size:13px;line-height:1.25}
+  .summary-tab .count-badge{min-width:24px;height:24px;font-size:12px}
+  .summary-content-toolbar{align-items:flex-start;padding:13px 12px 7px;gap:8px}
+  .summary-content-toolbar>div>b{font-size:13px}
+  .summary-content-toolbar>div>span{font-size:11px}
+  .summary-content-toolbar .button-small{min-height:42px;padding:0 9px;font-size:12px}
+  .parts-panel .summary-list{padding:6px 12px 10px}
+  .parts-panel .parts-note{padding:12px;font-size:12px}
+  #protocolTabPanel{padding:11px}
+  #protocolTabPanel .final-summary-bar{padding:13px}
+  #protocolTabPanel .final-copy b{font-size:14px}
+  #protocolTabPanel .final-copy span{font-size:11px}
+  #protocolTabPanel .final-result{padding:13px}
+  #protocolTabPanel .final-result-body{font-size:13px}
+}
