@@ -439,7 +439,7 @@ function renderFollowupQuestions(summaryNumber) {
   demoFollowupQuestions.slice(0, 3).forEach((item, index) => {
     const card = document.createElement("article");
     card.className = "followup-card";
-    card.innerHTML = `<button class="followup-tile" type="button" aria-expanded="false"><span class="followup-tile-icon" aria-hidden="true">${item.icon}</span><strong>${item.title}</strong><small>Visa fråga</small></button><section class="followup-expanded" hidden><div class="followup-expanded-head"><span>FÖRSLAG ${index + 1} · DEL ${summaryNumber}</span><button type="button" class="followup-close" aria-label="Fäll ihop frågan">×</button></div><div class="followup-source">${item.source}</div><p class="followup-question">${item.question}</p><figure class="followup-visual"><figcaption>${item.visualTitle}<span>EXEMPEL</span></figcaption>${item.visual}</figure><label class="followup-asked"><input type="checkbox"><span>Frågan är ställd</span></label></section>`;
+    card.innerHTML = `<button class="followup-tile" type="button" aria-expanded="false"><span class="followup-tile-icon" aria-hidden="true">${item.icon}</span><strong>${item.title}</strong></button><section class="followup-expanded" hidden><div class="followup-expanded-head"><span>FÖRSLAG ${index + 1} · DEL ${summaryNumber}</span><button type="button" class="followup-close" aria-label="Fäll ihop frågan">×</button></div><div class="followup-source">${item.source}</div><p class="followup-question">${item.question}</p><figure class="followup-visual"><figcaption>${item.visualTitle}<span>EXEMPEL</span></figcaption>${item.visual}</figure><label class="followup-asked"><input type="checkbox"><span>Frågan är ställd</span></label></section>`;
     list.appendChild(card);
   });
 }
