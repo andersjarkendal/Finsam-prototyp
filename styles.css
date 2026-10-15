@@ -483,3 +483,6 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .mobile-preview-panel .phone-main-record{font-size:17px;min-height:66px;}
   .mobile-preview-panel .phone-secondary-controls button{font-size:17px;min-height:64px;}
 }
+.recording-status-card[data-status-card]{cursor:grab;}
+.status-drag-grip{width:36px;height:42px;right:10px;border-color:#003366;background:#003366;color:#ffcc00;font-size:24px;cursor:grab;}
+.recording-status-card[data-status-card].is-dragging,.recording-status-card[data-status-card].is-dragging .status-drag-grip{cursor:grabbing;}
