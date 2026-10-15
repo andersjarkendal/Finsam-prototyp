@@ -297,3 +297,11 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:4px solid #0
   .work-grid{grid-template-columns:minmax(0,1fr);gap:14px}
   .mobile-preview-panel,.transcript-panel,.summary-column{grid-column:1;grid-row:auto}
 }
+
+/* Center the audio and transcription status cards in the full status bar. */
+@media(min-width:1101px){
+  .session-strip{position:relative;justify-content:center}
+  .session-strip-main{flex:0 1 auto;justify-content:center}
+  .recording-statuses{justify-content:center}
+  .session-strip .timer-block{position:absolute;top:50%;right:18px;transform:translateY(-50%)}
+}
