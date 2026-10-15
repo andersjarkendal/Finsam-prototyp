@@ -44,27 +44,19 @@ function updateTranscriptionUI() {
   const badge = $("transcriptStateBadge");
   const badgeLabel = $("transcriptStateLabel");
   const notice = $("transcriptionPausedNotice");
-  let status;
   if (recording && transcriptionEnabled) {
-    status = "Ljud spelas in och transkriberas löpande.";
     badgeLabel.textContent = "TRANSKRIBERING PÅ";
   } else if (recording) {
-    status = "Ljudinspelningen fortsätter. Transkriberingen är avstängd.";
     badgeLabel.textContent = "LJUD PÅ · TRANSKRIBERING AV";
   } else if (state.hasStarted && transcriptionEnabled) {
-    status = "Ljudinspelningen är pausad. Transkriberingen väntar tills ljudet återupptas.";
     badgeLabel.textContent = "LJUD PAUSAT · TRANSKRIBERING VÄNTAR";
   } else if (state.hasStarted) {
-    status = "Ljudinspelningen är pausad. Transkriberingen är avstängd.";
     badgeLabel.textContent = "LJUD PAUSAT · TRANSKRIBERING AV";
   } else if (transcriptionEnabled) {
-    status = "Ljud och transkribering är redo.";
     badgeLabel.textContent = "TRANSKRIBERING PÅSLAGEN";
   } else {
-    status = "Transkribering är avstängd. Starta ljudinspelningen om du vill spela in utan text.";
     badgeLabel.textContent = "TRANSKRIBERING AV";
   }
-  $("transcriptionState").textContent = status;
   const transcriptionStatus = recording
     ? transcriptionEnabled ? "PÅGÅR" : "AV"
     : state.hasStarted
