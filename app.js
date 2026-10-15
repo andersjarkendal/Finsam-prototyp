@@ -303,7 +303,7 @@ function finishRemoteDrag(event) {
 }
 window.addEventListener("pointerup", finishRemoteDrag);
 window.addEventListener("pointercancel", finishRemoteDrag);
-window.addEventListener("resize", () => renderRemotePosition(remotePosition.x));
+window.addEventListener("resize", () => resolveSharedPanelPositions(statusPositions, remotePosition.x, null));
 
 for (const card of statusCards) {
   card.addEventListener("pointerdown", event => {
@@ -354,10 +354,12 @@ window.addEventListener("pointerup", finishStatusDrag);
 window.addEventListener("pointercancel", finishStatusDrag);
 window.addEventListener("resize", () => {
   const centered = defaultStatusPositions();
-  renderStatusPositions({
+  resolveSharedPanelPositions({
     audioStatusCard: { ...statusPositions.audioStatusCard, y: centered.audioStatusCard.y },
     transcriptionStatusCard: { ...statusPositions.transcriptionStatusCard, y: centered.transcriptionStatusCard.y }
-  });
+  }, remotePosition.x, null);
+  saveStatusPositions();
+  saveRemotePosition();
 });
 
 function pad(n) { return String(n).padStart(2, "0"); }
