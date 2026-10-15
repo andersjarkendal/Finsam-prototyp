@@ -836,6 +836,50 @@ $("editFinal").addEventListener("click", () => {
   const el = $("finalText"); const area = document.createElement("textarea"); area.className = "final-result-body"; area.value = el.textContent; area.style.width = "100%"; area.style.minHeight = "180px"; area.style.border = "1px solid #dce8e6"; area.style.borderRadius = "6px"; area.style.padding = "10px"; area.style.font = "10px/1.7 'DM Sans',sans-serif"; el.replaceWith(area);
   $("editFinal").textContent = "Spara";
 });
+
+const finalSummaryModal = $("finalSummaryModal");
+const finalSummaryModalContent = $("finalSummaryModalContent");
+const finalSummaryModalOpener = $("openFinalSummaryModal");
+function syncFinalSummaryModalText() {
+  const editor = $("finalResult").querySelector("textarea");
+  finalSummaryModalContent.textContent = editor ? editor.value : ($("finalText")?.textContent || "");
+}
+function closeFinalSummaryModal() {
+  if (finalSummaryModal.classList.contains("hidden")) return;
+  finalSummaryModal.classList.add("hidden");
+  document.body.classList.remove("final-summary-open");
+  finalSummaryModalOpener.focus();
+}
+finalSummaryModalOpener.addEventListener("click", () => {
+  syncFinalSummaryModalText();
+  finalSummaryModal.classList.remove("hidden");
+  document.body.classList.add("final-summary-open");
+  $("closeFinalSummaryModal").focus();
+});
+$("closeFinalSummaryModal").addEventListener("click", closeFinalSummaryModal);
+finalSummaryModal.addEventListener("click", event => {
+  if (event.target === finalSummaryModal) closeFinalSummaryModal();
+});
+document.querySelectorAll("[data-final-summary-size]").forEach(button => {
+  button.addEventListener("click", () => {
+    const size = button.dataset.finalSummarySize;
+    finalSummaryModalContent.classList.remove("text-size-small", "text-size-medium", "text-size-large");
+    finalSummaryModalContent.classList.add("text-size-" + size);
+    document.querySelectorAll("[data-final-summary-size]").forEach(option => {
+      option.setAttribute("aria-pressed", String(option === button));
+    });
+  });
+});
+$("toggleFinalSummaryContrast").addEventListener("click", event => {
+  const button = event.currentTarget;
+  const inverted = button.getAttribute("aria-pressed") !== "true";
+  button.setAttribute("aria-pressed", String(inverted));
+  button.textContent = inverted ? "Återställ färger" : "Invertera färger";
+  $("finalSummaryModal").querySelector(".final-summary-modal-card").classList.toggle("is-inverted", inverted);
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && !finalSummaryModal.classList.contains("hidden")) closeFinalSummaryModal();
+});
 $("finishSession").addEventListener("click", () => { if (!state.finalCreated || state.finalDirty) return; setRecording(false); showToast("Förhöret avslutades i demot."); });
 
 const speechPhrases = [[4, 13], [17, 27], [32, 43], [48, 56]];
