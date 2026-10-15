@@ -490,7 +490,7 @@ function renderSummaries() {
   $("makeFinal").innerHTML = `${state.finalCreated ? "Uppdatera sammanfattning" : "Skapa sammanfattning"} <span>→</span>`;
   $("summaryStaleNote").classList.toggle("hidden", !state.finalDirty);
   if (!state.summaries.length) {
-    list.innerHTML = `<div class="empty-summary"><span>▤</span><b>Inga delsammanfattningar ännu</b><small>Skapa en när en del av samtalet är klar.</small><button class="button button-small" id="firstSummary">＋ Skapa delsammanfattning</button></div>`;
+    list.innerHTML = `<div class="empty-summary"><b>Inga delsammanfattningar ännu</b><small>Skapa en när en del av samtalet är klar.</small><button class="button button-small" id="firstSummary">＋ Skapa delsammanfattning</button></div>`;
     $("firstSummary").addEventListener("click", createSummary);
     return;
   }
