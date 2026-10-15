@@ -1010,3 +1010,48 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .pairing-qr{width:min(220px,70vw);height:min(220px,70vw);padding:10px}
   .pairing-modal .modal-action{min-height:58px;font-size:16px}
 }
+
+/* Fixed action area for marking selected transcript text. */
+.transcript-marking-toolbar{
+  flex:0 0 auto;
+  padding:14px 18px 16px;
+  border-top:1px solid #d9e2eb;
+  background:#f7f9fc;
+}
+.transcript-marking-status{
+  min-height:20px;
+  margin:0 0 10px;
+  color:#536b84;
+  font-size:13px;
+  line-height:1.4;
+}
+.transcript-marking-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.transcript-mark-button{
+  min-width:0;
+  min-height:54px;
+  padding:9px 12px;
+  border:2px solid #b9c8d8;
+  border-radius:10px;
+  background:#fff;
+  color:#173b63;
+  font-size:16px;
+  font-weight:800;
+  line-height:1.2;
+  white-space:nowrap;
+}
+.transcript-mark-button.mark-cite{border-color:#d9b62b;background:#fff7d6}
+.transcript-mark-button.mark-exclude{border-color:#cf8a84;background:#fff0ee}
+.transcript-mark-button.mark-other{border-color:#6eaaa1;background:#edf8f5}
+.transcript-mark-button:hover:not(:disabled){filter:brightness(.97);transform:translateY(-1px)}
+.transcript-mark-button:focus-visible{outline:4px solid #003366;outline-offset:3px}
+.transcript-mark-button:disabled{opacity:.48;cursor:not-allowed}
+.transcript-mark{padding:1px 3px;border-radius:3px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.transcript-mark-cite{background:#fff0a8;color:#183956;border-bottom:2px solid #c89f00}
+.transcript-mark-exclude{background:#ffe2de;color:#71332e;text-decoration:line-through;text-decoration-thickness:1px}
+.transcript-mark-other{background:#d8f0e9;color:#164e49;border-bottom:2px solid #168278}
+@media(max-width:620px){
+  .transcript-marking-toolbar{padding:12px}
+  .transcript-marking-actions{gap:6px}
+  .transcript-mark-button{min-height:52px;padding:8px 6px;font-size:13px;white-space:normal}
+  .transcript-marking-status{font-size:12px}
+}
