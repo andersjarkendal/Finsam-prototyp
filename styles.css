@@ -1148,3 +1148,20 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 /* Match the status-area title to the Förhörsanalys heading. */
 .recording-statuses{height:168px!important;min-height:168px!important}
 .recording-statuses-heading{position:absolute;top:4px;left:0;right:0;color:#003366;font-size:13px;font-weight:850;letter-spacing:.05em;line-height:1.2;text-transform:uppercase;pointer-events:none}
+
+
+/* Remove unused workflow-strip space and extend the three workspace panels to the viewport. */
+@media(min-width:1141px){
+  .desktop-view{display:flex;flex-direction:column;min-height:0;}
+  .page-heading{flex:0 0 auto;margin-bottom:16px}
+  .session-strip{flex:0 0 auto;margin-bottom:14px}
+  .work-grid{grid-template-rows:minmax(0,var(--workspace-panel-height,780px));min-height:var(--workspace-panel-height,780px);align-items:stretch}
+  .mobile-preview-panel{
+    box-sizing:border-box;display:flex;flex-direction:column;align-self:stretch;
+    height:var(--workspace-panel-height,780px)!important;min-height:0!important;max-height:none!important;overflow:hidden;
+  }
+  .mobile-preview-panel>.phone-stage{box-sizing:border-box;display:flex;flex:1 1 auto;min-height:0;align-items:center;justify-content:center}
+  .mobile-preview-panel>.mobile-panel-actions{flex:0 0 auto}
+  .transcript-panel{height:var(--workspace-panel-height,780px)!important;max-height:none!important}
+  .summary-column{height:calc(var(--workspace-panel-height,780px) + 8px)!important;max-height:none!important}
+}
