@@ -501,3 +501,6 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .recording-status-card[data-status-card]{min-height:76px;padding:10px 11px;}
   .recording-status-card[data-status-card]>b{font-size:15px;}
 }
+.recording-status-card[data-status-card]{height:92px;min-height:92px;max-height:92px;overflow:hidden;flex-shrink:0;}
+.recording-status-card[data-status-card]>.recording-status-label{display:block;flex:0 0 auto;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.recording-status-card[data-status-card]>b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere;line-height:1.2;}
