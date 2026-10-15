@@ -26,4 +26,114 @@
         <button class="recent-case"><span class="case-dot"></span><span><b>Ärende 24-016</b><small>Avslutat · 9 okt</small></span></button>
         <div class="sidebar-spacer"></div>
         <div class="privacy-card"><span class="privacy-icon">✳</span><span><b>Demoläge</b><small>Inget sparas eller skickas</small></span><span class="privacy-check">✓</span></div>
-        <div class="p
+        <div class="profile"><div class="avatar">DE</div><span><b>Demoanvändare</b><small>Förhörsledare</small></span><button class="more-button" aria-label="Fler profilval">···</button></div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div class="crumb"><span>Arbetsyta</span><span class="crumb-slash">/</span><b>Pågående förhör</b></div>
+          <div class="topbar-right"><span class="view-label">DATORVY</span><button class="icon-button" title="Hjälp" aria-label="Hjälp">?</button></div>
+        </header>
+
+        <section class="desktop-view" id="desktopView">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">TORSDAG 15 OKTOBER 2026 <span class="eyebrow-sep">·</span> ÄRENDE <b class="header-case-id">FX-2026-1042</b></div>
+              <h1>Förhör med Person A</h1>
+              <p class="subheading">Löpande transkribering och sammanfattning</p>
+            </div>
+            <div class="heading-actions"><button class="button button-quiet" id="openPairing"><span class="button-glyph">▯</span> Anslut mobil</button><button class="button button-outline" id="finishSession">Avsluta förhör <span>↗</span></button></div>
+          </div>
+
+          <div class="workflow-steps" aria-label="Förhörets tre steg">
+            <div class="workflow-step current"><span>1</span><div><b>Spela in</b><small>Starta från mobilen eller datorn</small></div></div><span class="workflow-connector"></span>
+            <div class="workflow-step"><span>2</span><div><b>Sammanfatta delar</b><small>Skapa och granska del för del</small></div></div><span class="workflow-connector"></span>
+            <div class="workflow-step"><span>3</span><div><b>Samla ihop</b><small>Skapa slutsammanfattningen</small></div></div>
+          </div>
+
+          <div class="session-strip">
+            <div class="session-strip-main">
+              <div class="recording-statuses" aria-label="Status för inspelning och transkribering">
+                <div class="recording-status-card audio-status-card" id="audioStatusCard" role="status" aria-live="polite"><span class="recording-status-label">LJUDINSPELNING</span><b id="audioStatusValue">REDO ATT SPELA IN</b></div>
+                <div class="recording-status-card transcription-status-card" id="transcriptionStatusCard" role="status" aria-live="polite"><span class="recording-status-label">TRANSKRIBERING</span><b id="transcriptionStatusValue">PÅSLAGEN</b></div>
+              </div>
+              <span class="phone-status" id="phoneStatus"><span class="connected-icon disconnected-icon">!</span> Mobil ej ansluten <small>· skanna QR-kod</small></span>
+            </div>
+            <div class="timer-block"><span class="timer-label">FÖRHÖRSTID</span><span class="timer" id="timer">00:00</span></div>
+          </div>
+
+          <div class="work-grid">
+            <aside class="panel mobile-preview-panel" aria-label="Mobilens inspelare">
+              <div class="phone-stage"><div class="table-caption"><span class="table-led"></span><b>Mobilen ligger på bordet</b></div><div class="phone-frame"><div class="phone-notch"></div><div class="phone-screen" id="phoneScreen">
+                <div class="phone-statusbar"><span>9:41</span><span>●●● ▰</span></div>
+                <div class="phone-pair-screen" id="phonePairScreen" aria-live="polite">
+                  <div class="phone-pair-symbol" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M7 25V7h18M39 7h18v18M57 39v18H39M25 57H7V39"/><path d="M16 16h9v9h-9zM39 16h9v9h-9zM16 39h9v9h-9zM39 39h4v4h-4zM48 48h4v4h-4zM47 37h7v7h-7z"/></svg></div>
+                  <div class="phone-pair-eyebrow">MOBILEN ÄR INTE ANSLUTEN</div>
+                  <h2>Skanna QR-koden på datorn</h2>
+                  <p>Öppna <b>Anslut mobil</b> i datorvyn och skanna QR-koden med den här mobilen.</p>
+                  <div class="phone-pair-steps"><div><span>1</span> Visa QR-koden i datorvyn</div><div><span>2</span> Skanna koden med mobilen</div><div><span>3</span> Vänta tills mobilen ansluts</div></div>
+                  <div class="phone-pair-demo-note"><b>Prototyp:</b> Klicka på <b>Anslut mobil</b> i datorvyn och välj <b>Simulera parkoppling</b>. Inspelarvyn visas efter anslutning.</div>
+                </div>
+                <div class="phone-connected-view hidden" id="phoneConnectedView">
+                <div class="phone-appbar"><span class="phone-brand-mark">◉</span><span><b>Förhörsflöde</b><small>INSPELARE · DEMO</small></span><button aria-label="Inställningar">⚙</button></div>
+                <div class="phone-record-card" id="phoneRecordCard"><div class="phone-record-state" aria-live="polite"><div class="phone-record-audio-state"><span class="phone-record-dot" id="phoneRecordDot"></span><span id="phoneRecordState">MOBIL REDO ATT SPELA IN LJUD</span></div><div class="phone-transcription-state" id="phoneTranscriptionState">TRANSKRIBERING PÅ</div></div><div class="phone-record-explainer">Ljudet kan fortsätta under hela förhöret. Pausa vid behov.</div><div class="phone-timer" id="phoneTimer">00:00</div><div class="wave-caption"><span>LJUDNIVÅ</span><span class="wave-live-label" id="waveLiveLabel">VÄNTAR</span></div><div class="phone-wave-window" role="img" aria-label="Animerad ljudvåg visas när inspelning simuleras"><div class="phone-wave" id="phoneWave"></div><span class="wave-playhead"></span></div><div class="phone-secure"><span>◆</span> Endast demo · inget ljud sparas</div></div>
+                <div class="phone-controls"><button class="phone-main-record" id="phoneRecord"><span class="phone-button-dot"></span><span id="phoneRecordText">Starta ljudinspelning</span></button><div class="phone-secondary-controls"><button id="phonePause" disabled><span>Ⅱ</span> Pausa ljud</button><button id="phoneMark"><span>＋</span> Markera del</button></div></div>
+                <div class="phone-note">Detta är en prototyp. Ingen mikrofon används och inget ljud spelas in.</div>
+                </div>
+              </div></div></div>
+            </aside>
+
+            <div class="work-content-grid">
+              <section class="panel transcript-panel">
+                <div class="panel-heading">
+                  <div><div class="panel-title">Transkribering av ljudinspelning <span class="live-pill" id="transcriptStateBadge"><i></i><span id="transcriptStateLabel">TRANSKRIBERING PÅ</span></span></div><div class="panel-caption">Välj själv om talet ska omvandlas till text.</div></div>
+                  <button class="text-button" id="scrollLatest">Senaste <span>↓</span></button>
+                </div>
+                <div class="transcription-options">
+                  <label class="transcription-toggle" for="transcriptionToggle">
+                    <input id="transcriptionToggle" type="checkbox" checked aria-describedby="transcriptionHelp" />
+                    <span class="toggle-switch" aria-hidden="true"></span>
+                    <span class="toggle-copy"><b>Transkribera under förhöret</b><small id="transcriptionHelp">Ljudet kan spelas in under hela förhöret, även när transkriberingen är av.</small></span>
+                  </label>
+                  <div class="transcription-state" id="transcriptionState" role="status" aria-live="polite">Ljud och transkribering är redo.</div>
+                </div>
+                <div class="transcript-scroll" id="transcriptScroll">
+                  <div class="transcription-paused-notice hidden" id="transcriptionPausedNotice" role="status"></div>
+                  <div class="transcript-list" id="transcriptList" aria-live="polite"></div>
+                  <div class="transcript-placeholder" id="transcriptPlaceholder"><span class="placeholder-mic">◖</span><b id="transcriptPlaceholderTitle">Redo när du är</b><p id="transcriptPlaceholderText">Starta ljudinspelningen direkt på mobilen. Transkriberingen visas här om den är påslagen.</p></div>
+                </div>
+                <div class="transcript-footer"><span><span class="tiny-lock">◆</span> Demoinnehåll · visas endast på den här sidan</span><button class="text-button" id="addNote">＋ Lägg till anteckning</button></div>
+              </section>
+
+              <aside class="summary-column">
+                <section class="panel parts-panel">
+                  <div class="panel-heading compact"><div><div class="panel-title">Delsammanfattningar <span class="count-badge" id="summaryCount">0</span></div><div class="panel-caption">Skapa under samtalet eller efteråt</div></div><button class="add-summary" id="addSummary" aria-label="Skapa delsammanfattning">＋</button></div>
+                  <div class="summary-list" id="summaryList"><div class="empty-summary"><span>▤</span><b>Inga delsammanfattningar ännu</b><small>Skapa en när en del av samtalet är klar.</small><button class="button button-small" id="firstSummary">＋ Skapa delsammanfattning</button></div></div>
+                  <div class="parts-note"><span>✳</span> Delsammanfattningar kan redigeras innan slutsammanfattningen skapas.</div>
+                </section>
+              </aside>
+            </div>
+
+
+          </div>
+
+          <section class="final-summary-bar" id="finalSummaryBar">
+            <div class="final-icon">✦</div><div class="final-copy"><b>Slutsammanfattning</b><span>Samla alla delsammanfattningar till en överblick</span></div><span class="final-count" id="finalCount">0 delar</span><button class="button button-primary" id="makeFinal" disabled>Skapa slutsammanfattning <span>→</span></button>
+          </section>
+          <section class="final-result panel hidden" id="finalResult"><div class="final-result-head"><div><div class="panel-title">Slutsammanfattning</div><div class="panel-caption">Genererad från delsammanfattningarna · demotext</div></div><button class="text-button" id="editFinal">Redigera</button></div><div class="final-result-body" id="finalText"></div></section>
+        </section>
+
+        <footer class="app-footer"><span>FÖRHÖRSFLÖDE <i>·</i> PROTOTYP 0.1</span><span><span class="footer-shield">◆</span> Endast fiktivt innehåll</span></footer>
+      </main>
+    </div>
+
+    <div class="modal-backdrop hidden" id="pairingModal" role="dialog" aria-modal="true" aria-labelledby="pairingTitle">
+      <div class="modal"><button class="modal-close" id="closePairing" aria-label="Stäng">×</button><div class="modal-icon">▯</div><div class="eyebrow">ANSLUT EN INSPELARE</div><h2 id="pairingTitle">Koppla mobilen till datorn</h2><p class="modal-intro">I den färdiga lösningen skannar du QR-koden med mobilen. Här kan du prova flödet med en simulerad koppling.</p>
+        <div class="pairing-layout"><div class="fake-qr" aria-label="Dekorativ demobild, inte skanningsbar"><div class="qr-finder q1"></div><div class="qr-finder q2"></div><div class="qr-finder q3"></div><span class="qr-pixels"></span><span class="qr-center">F</span></div><div class="pairing-code-block"><span>DEMO-KOD</span><strong>482 619</strong><small>Visas bara som exempel</small></div></div>
+        <button class="button button-primary modal-action" id="simulatePair">Simulera parkoppling <span>→</span></button><div class="modal-foot"><span>◆</span> QR-kod och parkoppling är inte aktiva i den här prototypen.</div>
+      </div>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
