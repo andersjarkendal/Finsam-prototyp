@@ -578,3 +578,54 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .followup-suggestions{width:100%;min-width:0}
   .followup-card.is-expanded{width:min(350px,calc(100vw - 52px))}
 }
+
+
+/* Fixed boundary between draggable recording statuses and follow-up suggestions. */
+@media(min-width:1201px){
+  .session-strip{position:relative;justify-content:flex-start;align-items:center}
+  .session-strip-main{
+    display:grid!important;
+    grid-template-columns:468px 2px minmax(270px,1fr)!important;
+    align-items:center;
+    gap:0!important;
+    flex:1 1 auto!important;
+    width:calc(100% - 165px)!important;
+    min-width:0;
+  }
+  .recording-statuses{
+    position:relative;
+    box-sizing:border-box;
+    flex:0 0 468px!important;
+    width:468px!important;
+    min-width:468px!important;
+    height:104px;
+    min-height:104px;
+  }
+  .recording-status-boundary{
+    display:block;
+    width:2px;
+    height:76px;
+    justify-self:center;
+    border-radius:2px;
+    background:#c7d3df;
+  }
+  .followup-suggestions{
+    box-sizing:border-box;
+    flex:1 1 auto;
+    width:auto;
+    min-width:0;
+    margin-left:16px;
+  }
+}
+@media(max-width:1200px){
+  .session-strip-main{grid-template-columns:minmax(0,1fr)!important}
+  .recording-statuses{width:100%;min-width:0;flex:0 0 auto}
+  .recording-status-boundary{
+    display:block;
+    width:100%;
+    height:2px;
+    border-radius:2px;
+    background:#c7d3df;
+  }
+  .followup-suggestions{width:100%;min-width:0;margin:0}
+}
