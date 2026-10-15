@@ -96,9 +96,6 @@ for (const card of statusCards) {
     if (event.button !== undefined && event.button !== 0) return;
     activeStatusDrag = { card, pointerId: event.pointerId };
     card.classList.add("is-dragging");
-    // Capture on the stable parent. Capturing on the card itself can end a drag
-    // when that card is moved in the DOM to change its order.
-    recordingStatuses.setPointerCapture(event.pointerId);
     event.preventDefault();
   });
   card.addEventListener("keydown", event => {
@@ -123,7 +120,9 @@ for (const card of statusCards) {
     }
   });
 }
-recordingStatuses.addEventListener("pointermove", event => {
+// Track on window so moving a card never interrupts the gesture when the
+// pointer leaves the card or the DOM order changes during the drag.
+window.addEventListener("pointermove", event => {
   const drag = activeStatusDrag;
   if (!drag || drag.pointerId !== event.pointerId) return;
   const card = drag.card;
@@ -139,9 +138,8 @@ function finishStatusDrag(event) {
   activeStatusDrag.card.classList.remove("is-dragging");
   activeStatusDrag = null;
 }
-recordingStatuses.addEventListener("pointerup", finishStatusDrag);
-recordingStatuses.addEventListener("pointercancel", finishStatusDrag);
-recordingStatuses.addEventListener("lostpointercapture", finishStatusDrag);
+window.addEventListener("pointerup", finishStatusDrag);
+window.addEventListener("pointercancel", finishStatusDrag);
 
 function pad(n) { return String(n).padStart(2, "0"); }
 function clock(seconds) { return `${pad(Math.floor(seconds / 60))}:${pad(seconds % 60)}`; }
