@@ -305,7 +305,8 @@ function getTranscriptSelectionRange() {
   const endNode = range.endContainer.nodeType === Node.ELEMENT_NODE ? range.endContainer : range.endContainer.parentElement;
   const startLine = startNode?.closest(".transcript-text");
   const endLine = endNode?.closest(".transcript-text");
-  if (!startLine || startLine !== endLine || !transcriptList.contains(startLine) || startLine.classList.contains("is-typing")) return null;
+  if (!startLine || !endLine || !transcriptList.contains(startLine) || !transcriptList.contains(endLine)) return null;
+  if (Array.from(transcriptList.querySelectorAll(".transcript-text.is-typing")).some(line => range.intersectsNode(line))) return null;
   return range;
 }
 
@@ -313,7 +314,7 @@ function updateTranscriptMarkControls() {
   const canMark = Boolean(getTranscriptSelectionRange());
   transcriptMarkButtons.forEach(button => { button.disabled = !canMark; });
   if (!canMark && !transcriptMarkStatus.dataset.result) {
-    transcriptMarkStatus.textContent = "Markera text i ett yttrande för att välja en markering.";
+    transcriptMarkStatus.textContent = "Markera text i transkriberingen för att välja en markering.";
   } else if (canMark) {
     delete transcriptMarkStatus.dataset.result;
     transcriptMarkStatus.textContent = "Välj hur den markerade texten ska märkas.";
@@ -323,18 +324,39 @@ function updateTranscriptMarkControls() {
 function applyTranscriptMark(type) {
   const range = getTranscriptSelectionRange();
   if (!range || !range.toString().trim()) {
-    transcriptMarkStatus.textContent = "Markera text i ett färdigtranskriberat yttrande först.";
+    transcriptMarkStatus.textContent = "Markera färdigtranskriberad text först.";
     return;
   }
-  const mark = document.createElement("mark");
-  mark.className = `transcript-mark transcript-mark-${type}`;
-  mark.dataset.markType = type;
-  mark.title = `Texten är markerad som ${transcriptMarkLabels[type]}.`;
-  mark.appendChild(range.extractContents());
-  range.insertNode(mark);
+  const textRanges = [];
+  for (const line of transcriptList.querySelectorAll(".transcript-text")) {
+    const walker = document.createTreeWalker(line, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+      if (!node.textContent) continue;
+      const nodeRange = document.createRange();
+      nodeRange.selectNodeContents(node);
+      const startComparison = range.compareBoundaryPoints(Range.START_TO_START, nodeRange);
+      const endComparison = range.compareBoundaryPoints(Range.END_TO_END, nodeRange);
+      const startOffset = startComparison <= 0 ? 0 : range.startContainer === node ? range.startOffset : node.length;
+      const endOffset = endComparison >= 0 ? node.length : range.endContainer === node ? range.endOffset : 0;
+      if (startOffset < endOffset) textRanges.push({ node, startOffset, endOffset });
+    }
+  }
+  if (!textRanges.length) return;
+  for (const part of textRanges.reverse()) {
+    const partRange = document.createRange();
+    partRange.setStart(part.node, part.startOffset);
+    partRange.setEnd(part.node, part.endOffset);
+    const mark = document.createElement("mark");
+    mark.className = `transcript-mark transcript-mark-${type}`;
+    mark.dataset.markType = type;
+    mark.title = `Texten är markerad som ${transcriptMarkLabels[type]}.`;
+    mark.appendChild(partRange.extractContents());
+    partRange.insertNode(mark);
+  }
   window.getSelection()?.removeAllRanges();
   transcriptMarkStatus.dataset.result = "true";
-  transcriptMarkStatus.textContent = `Texten markerades som ${transcriptMarkLabels[type]}.`;
+  transcriptMarkStatus.textContent = `Markerade texten som ${transcriptMarkLabels[type]}.`;
   updateTranscriptMarkControls();
   transcriptMarkStatus.dataset.result = "true";
 }
