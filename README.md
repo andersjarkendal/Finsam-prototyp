@@ -1,23 +1,19 @@
 # FINSAM – klickbar prototyp
 
-Responsiv gränssnittsprototyp för förhörsflöde med mobilinspelare, transkribering och sammanfattningar. Byggd med HTML, CSS och JavaScript; inga paket eller byggsteg behövs.
-
-> Detta är endast en demo. Ljud spelas inte in eller sparas, parkopplingen är simulerad och transkribering och sammanfattningar består av exempeldata. Använd inga riktiga personuppgifter eller ärendeuppgifter.
+Responsiv prototyp för datorvy, mobilinspelare, transkribering och sammanfattningar. Projektet består av HTML, CSS och JavaScript och behöver inga paket eller byggsteg.
 
 ## Kör lokalt
 
-Öppna `index.html` i en modern webbläsare, eller starta en lokal webbserver i projektmappen:
+Öppna `index.html` i en modern webbläsare, eller kör `python3 -m http.server 8000` i projektmappen och öppna <http://localhost:8000>.
 
-```bash
-python3 -m http.server 8000
-```
+## Prova
 
-Öppna sedan <http://localhost:8000>.
+Välj **Anslut mobil** och **Simulera parkoppling**. Starta och pausa ljudinspelningen i mobilpanelen. Transkribering kan stängas av separat. Skapa delsammanfattningar och därefter en slutsammanfattning.
 
-## Prova prototypen
+## Publicera med GitHub Pages
 
-Välj **Anslut mobil** och **Simulera parkoppling**. Starta, pausa och återuppta sedan ljudinspelningen i mobilpanelen. Transkribering kan stängas av separat. Skapa delsammanfattningar och därefter en slutsammanfattning.
+I **Settings → Pages**, välj **Deploy from a branch**, grenen `main` och mappen `/(root)`. Senare pushar till `main` publiceras automatiskt.
 
-## Publicering
+## Demo och data
 
-Aktivera GitHub Pages under **Settings → Pages**. Välj **Deploy from a branch**, grenen `main` och mappen `/(root)`. När du sparar får du en publik länk. Senare pushar till `main` publiceras automatiskt.
+Ljud spelas inte in eller sparas. Parkopplingen är simulerad och transkribering och sammanfattningar består av exempeldata. Använd inga riktiga person- eller ärendeuppgifter.
