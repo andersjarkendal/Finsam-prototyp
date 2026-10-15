@@ -187,6 +187,75 @@ function initializeStatusPositions() {
   renderStatusPositions(defaults);
 }
 initializeStatusPositions();
+
+// Keep the remote-control unit movable inside its own area, like the status cards.
+const remoteControlArea = $("remoteControlArea");
+const remoteControlUnit = $("remoteControlUnit");
+const remotePositionStorageKey = "finsam-remote-control-position-v1";
+let remotePosition = { x: 0, y: 0 };
+let activeRemoteDrag = null;
+function remoteControlSize() {
+  const rect = remoteControlUnit.getBoundingClientRect();
+  return { width: rect.width, height: rect.height };
+}
+function clampRemotePosition(x) {
+  const maxX = Math.max(0, remoteControlArea.clientWidth - remoteControlSize().width);
+  return clamp(x, 0, maxX);
+}
+function renderRemotePosition(x) {
+  remotePosition.x = clampRemotePosition(x);
+  remoteControlUnit.style.left = `${remotePosition.x}px`;
+  remoteControlUnit.style.top = "0px";
+  remoteControlUnit.style.transform = "none";
+}
+function initializeRemotePosition() {
+  const maxX = Math.max(0, remoteControlArea.clientWidth - remoteControlSize().width);
+  let startX = maxX / 2;
+  try {
+    const saved = JSON.parse(localStorage.getItem(remotePositionStorageKey) || "null");
+    if (Number.isFinite(saved?.x)) startX = saved.x;
+  } catch (_) { /* Use the centered default when storage is unavailable. */ }
+  renderRemotePosition(startX);
+}
+function saveRemotePosition() {
+  try { localStorage.setItem(remotePositionStorageKey, JSON.stringify(remotePosition)); }
+  catch (_) { /* Positioning still works until reload if storage is unavailable. */ }
+}
+initializeRemotePosition();
+remoteControlUnit.addEventListener("pointerdown", event => {
+  if (event.button !== undefined && event.button !== 0) return;
+  if (event.target.closest("button")) return;
+  activeRemoteDrag = { pointerId: event.pointerId, startX: event.clientX, originX: remotePosition.x };
+  try { remoteControlUnit.setPointerCapture(event.pointerId); } catch (_) { /* Window listeners remain as fallback. */ }
+  remoteControlUnit.classList.add("is-dragging");
+  event.preventDefault();
+});
+remoteControlUnit.addEventListener("keydown", event => {
+  if (event.target !== remoteControlUnit) return;
+  const step = event.shiftKey ? 64 : 20;
+  if (event.key === "ArrowLeft") renderRemotePosition(remotePosition.x - step);
+  else if (event.key === "ArrowRight") renderRemotePosition(remotePosition.x + step);
+  else if (event.key === "Home") renderRemotePosition(0);
+  else if (event.key === "End") renderRemotePosition(remoteControlArea.clientWidth - remoteControlSize().width);
+  else return;
+  event.preventDefault();
+  saveRemotePosition();
+});
+window.addEventListener("pointermove", event => {
+  const drag = activeRemoteDrag;
+  if (!drag || drag.pointerId !== event.pointerId) return;
+  renderRemotePosition(drag.originX + event.clientX - drag.startX);
+});
+function finishRemoteDrag(event) {
+  if (!activeRemoteDrag || (event && activeRemoteDrag.pointerId !== event.pointerId)) return;
+  remoteControlUnit.classList.remove("is-dragging");
+  activeRemoteDrag = null;
+  saveRemotePosition();
+}
+window.addEventListener("pointerup", finishRemoteDrag);
+window.addEventListener("pointercancel", finishRemoteDrag);
+window.addEventListener("resize", () => renderRemotePosition(remotePosition.x));
+
 for (const card of statusCards) {
   card.addEventListener("pointerdown", event => {
     if (event.button !== undefined && event.button !== 0) return;
