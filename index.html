@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#003366" />
     <title>Förhörsflöde · Prototyp</title>
-    <link rel="stylesheet" href="styles.css?v=20261015-1950" />
+    <link rel="stylesheet" href="styles.css?v=20261015-2000" />
   </head>
   <body>
     <div class="prototype-banner"><span class="demo-dot"></span> PROTOTYP · ENDAST EXEMPELDATA · INGEN LJUDINSPELNING</div>
@@ -38,7 +38,8 @@
               <div class="recording-status-boundary" role="separator" aria-orientation="vertical" aria-label="Gräns mellan statuspaneler och följdfrågor"></div>
               <div class="followup-suggestions is-visible" id="followupSuggestions" role="region" aria-label="Förhörsanalys" aria-live="polite">
                 <div class="followup-heading"><b>FÖRHÖRSANALYS</b><label class="followup-toggle" for="followupToggle"><span>Visa följdfrågor</span><input id="followupToggle" type="checkbox" checked aria-controls="followupQuestionList"><span class="followup-toggle-switch" aria-hidden="true"></span></label></div>
-                <div class="followup-list" id="followupQuestionList"><p class="followup-empty">Skapa en delsammanfattning för att få förslag på följdfrågor.</p></div>
+                <p class="followup-empty">Skapa en delsammanfattning för att få förslag på följdfrågor.</p>
+                <div class="followup-list" id="followupQuestionList"></div>
               </div>
             </div>
             <div class="timer-block"><span class="timer-label">FÖRHÖRSTID</span><span class="timer" id="timer">00:00</span></div>
