@@ -486,6 +486,7 @@ function renderSummaries() {
   $("finalCount").textContent = `${state.summaries.length} ${state.summaries.length === 1 ? "del" : "delar"}`;
   $("makeFinal").disabled = state.summaries.length === 0;
   if (state.finalCreated) state.finalDirty = true;
+  updateFinishSessionAvailability();
   $("makeFinal").innerHTML = `${state.finalCreated ? "Uppdatera sammanfattning" : "Skapa sammanfattning"} <span>→</span>`;
   $("summaryStaleNote").classList.toggle("hidden", !state.finalDirty);
   if (!state.summaries.length) {
@@ -507,6 +508,15 @@ function renderSummaries() {
     p.replaceWith(editor); button.textContent = "Spara";
   }));
 }
+function updateFinishSessionAvailability() {
+  const ready = state.finalCreated && !state.finalDirty;
+  $("finishSession").disabled = !ready;
+  $("finishSessionHelp").textContent = ready
+    ? "Slutsammanfattningen är klar. Förhöret kan avslutas."
+    : state.finalCreated
+      ? "Uppdatera slutsammanfattningen innan du avslutar."
+      : "Skapa en slutsammanfattning för att aktivera knappen.";
+}
 function createFinal() {
   if (!state.summaries.length) return;
   const text = state.summaries.map((s, i) => `${i + 1}. ${s.text}`).join("\n\n");
@@ -514,6 +524,7 @@ function createFinal() {
   $("finalResult").classList.remove("hidden");
   state.finalCreated = true;
   state.finalDirty = false;
+  updateFinishSessionAvailability();
   $("summaryStaleNote").classList.add("hidden");
   $("makeFinal").innerHTML = "Uppdatera sammanfattning <span>→</span>";
   showToast("Slutsammanfattning skapad från delsammanfattningarna.");
@@ -645,7 +656,7 @@ $("editFinal").addEventListener("click", () => {
   const el = $("finalText"); const area = document.createElement("textarea"); area.className = "final-result-body"; area.value = el.textContent; area.style.width = "100%"; area.style.minHeight = "180px"; area.style.border = "1px solid #dce8e6"; area.style.borderRadius = "6px"; area.style.padding = "10px"; area.style.font = "10px/1.7 'DM Sans',sans-serif"; el.replaceWith(area);
   $("editFinal").textContent = "Spara";
 });
-$("finishSession").addEventListener("click", () => { setRecording(false); showToast("Förhöret avslutades i demot."); });
+$("finishSession").addEventListener("click", () => { if (!state.finalCreated || state.finalDirty) return; setRecording(false); showToast("Förhöret avslutades i demot."); });
 $("addNote").addEventListener("click", () => showToast("Anteckningsfält ingår inte i den här första demon."));
 const speechPhrases = [[4, 13], [17, 27], [32, 43], [48, 56]];
 for (let i = 0; i < 120; i++) {
