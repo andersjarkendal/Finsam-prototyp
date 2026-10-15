@@ -1219,3 +1219,44 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 .summary-collapse:focus-visible{outline:3px solid #ffcc00;outline-offset:2px}
 .summary-card-text[hidden]{display:none!important}
 @media(max-width:620px){.summary-card-head{align-items:flex-start}.summary-card-actions{gap:7px;flex-wrap:wrap}.summary-card-time{font-size:11px}.summary-collapse{min-height:36px;padding:4px 8px;font-size:12px}}
+
+
+/* Give fixed-size status cards enough room for every status on a single line. */
+.recording-status-card[data-status-card]{
+  box-sizing:border-box;
+  width:340px!important;
+  min-width:340px!important;
+  max-width:340px!important;
+  height:96px!important;
+  min-height:96px!important;
+  max-height:96px!important;
+  padding-right:18px!important;
+}
+.recording-status-card[data-status-card]>.recording-status-label{
+  white-space:nowrap!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+.recording-status-card[data-status-card]>b{
+  display:block!important;
+  width:100%;
+  min-width:0;
+  white-space:nowrap!important;
+  overflow:visible!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  text-overflow:clip!important;
+  font-size:17px;
+  line-height:1.2;
+}
+@media(min-width:1201px){
+  .session-strip-main{grid-template-columns:minmax(700px,1.6fr) 4px minmax(300px,1fr)!important}
+  .recording-statuses{width:100%!important;min-width:700px!important}
+}
+@media(max-width:1200px){
+  .session-strip{flex-wrap:wrap!important}
+  .session-strip-main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;width:100%!important}
+  .recording-statuses{width:100%!important;min-width:0!important;flex:0 0 auto!important}
+  .recording-status-boundary{display:block!important;width:100%;height:2px;border-radius:2px;background:#7891a8}
+  .followup-suggestions{width:100%;min-width:0;margin:0}
+}
