@@ -72,6 +72,7 @@ const statusCards = Array.from(recordingStatuses.querySelectorAll("[data-status-
 const audioStatusCard = $("audioStatusCard");
 const transcriptionStatusCard = $("transcriptionStatusCard");
 const statusGap = 12;
+const statusHeadingHeight = 36;
 let statusPositions = null;
 let activeStatusDrag = null;
 
@@ -88,7 +89,8 @@ function defaultStatusPositions() {
   const gap = Math.min(statusGap, Math.max(0, width - audio.width - transcription.width));
   const pairWidth = audio.width + gap + transcription.width;
   const left = Math.max(0, (width - pairWidth) / 2);
-  const top = Math.max(0, (height - Math.max(audio.height, transcription.height)) / 2);
+  const maxTop = Math.max(0, height - Math.max(audio.height, transcription.height));
+  const top = clamp(Math.max(statusHeadingHeight, maxTop / 2), Math.min(statusHeadingHeight, maxTop), maxTop);
   return {
     audioStatusCard: { x: left, y: top },
     transcriptionStatusCard: { x: left + audio.width + gap, y: top }
@@ -104,14 +106,16 @@ function constrainStatusPositions(next, movingId = null) {
   const maxTranscriptionX = Math.max(0, width - transcriptionSize.width);
   const maxAudioY = Math.max(0, height - audioSize.height);
   const maxTranscriptionY = Math.max(0, height - transcriptionSize.height);
+  const minAudioY = Math.min(statusHeadingHeight, maxAudioY);
+  const minTranscriptionY = Math.min(statusHeadingHeight, maxTranscriptionY);
   const positions = {
     audioStatusCard: {
       x: clamp(Number(next.audioStatusCard.x) || 0, 0, maxAudioX),
-      y: clamp(Number(next.audioStatusCard.y) || 0, 0, maxAudioY)
+      y: clamp(Number(next.audioStatusCard.y) || minAudioY, minAudioY, maxAudioY)
     },
     transcriptionStatusCard: {
       x: clamp(Number(next.transcriptionStatusCard.x) || 0, 0, maxTranscriptionX),
-      y: clamp(Number(next.transcriptionStatusCard.y) || 0, 0, maxTranscriptionY)
+      y: clamp(Number(next.transcriptionStatusCard.y) || minTranscriptionY, minTranscriptionY, maxTranscriptionY)
     }
   };
 
