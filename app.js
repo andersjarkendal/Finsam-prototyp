@@ -420,6 +420,21 @@ function updateTranscriptionUI() {
     }
   }
 }
+function updateRemoteControls() {
+  const connected = state.pairConnected;
+  const recordButton = $("remoteRecord");
+  const pauseButton = $("remotePause");
+  recordButton.disabled = !connected || state.recording;
+  recordButton.classList.toggle("is-recording", state.recording);
+  $("remoteRecordText").textContent = state.recording
+    ? "Inspelning pågår"
+    : state.hasStarted ? "Fortsätt inspelning" : "Starta inspelning";
+  pauseButton.disabled = !connected || !state.recording;
+  $("remoteTranscriptionToggle").setAttribute("aria-checked", String(state.transcriptionEnabled));
+  $("remoteTranscriptionState").textContent = state.transcriptionEnabled ? "På" : "Av";
+  updateRemoteControls();
+}
+
 function setRecording(active) {
   state.recording = active;
   if (active) advanceTyping();
@@ -456,6 +471,7 @@ function updateAudioStatus() {
     : state.hasStarted ? "PAUSAD" : "REDO ATT SPELA IN";
   card.classList.toggle("is-active", state.recording);
   card.classList.toggle("is-paused", state.hasStarted && !state.recording);
+  updateRemoteControls();
 }
 function startRecording() {
   if (!state.pairConnected) { showToast("Anslut mobilen genom att skanna QR-koden i datorvyn först."); return; }
@@ -822,6 +838,7 @@ function updatePairingUI() {
   $("phoneScreen").classList.toggle("pairing-required", !state.pairConnected);
   $("phonePairScreen").setAttribute("aria-hidden", String(state.pairConnected));
   $("phoneConnectedView").setAttribute("aria-hidden", String(!state.pairConnected));
+  updateRemoteControls();
 }
 function simulatePairing() {
   state.pairConnected = true;
@@ -834,6 +851,9 @@ $("pairingModal").addEventListener("click", event => { if (event.target === $("p
 $("simulatePair").addEventListener("click", simulatePairing);
 $("phoneRecord").addEventListener("click", startRecording);
 $("phonePause").addEventListener("click", () => setRecording(false));
+$("remoteRecord").addEventListener("click", startRecording);
+$("remotePause").addEventListener("click", () => setRecording(false));
+$("remoteTranscriptionToggle").addEventListener("click", () => $("transcriptionToggle").click());
 $("transcriptionToggle").addEventListener("change", event => {
   state.transcriptionEnabled = event.target.checked;
   if (state.transcriptionEnabled) advanceTyping();
