@@ -318,6 +318,67 @@ $("summaryTabs").addEventListener("keydown", event => {
   const next = event.key === "Home" || event.key === "ArrowLeft" ? "partsTab" : "protocolTab";
   activateSummaryTab(next, true);
 });
+const panelResizer = $("panelResizer");
+const transcriptPanel = document.querySelector(".transcript-panel");
+const summaryColumn = document.querySelector(".summary-column");
+let panelResizeStart = null;
+function setTranscriptPanelWidth(width) {
+  const combinedWidth = transcriptPanel.getBoundingClientRect().width + summaryColumn.getBoundingClientRect().width;
+  const minTranscript = 380;
+  const minSummary = 300;
+  const transcriptWidth = Math.max(minTranscript, Math.min(combinedWidth - minSummary, width));
+  const summaryWidth = combinedWidth - transcriptWidth;
+  $("workGrid").style.setProperty("--transcript-panel-width", `${transcriptWidth}px`);
+  $("workGrid").style.setProperty("--summary-panel-width", `${summaryWidth}px`);
+  panelResizer.setAttribute("aria-valuemin", String(minTranscript));
+  panelResizer.setAttribute("aria-valuemax", String(Math.round(combinedWidth - minSummary)));
+  panelResizer.setAttribute("aria-valuenow", String(Math.round(transcriptWidth)));
+  panelResizer.setAttribute("aria-valuetext", `Transkribering ${Math.round(transcriptWidth)} pixlar; sammanfattning ${Math.round(summaryWidth)} pixlar`);
+}
+panelResizer.addEventListener("pointerdown", event => {
+  if (window.matchMedia("(max-width: 1350px)").matches) return;
+  const transcriptWidth = transcriptPanel.getBoundingClientRect().width;
+  const summaryWidth = summaryColumn.getBoundingClientRect().width;
+  panelResizeStart = { x: event.clientX, transcriptWidth, combinedWidth: transcriptWidth + summaryWidth };
+  panelResizer.setPointerCapture(event.pointerId);
+  document.body.classList.add("is-panel-resizing");
+  event.preventDefault();
+});
+panelResizer.addEventListener("pointermove", event => {
+  if (!panelResizeStart) return;
+  const minimum = 380;
+  const maximum = panelResizeStart.combinedWidth - 300;
+  const width = Math.max(minimum, Math.min(maximum, panelResizeStart.transcriptWidth + event.clientX - panelResizeStart.x));
+  const summaryWidth = panelResizeStart.combinedWidth - width;
+  $("workGrid").style.setProperty("--transcript-panel-width", `${width}px`);
+  $("workGrid").style.setProperty("--summary-panel-width", `${summaryWidth}px`);
+  panelResizer.setAttribute("aria-valuenow", String(Math.round(width)));
+  panelResizer.setAttribute("aria-valuemax", String(Math.round(maximum)));
+  panelResizer.setAttribute("aria-valuetext", `Transkribering ${Math.round(width)} pixlar; sammanfattning ${Math.round(summaryWidth)} pixlar`);
+});
+function finishPanelResize() {
+  panelResizeStart = null;
+  document.body.classList.remove("is-panel-resizing");
+}
+panelResizer.addEventListener("pointerup", finishPanelResize);
+panelResizer.addEventListener("pointercancel", finishPanelResize);
+panelResizer.addEventListener("keydown", event => {
+  if (!["ArrowLeft", "ArrowRight", "Home"].includes(event.key) || window.matchMedia("(max-width: 1350px)").matches) return;
+  event.preventDefault();
+  if (event.key === "Home") {
+    $("workGrid").style.removeProperty("--transcript-panel-width");
+    $("workGrid").style.removeProperty("--summary-panel-width");
+    panelResizer.setAttribute("aria-valuenow", "600");
+    panelResizer.setAttribute("aria-valuetext", "Standardbredd återställd");
+    return;
+  }
+  const current = transcriptPanel.getBoundingClientRect().width;
+  const step = event.shiftKey ? 80 : 24;
+  setTranscriptPanelWidth(current + (event.key === "ArrowRight" ? step : -step));
+});
+window.addEventListener("resize", () => {
+  if (window.matchMedia("(max-width: 1350px)").matches) finishPanelResize();
+});
 function updateSummaryButton() {
   const changed = state.lines.length > state.lastSummarized;
   $("addSummary").title = changed ? "Skapa delsammanfattning" : "Vänta tills ny text har transkriberats";
