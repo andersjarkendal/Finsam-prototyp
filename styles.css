@@ -693,3 +693,23 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
     box-shadow:0 0 0 3px #edf2f7;
   }
 }
+
+/* Center the divider on the full status panel, with one area on each side. */
+@media(min-width:1000px){
+  .session-strip-main{
+    grid-template-columns:minmax(468px,1fr) 4px minmax(468px,1fr)!important;
+    width:100%!important;
+  }
+  .recording-statuses{
+    flex:1 1 auto!important;
+    width:100%!important;
+    min-width:468px!important;
+  }
+  .session-strip .timer-block{
+    position:absolute;
+    top:50%;
+    right:18px;
+    transform:translateY(-50%);
+    z-index:3;
+  }
+}
