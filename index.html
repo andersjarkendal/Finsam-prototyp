@@ -24,7 +24,7 @@
               <h1>Förhör med misstänkt</h1>
               <p class="subheading">Löpande transkribering och sammanfattning</p>
             </div>
-            <div class="heading-actions"><button class="button button-quiet" id="openPairing"><span class="button-glyph">▯</span> Anslut mobil</button><button class="button button-outline" id="finishSession">Avsluta förhör <span>↗</span></button></div>
+            <div class="heading-actions"><button class="button button-outline" id="finishSession">Avsluta förhör <span>↗</span></button></div>
           </div>
 
           <div class="workflow-steps" aria-label="Förhörets tre steg">
@@ -52,9 +52,9 @@
                   <div class="phone-pair-symbol" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M7 25V7h18M39 7h18v18M57 39v18H39M25 57H7V39"/><path d="M16 16h9v9h-9zM39 16h9v9h-9zM16 39h9v9h-9zM39 39h4v4h-4zM48 48h4v4h-4zM47 37h7v7h-7z"/></svg></div>
                   <div class="phone-pair-eyebrow">MOBILEN ÄR INTE ANSLUTEN</div>
                   <h2>Skanna QR-koden på datorn</h2>
-                  <p>Öppna <b>Anslut mobil</b> i datorvyn och skanna QR-koden med den här mobilen.</p>
+                  <p>Välj <b>Anslut mobil</b> under mobilramen i datorvyn och skanna QR-koden med den här mobilen.</p>
                   <div class="phone-pair-steps"><div><span>1</span> Visa QR-koden i datorvyn</div><div><span>2</span> Skanna koden med mobilen</div><div><span>3</span> Vänta tills mobilen ansluts</div></div>
-                  <div class="phone-pair-demo-note"><b>Prototyp:</b> Klicka på <b>Anslut mobil</b> i datorvyn och välj <b>Simulera parkoppling</b>. Inspelarvyn visas efter anslutning.</div>
+                  <div class="phone-pair-demo-note"><b>Prototyp:</b> Klicka på <b>Anslut mobil</b> under mobilramen i datorvyn och välj <b>Simulera parkoppling</b>. Inspelarvyn visas efter anslutning.</div>
                 </div>
                 <div class="phone-connected-view hidden" id="phoneConnectedView">
                 <div class="phone-appbar"><span class="phone-brand-mark">◉</span><span><b>Förhörsflöde</b><small>INSPELARE · DEMO</small></span><button aria-label="Inställningar">⚙</button></div>
@@ -63,6 +63,7 @@
                 <div class="phone-note">Detta är en prototyp. Ingen mikrofon används och inget ljud spelas in.</div>
                 </div>
               </div></div></div>
+              <div class="mobile-panel-actions"><button class="button button-primary pairing-panel-button" id="openPairing"><span class="button-glyph">▯</span> Anslut mobil</button></div>
             </aside>
 
             <div class="work-content-grid">
