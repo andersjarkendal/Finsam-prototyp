@@ -992,3 +992,21 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 /* Keep the empty-state guidance directly below the Förhörsanalys heading. */
 .followup-suggestions>.followup-empty{position:absolute;top:36px;left:0;right:0;margin:0;color:#61758d;font-size:14px;line-height:1.45}
 @media(max-width:999px){.followup-suggestions>.followup-empty{position:relative;top:auto;left:auto;right:auto;align-self:flex-start;margin:-4px 0 12px}}
+
+/* Streamlined mobile-pairing dialog with a proper QR-code visual. */
+.pairing-modal{width:min(500px,100%);padding:34px 36px 28px;border-radius:18px}
+.pairing-modal .modal-icon,.pairing-modal>.eyebrow{display:none}
+.pairing-modal h2{margin:4px 0 8px;color:#003366;font-size:28px;letter-spacing:-.03em}
+.pairing-modal .modal-intro{max-width:none;color:#536b84;font-size:16px;line-height:1.5}
+.pairing-modal .pairing-layout{justify-content:center;margin:22px 0 24px}
+.pairing-qr{width:240px;height:240px;padding:12px;border:1px solid #d5e0e9;border-radius:12px;background:#fff;box-shadow:0 5px 16px rgba(0,35,75,.1)}
+.pairing-qr svg{display:block;width:100%;height:100%;shape-rendering:crispEdges}
+.pairing-modal .modal-action{width:100%;height:auto;min-height:64px;border-radius:10px;font-size:18px;font-weight:850}
+.pairing-modal .modal-foot{margin-top:12px;color:#718397;font-size:12px}
+@media(max-width:620px){
+  .pairing-modal{padding:30px 20px 22px}
+  .pairing-modal h2{font-size:24px}
+  .pairing-modal .modal-intro{font-size:15px}
+  .pairing-qr{width:min(220px,70vw);height:min(220px,70vw);padding:10px}
+  .pairing-modal .modal-action{min-height:58px;font-size:16px}
+}
