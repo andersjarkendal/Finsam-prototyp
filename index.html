@@ -83,9 +83,22 @@
 
               <aside class="summary-column">
                 <section class="panel parts-panel">
-                  <div class="panel-heading compact"><div><div class="panel-title">Delsammanfattningar <span class="count-badge" id="summaryCount">0</span></div><div class="panel-caption">Skapa under samtalet eller efteråt</div></div><button class="add-summary" id="addSummary" aria-label="Skapa delsammanfattning">＋</button></div>
-                  <div class="summary-list" id="summaryList"><div class="empty-summary"><span>▤</span><b>Inga delsammanfattningar ännu</b><small>Skapa en när en del av samtalet är klar.</small><button class="button button-small" id="firstSummary">＋ Skapa delsammanfattning</button></div></div>
-                  <div class="parts-note"><span>✳</span> Delsammanfattningar kan redigeras innan slutsammanfattningen skapas.</div>
+                  <div class="summary-tabs" id="summaryTabs" role="tablist" aria-label="Sammanfattningar">
+                    <button class="summary-tab active" id="partsTab" type="button" role="tab" aria-selected="true" aria-controls="partsTabPanel" tabindex="0">Delsammanfattningar <span class="count-badge" id="summaryCount">0</span></button>
+                    <button class="summary-tab" id="protocolTab" type="button" role="tab" aria-selected="false" aria-controls="protocolTabPanel" tabindex="-1">Sammanfattning till Förhörsprotokollet</button>
+                  </div>
+                  <section class="summary-tab-panel active" id="partsTabPanel" role="tabpanel" aria-labelledby="partsTab">
+                    <div class="summary-content-toolbar"><div><b>Sammanfatta förhörsdelar</b><span>Skapa under samtalet eller efteråt</span></div><button class="button button-small" id="addSummary" aria-label="Skapa delsammanfattning">＋ Skapa del</button></div>
+                    <div class="summary-list" id="summaryList"><div class="empty-summary"><span>▤</span><b>Inga delsammanfattningar ännu</b><small>Skapa en när en del av samtalet är klar.</small><button class="button button-small" id="firstSummary">＋ Skapa delsammanfattning</button></div></div>
+                    <div class="parts-note"><span>✳</span> Delsammanfattningar kan redigeras innan slutsammanfattningen skapas.</div>
+                  </section>
+                  <section class="summary-tab-panel" id="protocolTabPanel" role="tabpanel" aria-labelledby="protocolTab" hidden>
+                    <div class="final-summary-bar" id="finalSummaryBar">
+                      <div class="final-icon">✦</div><div class="final-copy"><b>Förhörsprotokoll</b><span>Samla alla delsammanfattningar till en överblick</span></div><span class="final-count" id="finalCount">0 delar</span><button class="button button-primary" id="makeFinal" disabled>Skapa sammanfattning <span>→</span></button>
+                    </div>
+                    <p class="summary-stale-note hidden" id="summaryStaleNote" role="status">Delsammanfattningarna har ändrats. Uppdatera sammanfattningen för förhörsprotokollet.</p>
+                    <section class="final-result panel hidden" id="finalResult"><div class="final-result-head"><div><div class="panel-title">Sammanfattning till Förhörsprotokollet</div><div class="panel-caption">Genererad från delsammanfattningarna · demotext</div></div><button class="text-button" id="editFinal">Redigera</button></div><div class="final-result-body" id="finalText"></div></section>
+                  </section>
                 </section>
               </aside>
             </div>
@@ -93,10 +106,6 @@
 
           </div>
 
-          <section class="final-summary-bar" id="finalSummaryBar">
-            <div class="final-icon">✦</div><div class="final-copy"><b>Slutsammanfattning</b><span>Samla alla delsammanfattningar till en överblick</span></div><span class="final-count" id="finalCount">0 delar</span><button class="button button-primary" id="makeFinal" disabled>Skapa slutsammanfattning <span>→</span></button>
-          </section>
-          <section class="final-result panel hidden" id="finalResult"><div class="final-result-head"><div><div class="panel-title">Slutsammanfattning</div><div class="panel-caption">Genererad från delsammanfattningarna · demotext</div></div><button class="text-button" id="editFinal">Redigera</button></div><div class="final-result-body" id="finalText"></div></section>
         </section>
 
         <footer class="app-footer"><span>FÖRHÖRSFLÖDE <i>·</i> PROTOTYP 0.1</span><span><span class="footer-shield">◆</span> Endast fiktivt innehåll</span></footer>
