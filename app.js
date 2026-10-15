@@ -430,7 +430,6 @@ function updateRemoteControls() {
     ? "Inspelning pågår"
     : state.hasStarted ? "Fortsätt inspelning" : "Starta inspelning";
   pauseButton.disabled = !connected || !state.recording;
-  updateRemoteControls();
 }
 
 function setRecording(active) {
@@ -461,6 +460,7 @@ function setRecording(active) {
     clearInterval(state.timerId); state.timerId = null;
     clearInterval(state.feedId); state.feedId = null;
   }
+  updateRemoteControls();
 }
 function updateAudioStatus() {
   const card = $("audioStatusCard");
