@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#003366" />
     <title>Förhörsflöde · Prototyp</title>
-    <link rel="stylesheet" href="styles.css?v=20261015-2052" />
+    <link rel="stylesheet" href="styles.css?v=20261015-2053" />
   </head>
   <body>
     <div class="prototype-banner"><span class="demo-dot"></span> PROTOTYP · ENDAST EXEMPELDATA · INGEN LJUDINSPELNING</div>
@@ -31,6 +31,7 @@
           <div class="session-strip">
             <div class="session-strip-main">
               <div class="recording-statuses" id="recordingStatuses" aria-label="Status för inspelning och transkribering">
+                <div class="recording-statuses-heading">Statuspanel</div>
                 <span class="sr-only" id="statusMoveHelp">Dra panelerna åt höger eller vänster inom statusområdet till vänster om avgränsaren. Ljudinspelning ligger alltid till vänster om transkriberingen. Med tangentbordet flyttar du panelen med vänster- och högerpil, 20 pixlar åt gången, eller 64 pixlar med Skift.</span>
                 <div class="recording-status-card audio-status-card" id="audioStatusCard" data-status-card role="status" aria-live="polite" aria-describedby="statusMoveHelp" aria-keyshortcuts="ArrowLeft ArrowRight Shift+ArrowLeft Shift+ArrowRight Home End" tabindex="0" title="Dra panelen horisontellt inom statusområdet till vänster om avgränsaren"><span class="recording-status-label">LJUDINSPELNING</span><b id="audioStatusValue">REDO ATT SPELA IN</b></div>
                 <div class="recording-status-card transcription-status-card" id="transcriptionStatusCard" data-status-card role="status" aria-live="polite" aria-describedby="statusMoveHelp" aria-keyshortcuts="ArrowLeft ArrowRight Shift+ArrowLeft Shift+ArrowRight Home End" tabindex="0" title="Dra panelen horisontellt inom statusområdet till vänster om avgränsaren"><span class="recording-status-label">TRANSKRIBERING</span><b id="transcriptionStatusValue">PÅSLAGEN</b></div>
@@ -144,6 +145,6 @@
       </div>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20261015-2052"></script>
+    <script src="app.js?v=20261015-2053"></script>
   </body>
 </html>
