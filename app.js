@@ -84,37 +84,23 @@ function restoreStatusCardOrder() {
 }
 function moveStatusCard(card, beforeCard = null) {
   if (beforeCard === card) return;
+  if ((beforeCard && card.nextElementSibling === beforeCard) || (!beforeCard && card === recordingStatuses.lastElementChild)) return;
   if (beforeCard) recordingStatuses.insertBefore(card, beforeCard);
   else recordingStatuses.appendChild(card);
   saveStatusCardOrder();
 }
 restoreStatusCardOrder();
+let activeStatusDrag = null;
 for (const card of statusCards) {
-  let dragActive = false;
   card.addEventListener("pointerdown", event => {
     if (event.button !== undefined && event.button !== 0) return;
-    dragActive = true;
+    activeStatusDrag = { card, pointerId: event.pointerId };
     card.classList.add("is-dragging");
-    card.setPointerCapture(event.pointerId);
+    // Capture on the stable parent. Capturing on the card itself can end a drag
+    // when that card is moved in the DOM to change its order.
+    recordingStatuses.setPointerCapture(event.pointerId);
     event.preventDefault();
   });
-  card.addEventListener("pointermove", event => {
-    if (!dragActive) return;
-    const sibling = Array.from(recordingStatuses.querySelectorAll("[data-status-card]")).find(other => other !== card);
-    if (!sibling) return;
-    const bounds = sibling.getBoundingClientRect();
-    const horizontal = getComputedStyle(recordingStatuses).flexDirection.startsWith("row");
-    const before = horizontal ? event.clientX < bounds.left + bounds.width / 2 : event.clientY < bounds.top + bounds.height / 2;
-    moveStatusCard(card, before ? sibling : sibling.nextElementSibling);
-  });
-  const finishStatusDrag = () => {
-    if (!dragActive) return;
-    dragActive = false;
-    card.classList.remove("is-dragging");
-  };
-  card.addEventListener("pointerup", finishStatusDrag);
-  card.addEventListener("pointercancel", finishStatusDrag);
-  card.addEventListener("lostpointercapture", finishStatusDrag);
   card.addEventListener("keydown", event => {
     const cards = Array.from(recordingStatuses.querySelectorAll("[data-status-card]"));
     const currentIndex = cards.indexOf(card);
@@ -137,6 +123,25 @@ for (const card of statusCards) {
     }
   });
 }
+recordingStatuses.addEventListener("pointermove", event => {
+  const drag = activeStatusDrag;
+  if (!drag || drag.pointerId !== event.pointerId) return;
+  const card = drag.card;
+  const sibling = Array.from(recordingStatuses.querySelectorAll("[data-status-card]")).find(other => other !== card);
+  if (!sibling) return;
+  const bounds = sibling.getBoundingClientRect();
+  const horizontal = getComputedStyle(recordingStatuses).flexDirection.startsWith("row");
+  const before = horizontal ? event.clientX < bounds.left + bounds.width / 2 : event.clientY < bounds.top + bounds.height / 2;
+  moveStatusCard(card, before ? sibling : sibling.nextElementSibling);
+});
+function finishStatusDrag(event) {
+  if (!activeStatusDrag || (event && activeStatusDrag.pointerId !== event.pointerId)) return;
+  activeStatusDrag.card.classList.remove("is-dragging");
+  activeStatusDrag = null;
+}
+recordingStatuses.addEventListener("pointerup", finishStatusDrag);
+recordingStatuses.addEventListener("pointercancel", finishStatusDrag);
+recordingStatuses.addEventListener("lostpointercapture", finishStatusDrag);
 
 function pad(n) { return String(n).padStart(2, "0"); }
 function clock(seconds) { return `${pad(Math.floor(seconds / 60))}:${pad(seconds % 60)}`; }
