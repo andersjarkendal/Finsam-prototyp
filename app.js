@@ -263,6 +263,9 @@ function renderSummaries() {
   $("summaryCount").textContent = state.summaries.length;
   $("finalCount").textContent = `${state.summaries.length} ${state.summaries.length === 1 ? "del" : "delar"}`;
   $("makeFinal").disabled = state.summaries.length === 0;
+  if (state.finalCreated) state.finalDirty = true;
+  $("makeFinal").innerHTML = `${state.finalCreated ? "Uppdatera sammanfattning" : "Skapa sammanfattning"} <span>→</span>`;
+  $("summaryStaleNote").classList.toggle("hidden", !state.finalDirty);
   if (!state.summaries.length) {
     list.innerHTML = `<div class="empty-summary"><span>▤</span><b>Inga delsammanfattningar ännu</b><small>Skapa en när en del av samtalet är klar.</small><button class="button button-small" id="firstSummary">＋ Skapa delsammanfattning</button></div>`;
     $("firstSummary").addEventListener("click", createSummary);
@@ -287,10 +290,34 @@ function createFinal() {
   const text = state.summaries.map((s, i) => `${i + 1}. ${s.text}`).join("\n\n");
   $("finalText").textContent = `ÖVERSIKT\n${state.summaries.length} delsammanfattningar har sammanställts. Innehållet nedan bygger enbart på exempeltext och behöver i en riktig lösning granskas mot transkriberingen.\n\n${text}\n\nATT FÖLJA UPP\nKontrollera tidsangivelser och eventuella oklarheter mot den fullständiga inspelningen.`;
   $("finalResult").classList.remove("hidden");
-  $("finalSummaryBar").classList.add("hidden");
   state.finalCreated = true;
+  state.finalDirty = false;
+  $("summaryStaleNote").classList.add("hidden");
+  $("makeFinal").innerHTML = "Uppdatera sammanfattning <span>→</span>";
   showToast("Slutsammanfattning skapad från delsammanfattningarna.");
 }
+function activateSummaryTab(tabId, focus = false) {
+  const tabs = [$("partsTab"), $("protocolTab")];
+  const panels = [$("partsTabPanel"), $("protocolTabPanel")];
+  const index = tabId === "protocolTab" ? 1 : 0;
+  tabs.forEach((tab, i) => {
+    const selected = i === index;
+    tab.classList.toggle("active", selected);
+    tab.setAttribute("aria-selected", String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+    panels[i].hidden = !selected;
+    panels[i].classList.toggle("active", selected);
+  });
+  if (focus) tabs[index].focus();
+}
+$("partsTab").addEventListener("click", () => activateSummaryTab("partsTab"));
+$("protocolTab").addEventListener("click", () => activateSummaryTab("protocolTab"));
+$("summaryTabs").addEventListener("keydown", event => {
+  if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+  event.preventDefault();
+  const next = event.key === "Home" || event.key === "ArrowLeft" ? "partsTab" : "protocolTab";
+  activateSummaryTab(next, true);
+});
 function updateSummaryButton() {
   const changed = state.lines.length > state.lastSummarized;
   $("addSummary").title = changed ? "Skapa delsammanfattning" : "Vänta tills ny text har transkriberats";
