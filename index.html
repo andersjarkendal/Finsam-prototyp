@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#003366" />
     <title>Förhörsflöde · Prototyp</title>
-    <link rel="stylesheet" href="styles.css?v=20261015-1630" />
+    <link rel="stylesheet" href="styles.css?v=20261015-1755" />
   </head>
   <body>
     <div class="prototype-banner"><span class="demo-dot"></span> PROTOTYP · ENDAST EXEMPELDATA · INGEN LJUDINSPELNING</div>
@@ -35,6 +35,7 @@
                 <div class="recording-status-card audio-status-card" id="audioStatusCard" data-status-card role="status" aria-live="polite" aria-describedby="statusMoveHelp" aria-keyshortcuts="ArrowLeft ArrowRight Shift+ArrowLeft Shift+ArrowRight Home End" tabindex="0" title="Dra panelen horisontellt inom statusytan"><span class="recording-status-label">LJUDINSPELNING</span><b id="audioStatusValue">REDO ATT SPELA IN</b></div>
                 <div class="recording-status-card transcription-status-card" id="transcriptionStatusCard" data-status-card role="status" aria-live="polite" aria-describedby="statusMoveHelp" aria-keyshortcuts="ArrowLeft ArrowRight Shift+ArrowLeft Shift+ArrowRight Home End" tabindex="0" title="Dra panelen horisontellt inom statusytan"><span class="recording-status-label">TRANSKRIBERING</span><b id="transcriptionStatusValue">PÅSLAGEN</b></div>
               </div>
+              <div class="followup-suggestions" id="followupSuggestions" role="region" aria-label="Förslag på följdfrågor" aria-live="polite"></div>
             </div>
             <div class="timer-block"><span class="timer-label">FÖRHÖRSTID</span><span class="timer" id="timer">00:00</span></div>
           </div>
@@ -119,6 +120,6 @@
       </div>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20261015-1620"></script>
+    <script src="app.js?v=20261015-1755"></script>
   </body>
 </html>
