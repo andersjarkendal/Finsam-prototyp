@@ -115,19 +115,33 @@ function constrainStatusPositions(next, movingId = null) {
     }
   };
 
-  // Audio stays entirely to the left of transcription. When the viewport is
-  // too narrow for the requested positions, move the other panel as needed.
+  // Keep audio to the left, while moving the second card along when needed.
+  // This lets either card use the full area instead of locking them together.
   if (movingId === "audioStatusCard") {
-    positions.audioStatusCard.x = Math.min(positions.audioStatusCard.x, positions.transcriptionStatusCard.x - audioSize.width - gap);
-    if (positions.audioStatusCard.x < 0) {
-      positions.audioStatusCard.x = 0;
-      positions.transcriptionStatusCard.x = Math.min(maxTranscriptionX, audioSize.width + gap);
-    }
-  } else if (movingId === "transcriptionStatusCard") {
-    positions.transcriptionStatusCard.x = Math.max(positions.transcriptionStatusCard.x, positions.audioStatusCard.x + audioSize.width + gap);
+    const desiredAudioX = positions.audioStatusCard.x;
+    positions.transcriptionStatusCard.x = Math.max(
+      positions.transcriptionStatusCard.x,
+      desiredAudioX + audioSize.width + gap
+    );
     if (positions.transcriptionStatusCard.x > maxTranscriptionX) {
       positions.transcriptionStatusCard.x = maxTranscriptionX;
-      positions.audioStatusCard.x = Math.max(0, maxTranscriptionX - audioSize.width - gap);
+      positions.audioStatusCard.x = Math.min(
+        desiredAudioX,
+        maxTranscriptionX - audioSize.width - gap
+      );
+    }
+  } else if (movingId === "transcriptionStatusCard") {
+    const desiredTranscriptionX = positions.transcriptionStatusCard.x;
+    positions.audioStatusCard.x = Math.min(
+      positions.audioStatusCard.x,
+      desiredTranscriptionX - audioSize.width - gap
+    );
+    if (positions.audioStatusCard.x < 0) {
+      positions.audioStatusCard.x = 0;
+      positions.transcriptionStatusCard.x = Math.max(
+        desiredTranscriptionX,
+        audioSize.width + gap
+      );
     }
   } else if (positions.transcriptionStatusCard.x < positions.audioStatusCard.x + audioSize.width + gap) {
     const pairWidth = audioSize.width + gap + transcriptionSize.width;
@@ -178,6 +192,7 @@ for (const card of statusCards) {
       startX: event.clientX,
       origin: { ...statusPositions[card.id] }
     };
+    try { card.setPointerCapture(event.pointerId); } catch (_) { /* Window listeners remain as fallback. */ }
     card.classList.add("is-dragging");
     event.preventDefault();
   });
