@@ -214,9 +214,6 @@ function updatePairingUI() {
   $("phoneScreen").classList.toggle("pairing-required", !state.pairConnected);
   $("phonePairScreen").setAttribute("aria-hidden", String(state.pairConnected));
   $("phoneConnectedView").setAttribute("aria-hidden", String(!state.pairConnected));
-  $("phoneStatus").innerHTML = state.pairConnected
-    ? '<span class="connected-icon">✓</span> Mobil ansluten <small>· simulerad</small>'
-    : '<span class="connected-icon disconnected-icon">!</span> Mobil ej ansluten <small>· skanna QR-kod</small>';
 }
 function simulatePairing() {
   state.pairConnected = true;
