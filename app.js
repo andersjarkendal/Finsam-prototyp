@@ -65,6 +65,79 @@ const transcriptList = $("transcriptList");
 const transcriptPlaceholder = $("transcriptPlaceholder");
 const toast = $("toast");
 
+// Let each user arrange the recording and transcription status cards to suit them.
+const recordingStatuses = $("recordingStatuses");
+const statusOrderStorageKey = "finsam-status-card-order";
+const statusCards = Array.from(recordingStatuses.querySelectorAll("[data-status-card]"));
+function saveStatusCardOrder() {
+  try {
+    localStorage.setItem(statusOrderStorageKey, JSON.stringify(Array.from(recordingStatuses.querySelectorAll("[data-status-card]"), card => card.id)));
+  } catch (_) { /* Storage can be unavailable in private browsing; reordering still works. */ }
+}
+function restoreStatusCardOrder() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(statusOrderStorageKey) || "null");
+    const available = new Map(statusCards.map(card => [card.id, card]));
+    if (!Array.isArray(saved) || saved.length !== available.size || saved.some(id => !available.has(id)) || new Set(saved).size !== available.size) return;
+    saved.forEach(id => recordingStatuses.appendChild(available.get(id)));
+  } catch (_) { /* Keep the default order when saved settings cannot be read. */ }
+}
+function moveStatusCard(card, beforeCard = null) {
+  if (beforeCard === card) return;
+  if (beforeCard) recordingStatuses.insertBefore(card, beforeCard);
+  else recordingStatuses.appendChild(card);
+  saveStatusCardOrder();
+}
+restoreStatusCardOrder();
+for (const card of statusCards) {
+  let dragActive = false;
+  card.addEventListener("pointerdown", event => {
+    if (event.button !== undefined && event.button !== 0) return;
+    dragActive = true;
+    card.classList.add("is-dragging");
+    card.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  });
+  card.addEventListener("pointermove", event => {
+    if (!dragActive) return;
+    const sibling = Array.from(recordingStatuses.querySelectorAll("[data-status-card]")).find(other => other !== card);
+    if (!sibling) return;
+    const bounds = sibling.getBoundingClientRect();
+    const horizontal = getComputedStyle(recordingStatuses).flexDirection.startsWith("row");
+    const before = horizontal ? event.clientX < bounds.left + bounds.width / 2 : event.clientY < bounds.top + bounds.height / 2;
+    moveStatusCard(card, before ? sibling : sibling.nextElementSibling);
+  });
+  const finishStatusDrag = () => {
+    if (!dragActive) return;
+    dragActive = false;
+    card.classList.remove("is-dragging");
+  };
+  card.addEventListener("pointerup", finishStatusDrag);
+  card.addEventListener("pointercancel", finishStatusDrag);
+  card.addEventListener("lostpointercapture", finishStatusDrag);
+  card.addEventListener("keydown", event => {
+    const cards = Array.from(recordingStatuses.querySelectorAll("[data-status-card]"));
+    const currentIndex = cards.indexOf(card);
+    if (["ArrowLeft", "ArrowUp"].includes(event.key) && currentIndex > 0) {
+      event.preventDefault();
+      moveStatusCard(card, cards[currentIndex - 1]);
+      card.focus();
+    } else if (["ArrowRight", "ArrowDown"].includes(event.key) && currentIndex < cards.length - 1) {
+      event.preventDefault();
+      moveStatusCard(card, cards[currentIndex + 1].nextElementSibling);
+      card.focus();
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      moveStatusCard(card, cards[0]);
+      card.focus();
+    } else if (event.key === "End") {
+      event.preventDefault();
+      moveStatusCard(card);
+      card.focus();
+    }
+  });
+}
+
 function pad(n) { return String(n).padStart(2, "0"); }
 function clock(seconds) { return `${pad(Math.floor(seconds / 60))}:${pad(seconds % 60)}`; }
 function showToast(message) {
@@ -410,10 +483,6 @@ $("transcriptionToggle").addEventListener("change", event => {
   updateTranscriptionUI();
   if (state.recording && !state.transcriptionEnabled) showToast("Ljudet spelas in vidare. Transkriberingen är avstängd.");
   else if (state.recording) showToast("Transkribering på. Nya yttranden visas löpande.");
-});
-$("phoneMark").addEventListener("click", () => {
-  if (state.recording && !state.transcriptionEnabled) { showToast("Ljudet spelas in, men transkriberingen är av. Slå på den för att skapa en delsammanfattning."); return; }
-  showToast("Ny del markerad i demon."); if (state.recording) createSummary();
 });
 $("addSummary").addEventListener("click", createSummary);
 $("firstSummary").addEventListener("click", createSummary);
