@@ -1143,3 +1143,8 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 .transcript-latest-button:hover{background:#fff7d8;border-color:#c69d00;transform:translateY(-1px)}
 .transcript-latest-button:focus-visible{outline:4px solid #ffcc00;outline-offset:3px}
 @media(max-width:620px){.transcript-latest-button{right:12px;bottom:12px;min-height:40px;font-size:12px}}
+
+
+/* Match the status-area title to the Förhörsanalys heading. */
+.recording-statuses{height:168px!important;min-height:168px!important}
+.recording-statuses-heading{position:absolute;top:4px;left:0;right:0;color:#003366;font-size:13px;font-weight:850;letter-spacing:.05em;line-height:1.2;text-transform:uppercase;pointer-events:none}
