@@ -30,9 +30,10 @@
 
           <div class="session-strip">
             <div class="session-strip-main">
-              <div class="recording-statuses" aria-label="Status för inspelning och transkribering">
-                <div class="recording-status-card audio-status-card" id="audioStatusCard" role="status" aria-live="polite"><span class="recording-status-label">LJUDINSPELNING</span><b id="audioStatusValue">REDO ATT SPELA IN</b></div>
-                <div class="recording-status-card transcription-status-card" id="transcriptionStatusCard" role="status" aria-live="polite"><span class="recording-status-label">TRANSKRIBERING</span><b id="transcriptionStatusValue">PÅSLAGEN</b></div>
+              <div class="recording-statuses" id="recordingStatuses" aria-label="Status för inspelning och transkribering">
+                <span class="sr-only" id="statusMoveHelp">Panelerna kan flyttas. Använd vänster- eller högerpil, eller Home och End, för att ändra placering.</span>
+                <div class="recording-status-card audio-status-card" id="audioStatusCard" data-status-card role="status" aria-live="polite" aria-describedby="statusMoveHelp" aria-keyshortcuts="ArrowLeft ArrowRight Home End" tabindex="0" title="Dra för att flytta statuspanelen"><span class="status-drag-grip" aria-hidden="true">⠿</span><span class="recording-status-label">LJUDINSPELNING</span><b id="audioStatusValue">REDO ATT SPELA IN</b></div>
+                <div class="recording-status-card transcription-status-card" id="transcriptionStatusCard" data-status-card role="status" aria-live="polite" aria-describedby="statusMoveHelp" aria-keyshortcuts="ArrowLeft ArrowRight Home End" tabindex="0" title="Dra för att flytta statuspanelen"><span class="status-drag-grip" aria-hidden="true">⠿</span><span class="recording-status-label">TRANSKRIBERING</span><b id="transcriptionStatusValue">PÅSLAGEN</b></div>
               </div>
             </div>
             <div class="timer-block"><span class="timer-label">FÖRHÖRSTID</span><span class="timer" id="timer">00:00</span></div>
@@ -53,7 +54,7 @@
                 <div class="phone-connected-view hidden" id="phoneConnectedView">
                 <div class="phone-appbar"><span class="phone-brand-mark">◉</span><span><b>Förhörsflöde</b><small>INSPELARE · DEMO</small></span><button aria-label="Inställningar">⚙</button></div>
                 <div class="phone-record-card" id="phoneRecordCard"><div class="phone-record-state" aria-live="polite"><div class="phone-record-audio-state"><span class="phone-record-dot" id="phoneRecordDot"></span><span id="phoneRecordState">MOBIL REDO ATT SPELA IN LJUD</span></div><div class="phone-transcription-state" id="phoneTranscriptionState">TRANSKRIBERING PÅ</div></div><div class="phone-record-explainer">Ljudet kan fortsätta under hela förhöret. Pausa vid behov.</div><div class="phone-timer" id="phoneTimer">00:00</div><div class="wave-caption"><span>LJUDNIVÅ</span><span class="wave-live-label" id="waveLiveLabel">VÄNTAR</span></div><div class="phone-wave-window" role="img" aria-label="Animerad ljudvåg visas när inspelning simuleras"><div class="phone-wave" id="phoneWave"></div><span class="wave-playhead"></span></div><div class="phone-secure"><span>◆</span> Endast demo · inget ljud sparas</div></div>
-                <div class="phone-controls"><button class="phone-main-record" id="phoneRecord"><span class="phone-button-dot"></span><span id="phoneRecordText">Starta ljudinspelning</span></button><div class="phone-secondary-controls"><button id="phonePause" disabled><span>Ⅱ</span> Pausa ljud</button><button id="phoneMark"><span>＋</span> Markera del</button></div></div>
+                <div class="phone-controls"><button class="phone-main-record" id="phoneRecord"><span class="phone-button-dot"></span><span id="phoneRecordText">Starta ljudinspelning</span></button><div class="phone-secondary-controls"><button id="phonePause" disabled><span>Ⅱ</span> Pausa ljud</button></div></div>
                 <div class="phone-note">Detta är en prototyp. Ingen mikrofon används och inget ljud spelas in.</div>
                 </div>
               </div></div></div>
