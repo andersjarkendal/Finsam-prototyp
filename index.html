@@ -38,7 +38,7 @@
             <div class="timer-block"><span class="timer-label">FÖRHÖRSTID</span><span class="timer" id="timer">00:00</span></div>
           </div>
 
-          <div class="work-grid">
+          <div class="work-grid" id="workGrid">
             <aside class="panel mobile-preview-panel" aria-label="Mobilens inspelare">
               <div class="phone-stage"><div class="phone-frame"><div class="phone-notch"></div><div class="phone-screen" id="phoneScreen">
                 <div class="phone-statusbar"><span>9:41</span><span>●●● ▰</span></div>
@@ -80,6 +80,8 @@
                 </div>
                 <div class="transcript-footer"><span><span class="tiny-lock">◆</span> Demoinnehåll · visas endast på den här sidan</span><button class="text-button" id="addNote">＋ Lägg till anteckning</button></div>
               </section>
+
+              <div class="panel-resizer" id="panelResizer" role="separator" aria-orientation="vertical" aria-label="Ändra bredd mellan transkribering och sammanfattning" aria-valuemin="380" aria-valuemax="900" aria-valuenow="600" aria-valuetext="Dra för att ändra panelernas bredd" tabindex="0"><span></span><span></span><span></span></div>
 
               <aside class="summary-column">
                 <section class="panel parts-panel">
