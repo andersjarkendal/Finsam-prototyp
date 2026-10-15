@@ -629,3 +629,57 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   }
   .followup-suggestions{width:100%;min-width:0;margin:0}
 }
+
+
+/* Keep the separator visible on desktop widths and leave real drag room. */
+@media(min-width:1000px){
+  .session-strip{flex-wrap:nowrap!important}
+  .session-strip-main{
+    display:grid!important;
+    grid-template-columns:minmax(468px,min(900px,max(468px,48vw))) 2px minmax(0,1fr)!important;
+    align-items:center;
+    gap:0!important;
+    flex:1 1 auto!important;
+    width:calc(100% - 165px)!important;
+    min-width:0;
+  }
+  .recording-statuses{
+    position:relative;
+    box-sizing:border-box;
+    flex:0 0 min(900px,max(468px,48vw))!important;
+    width:min(900px,max(468px,48vw))!important;
+    min-width:468px!important;
+    height:104px;
+    min-height:104px;
+  }
+  .recording-status-boundary{
+    display:block!important;
+    width:2px;
+    height:76px;
+    justify-self:center;
+    align-self:center;
+    border-radius:2px;
+    background:#aebfd0;
+    pointer-events:none;
+  }
+  .followup-suggestions{
+    box-sizing:border-box;
+    flex:1 1 auto;
+    width:auto;
+    min-width:0;
+    margin-left:16px;
+  }
+}
+@media(max-width:999px){
+  .session-strip-main{display:grid!important;grid-template-columns:minmax(0,1fr)!important}
+  .recording-statuses{width:100%;min-width:0;flex:0 0 auto}
+  .recording-status-boundary{
+    display:block!important;
+    width:100%;
+    height:2px;
+    border-radius:2px;
+    background:#aebfd0;
+    pointer-events:none;
+  }
+  .followup-suggestions{width:100%;min-width:0;margin:0}
+}
