@@ -1,16 +1,66 @@
-const demoLines = [
-  { time: "00:04", speaker: "Förhörsledare", kind: "speaker", text: "Kan du berätta med egna ord vad som hände den morgonen?" },
-  { time: "00:09", speaker: "Person A", kind: "person", text: "Jag kom till kontoret strax före åtta. Jag tror klockan var ungefär tio i." },
-  { time: "00:16", speaker: "Förhörsledare", kind: "speaker", text: "Vad gjorde du när du kom dit?" },
-  { time: "00:21", speaker: "Person A", kind: "person", text: "Jag gick in genom huvudentrén och satte mig vid min plats. Det var ganska lugnt då." },
-  { time: "00:29", speaker: "Person A", kind: "person", text: "Senare på förmiddagen fick jag ett samtal från en kollega." },
-  { time: "00:36", speaker: "Förhörsledare", kind: "speaker", text: "Minns du ungefär vilken tid samtalet kom?" },
-  { time: "00:41", speaker: "Person A", kind: "person", text: "Runt halv tio, skulle jag säga. Jag tittade inte på klockan just då." },
-  { time: "00:48", speaker: "Person A", kind: "person", text: "Vi pratade bara en kort stund om mötet som skulle vara efter lunch." }
-];
+const demoDialogue = [
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Ankomst", text: "Vi börjar med måndagsmorgonen. Berätta i lugn och ro när du kom till kontoret och vad du minns." },
+  { speaker: "Person A", kind: "person", topic: "Ankomst", text: "Jag kom strax före åtta, kanske tio i. Jag är inte helt säker på minuterna eftersom jag inte tittade på klockan." , summary: "Person A uppskattar att ankomsten till kontoret skedde strax före klockan åtta, men kan inte ange en exakt tid." , uncertain: true },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Ankomst", text: "Hur tog du dig in i byggnaden, och gick du direkt till din arbetsplats?" },
+  { speaker: "Person A", kind: "person", topic: "Ankomst", text: "Jag använde huvudentrén med mitt passerkort. Sedan hängde jag av mig och gick till min plats." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Ankomst", text: "Var det någon annan på kontoret när du kom dit?" },
+  { speaker: "Person A", kind: "person", topic: "Ankomst", text: "Jag såg en person längre bort i korridoren, men jag vet inte vem det var. Det var ganska lugnt." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Ankomst", text: "Vad gjorde du under den första stunden efter att du kommit fram?" },
+  { speaker: "Person A", kind: "person", topic: "Ankomst", text: "Jag startade datorn, hämtade kaffe och gick igenom mejlen. Jag började med de vanliga arbetsuppgifterna." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Arbetsdagen", text: "När såg du kuvertet med kvittona senast före den här måndagen?" },
+  { speaker: "Person A", kind: "person", topic: "Arbetsdagen", text: "På fredagen lade jag det på skrivbordet efter att ha sorterat några underlag. Jag minns inte om det låg till höger eller vänster." , summary: "Person A uppger att kuvertet senast sågs på skrivbordet på fredagen efter sortering av underlag. Placeringen på skrivbordet är osäker." , uncertain: true },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Arbetsdagen", text: "Var kuvertet öppet eller förslutet när du såg det på fredagen?" },
+  { speaker: "Person A", kind: "person", topic: "Arbetsdagen", text: "Det var stängt, men jag hade inte tejpat igen det. Kvittona låg samlade där inne." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Arbetsdagen", text: "Hade du själv lagt alla kvitton i kuvertet?" },
+  { speaker: "Person A", kind: "person", topic: "Arbetsdagen", text: "De flesta, tror jag. Ett par hade kommit från en kollega och jag kan inte säga säkert vem som lade in dem." , summary: "Person A tror att de flesta kvitton lades i kuvertet av hen själv, men uppger att några kom från en kollega och är osäker på vem som lade in dem." , uncertain: true },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Arbetsdagen", text: "Vad hände med kuvertet när du lämnade kontoret på fredagen?" },
+  { speaker: "Person A", kind: "person", topic: "Arbetsdagen", text: "Jag tror att jag tog med det till arkivskåpet. Jag ville lägga det där över helgen, men minns inte om jag låste skåpet efteråt." , summary: "Person A tror att kuvertet flyttades till arkivskåpet inför helgen. Det är oklart om skåpet låstes." , uncertain: true },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Förvaring", text: "Var i skåpet brukar du lägga den typen av underlag?" },
+  { speaker: "Person A", kind: "person", topic: "Förvaring", text: "På den mellersta hyllan, i en grå plastbricka. Där brukar vi förvara papper som ska stämmas av." , summary: "Enligt Person A brukar sådana underlag förvaras i en grå plastbricka på arkivskåpets mellersta hylla." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Förvaring", text: "Kontrollerade du på måndagen om kuvertet låg kvar på den platsen?" },
+  { speaker: "Person A", kind: "person", topic: "Förvaring", text: "Ja, någon gång efter nio. Brickan var där, men jag såg inte kuvertet. Jag kan ha tittat ganska snabbt." , summary: "Person A uppger att brickan kontrollerades efter klockan nio på måndagen och att kuvertet då inte syntes. Kontrollen kan ha varit hastig." , uncertain: true },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Förvaring", text: "Flyttade du något annat i skåpet vid samma tillfälle?" },
+  { speaker: "Person A", kind: "person", topic: "Förvaring", text: "Jag flyttade en pärm för att komma åt en mapp bakom den. Jag minns inte om jag tog ut hela brickan." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Förvaring", text: "Vem mer hade möjlighet att öppna arkivskåpet?" },
+  { speaker: "Person A", kind: "person", topic: "Förvaring", text: "Flera i gruppen hade tillgång till nyckel. Jag känner till tre personer, men vet inte om listan är komplett." , summary: "Flera personer i gruppen hade enligt Person A tillgång till nyckel till arkivskåpet. Hen känner till tre, men vet inte om fler hade åtkomst." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Förvaring", text: "Hade du nyckeln med dig hela tiden under måndagen?" },
+  { speaker: "Person A", kind: "person", topic: "Förvaring", text: "Jag hade den på min nyckelring. Jag lånade inte ut den, såvitt jag minns, men jag lade nyckelringen på skrivbordet ibland." , summary: "Person A uppger att nyckeln satt på den egna nyckelringen och inte lånades ut, men att nyckelringen ibland låg på skrivbordet." , uncertain: true },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Kontakter", text: "Du nämnde ett samtal från en kollega. När tror du att det kom?" },
+  { speaker: "Person A", kind: "person", topic: "Kontakter", text: "Någon gång runt halv tio. Vi pratade om ett möte efter lunch och om vilka underlag som saknades." , summary: "Person A placerar ett samtal från en kollega runt halv tio. Samtalet gällde ett möte efter lunch och underlag som saknades." , uncertain: true },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Kontakter", text: "Minns du vem som ringde och om ni pratade om kuvertet?" },
+  { speaker: "Person A", kind: "person", topic: "Kontakter", text: "Det var kollegan som samlade in kvitton. Jag tror inte att vi sa ordet kuvert, men vi pratade om att något underlag behövde kompletteras." , summary: "Samtalet var enligt Person A med kollegan som samlade in kvitton. Hen tror inte att kuvertet nämndes, men minns ett samtal om kompletterande underlag." , uncertain: true },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Kontakter", text: "Fick du något mejl eller meddelande efter det samtalet?" },
+  { speaker: "Person A", kind: "person", topic: "Kontakter", text: "Jag fick ett mejl senare på förmiddagen. Där stod att kvitton saknades för två inköp, men jag öppnade det inte direkt." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Kontakter", text: "Vet du ungefär när du öppnade mejlet och vad du gjorde då?" },
+  { speaker: "Person A", kind: "person", topic: "Kontakter", text: "Kanske vid elva. Jag sökte i en mapp på datorn och tänkte att kopior kunde finnas där." , summary: "Ett mejl om saknade kvitton kom senare på förmiddagen. Person A tror att det öppnades runt elva och att hen då sökte efter kopior i en digital mapp." , uncertain: true },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Kontakter", text: "Hittade du några kopior i den digitala mappen?" },
+  { speaker: "Person A", kind: "person", topic: "Kontakter", text: "Jag hittade en skannad sida, men den saknade baksidan. Jag vet inte om det var ett av de kvitton som efterfrågades." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Avstämning", text: "När upptäckte du att själva kuvertet inte gick att hitta?" },
+  { speaker: "Person A", kind: "person", topic: "Avstämning", text: "Efter lunch frågade kollegan efter underlagen. Då gick jag tillbaka till skåpet och tittade mer noggrant." , summary: "Efter lunch frågade kollegan efter underlagen. Person A uppger att hen då återvände till arkivskåpet och letade mer noggrant." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Avstämning", text: "Vad såg du när du kontrollerade skåpet igen?" },
+  { speaker: "Person A", kind: "person", topic: "Avstämning", text: "Brickan stod kvar, men kuvertet låg inte där. Jag tittade även bakom pärmen och på hyllan under." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Avstämning", text: "Kontrollerade du skrivbordet eller frågade någon annan om kuvertet?" },
+  { speaker: "Person A", kind: "person", topic: "Avstämning", text: "Jag tittade på mitt skrivbord och i pappershögen. Jag frågade sedan kollegan om hen hade flyttat något, men fick inget tydligt svar." , summary: "Person A letade på skrivbordet och frågade kollegan om något hade flyttats. Enligt Person A blev svaret inte tydligt." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Avstämning", text: "Sa kollegan att hen hade haft tillgång till arkivskåpet?" },
+  { speaker: "Person A", kind: "person", topic: "Avstämning", text: "Kollegan sa att hen varit i arkivdelen tidigare under dagen, men jag vet inte om det var före eller efter min första kontroll." , summary: "Kollegan ska enligt Person A ha varit i arkivdelen samma dag. Tidpunkten i förhållande till Person A:s första kontroll är oklar." , uncertain: true },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Avstämning", text: "Har du själv flyttat, öppnat eller tagit med dig kuvertet efter fredagen?" },
+  { speaker: "Person A", kind: "person", topic: "Avstämning", text: "Jag har inte medvetet tagit med mig kuvertet från kontoret. Jag kan inte utesluta att jag flyttade det när jag letade efter andra papper." , summary: "Person A förnekar att medvetet ha tagit kuvertet från kontoret, men utesluter inte att det kan ha flyttats i samband med sökandet efter andra papper." , uncertain: true },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Rutiner", text: "Hur brukar du göra när originalkvitton ska lämnas vidare för avstämning?" },
+  { speaker: "Person A", kind: "person", topic: "Rutiner", text: "Jag brukar lägga dem i ett kuvert, skriva datum på framsidan och lämna det i brickan. Ibland skannar jag först." , summary: "Person A beskriver rutinen som att samla originalkvitton i ett daterat kuvert och lägga det i brickan, ibland efter skanning." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Rutiner", text: "Minns du om kuvertet var märkt med datum den här gången?" },
+  { speaker: "Person A", kind: "person", topic: "Rutiner", text: "Jag tror att jag skrev fredagens datum, men det kan ha varit datumet från veckan innan. Jag kan inte vara säker." , summary: "Person A tror att kuvertet märktes med ett datum, men är osäker på om det var rätt fredag eller veckan innan." , uncertain: true },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Rutiner", text: "Finns det någon rutin för att notera när ett kuvert flyttas till arkivskåpet?" },
+  { speaker: "Person A", kind: "person", topic: "Rutiner", text: "Inte vad jag känner till. Vi brukar meddela varandra, men jag gjorde ingen särskild anteckning om det." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Avslutning", text: "Är det något mer om måndagen eller hanteringen av kvittona som du tycker att vi bör känna till?" },
+  { speaker: "Person A", kind: "person", topic: "Avslutning", text: "Jag minns att det var flera personer som kom och gick före lunch. Jag kan inte säga vilka som var vid skåpet." , summary: "Person A minns att flera personer rörde sig i lokalen före lunch, men kan inte ange vilka som besökte arkivskåpet." , uncertain: true },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Avslutning", text: "Finns det någon dokumentation som kan hjälpa till att kontrollera tider eller åtkomst?" },
+  { speaker: "Person A", kind: "person", topic: "Avslutning", text: "Passerkortssystemet kan visa när man går in i byggnaden. Mejlet och kalendern kanske också hjälper med tiderna." , summary: "Person A pekar på passerkortsloggar, mejl och kalender som möjliga underlag för att kontrollera delar av tidslinjen." },
+  { speaker: "Förhörsledare", kind: "speaker", topic: "Avslutning", text: "Är dina uppgifter i dag så fullständiga som du kan göra dem, eller vill du lägga till något?" },
+  { speaker: "Person A", kind: "person", topic: "Avslutning", text: "Det är vad jag kommer ihåg just nu. Framför allt tiderna är ungefärliga, och jag vill inte gissa mer än så." , summary: "Person A uppger att detta är vad hen minns för närvarande och betonar att flera tidsangivelser är ungefärliga." , uncertain: true }
+].map((line, index) => ({ ...line, time: clock(index * 5 + 3) }));
 
 const $ = (id) => document.getElementById(id);
-const state = { recording: false, hasStarted: false, transcriptionEnabled: true, elapsed: 0, lines: [], summaries: [], timerId: null, feedId: null, nextLine: 0, lastSummarized: 0, finalCreated: false, pairConnected: false };
+const state = { recording: false, hasStarted: false, transcriptionEnabled: true, elapsed: 0, lines: [], summaries: [], timerId: null, feedId: null, typingJob: null, typingTimeout: null, nextLine: 0, lastSummarized: 0, finalCreated: false, pairConnected: false };
 const transcriptList = $("transcriptList");
 const transcriptPlaceholder = $("transcriptPlaceholder");
 const toast = $("toast");
@@ -23,16 +73,54 @@ function showToast(message) {
   clearTimeout(showToast.timeout);
   showToast.timeout = setTimeout(() => toast.classList.remove("show"), 2600);
 }
+function pauseTyping() {
+  clearTimeout(state.typingTimeout);
+  state.typingTimeout = null;
+}
+function advanceTyping() {
+  const job = state.typingJob;
+  if (!job || state.typingTimeout || !state.recording || !state.transcriptionEnabled) return;
+  const typeNext = () => {
+    state.typingTimeout = null;
+    if (!state.recording || !state.transcriptionEnabled) return;
+    job.index += 1;
+    job.element.textContent = job.text.slice(0, job.index);
+    $("transcriptScroll").scrollTop = $("transcriptScroll").scrollHeight;
+    if (job.index >= job.text.length) {
+      job.element.classList.remove("is-typing");
+      state.typingJob = null;
+      job.onComplete();
+      return;
+    }
+    state.typingTimeout = setTimeout(typeNext, 22);
+  };
+  typeNext();
+}
+function typeTranscriptText(element, text, onComplete) {
+  element.classList.add("is-typing");
+  state.typingJob = { element, text, index: 0, onComplete };
+  advanceTyping();
+}
 function addTranscriptLine(line) {
-  state.lines.push(line);
   transcriptPlaceholder.classList.add("hidden");
   const row = document.createElement("div");
   row.className = "transcript-line new-line";
-  row.innerHTML = `<span class="transcript-time">${line.time}</span><span class="speaker ${line.kind === "person" ? "person" : ""}">${line.speaker}</span><span class="transcript-text">${line.text}</span>`;
+  const time = document.createElement("span");
+  time.className = "transcript-time";
+  time.textContent = line.time;
+  const speaker = document.createElement("span");
+  speaker.className = `speaker ${line.kind === "person" ? "person" : ""}`;
+  speaker.textContent = line.speaker;
+  const text = document.createElement("span");
+  text.className = "transcript-text";
+  row.append(time, speaker, text);
   transcriptList.appendChild(row);
   setTimeout(() => row.classList.remove("new-line"), 1400);
   $("transcriptScroll").scrollTop = $("transcriptScroll").scrollHeight;
-  updateSummaryButton();
+  typeTranscriptText(text, line.text, () => {
+    state.lines.push(line);
+    updateSummaryButton();
+  });
 }
 function updateTimers() {
   const time = clock(state.elapsed);
@@ -106,6 +194,8 @@ function updateTranscriptionUI() {
 }
 function setRecording(active) {
   state.recording = active;
+  if (active) advanceTyping();
+  else pauseTyping();
   document.body.classList.toggle("is-recording", active);
   if (active) state.hasStarted = true;
   $("phoneRecord").disabled = active;
@@ -146,9 +236,16 @@ function startRecording() {
 }
 function makeSummaryText(lines) {
   const personLines = lines.filter(line => line.kind === "person");
-  if (!personLines.length) return "I den här delen ställdes frågor om händelseförloppet. Inga uppgifter från den hörande har lagts till i demotexten ännu.";
-  const timeMention = personLines.find(line => /klockan|halv|runt|före|tio i/i.test(line.text));
-  return `Person A uppger att hen kom till kontoret strax före klockan åtta och gick in via huvudentrén. Senare fick hen ett kort samtal från en kollega, uppskattningsvis runt halv tio. Tidsangivelsen är enligt Person A en uppskattning. (${personLines.length} yttranden i denna del.)${timeMention ? "" : ""}`;
+  if (!personLines.length) return "I den här delen ställdes frågor om händelseförloppet. Inga uppgifter från Person A finns med i den här delsammanfattningen ännu.";
+  const points = [...new Set(personLines.map(line => line.summary).filter(Boolean))];
+  const topics = [...new Set(lines.map(line => line.topic))];
+  const questions = lines.filter(line => line.kind === "speaker").length;
+  const uncertain = personLines.some(line => line.uncertain);
+  const details = points.length ? points.map(point => `• ${point}`).join("\n") : `• Person A lämnade ${personLines.length} yttranden i den här delen. Uppgifterna behöver läsas tillsammans med de fullständiga transkriberade svaren.`;
+  const review = uncertain
+    ? "Flera uppgifter, särskilt tider och minnesbilder, angavs som ungefärliga eller osäkra. De bör kontrolleras mot möjliga stöd som mejl, kalender och passerkortsloggar."
+    : "Sammanfattningen återger Person A:s uppgifter. Kontrollera dem mot den fullständiga transkriberingen och eventuella stödhandlingar.";
+  return `PERSON A:S UPPGIFTER\n${details}\n\nFÖRHÖRSLEDARENS FÖLJDFRÅGOR\n${questions} frågor berörde ${topics.join(", ").toLowerCase()}. Sammanfattningen bygger på ${personLines.length} transkriberade svar i den här delen.\n\nATT KONTROLLERA\n${review}`;
 }
 function createSummary() {
   if (state.lines.length === state.lastSummarized) {
@@ -220,6 +317,8 @@ $("phoneRecord").addEventListener("click", startRecording);
 $("phonePause").addEventListener("click", () => setRecording(false));
 $("transcriptionToggle").addEventListener("change", event => {
   state.transcriptionEnabled = event.target.checked;
+  if (state.transcriptionEnabled) advanceTyping();
+  else pauseTyping();
   updateTranscriptionUI();
   if (state.recording && !state.transcriptionEnabled) showToast("Ljudet spelas in vidare. Transkriberingen är avstängd.");
   else if (state.recording) showToast("Transkribering på. Nya yttranden visas löpande.");
