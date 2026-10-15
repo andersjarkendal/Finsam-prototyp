@@ -293,6 +293,61 @@ function addTranscriptLine(line) {
     updateSummaryButton();
   });
 }
+const transcriptMarkStatus = $("transcriptMarkStatus");
+const transcriptMarkButtons = Array.from($("transcriptMarkingToolbar").querySelectorAll("[data-transcript-mark]"));
+const transcriptMarkLabels = { cite: "citerad", exclude: "utesluten", other: "annan markering" };
+
+function getTranscriptSelectionRange() {
+  const selection = window.getSelection();
+  if (!selection || selection.isCollapsed || selection.rangeCount === 0) return null;
+  const range = selection.getRangeAt(0);
+  const startNode = range.startContainer.nodeType === Node.ELEMENT_NODE ? range.startContainer : range.startContainer.parentElement;
+  const endNode = range.endContainer.nodeType === Node.ELEMENT_NODE ? range.endContainer : range.endContainer.parentElement;
+  const startLine = startNode?.closest(".transcript-text");
+  const endLine = endNode?.closest(".transcript-text");
+  if (!startLine || startLine !== endLine || !transcriptList.contains(startLine) || startLine.classList.contains("is-typing")) return null;
+  return range;
+}
+
+function updateTranscriptMarkControls() {
+  const canMark = Boolean(getTranscriptSelectionRange());
+  transcriptMarkButtons.forEach(button => { button.disabled = !canMark; });
+  if (!canMark && !transcriptMarkStatus.dataset.result) {
+    transcriptMarkStatus.textContent = "Markera text i ett yttrande för att välja en markering.";
+  } else if (canMark) {
+    delete transcriptMarkStatus.dataset.result;
+    transcriptMarkStatus.textContent = "Välj hur den markerade texten ska märkas.";
+  }
+}
+
+function applyTranscriptMark(type) {
+  const range = getTranscriptSelectionRange();
+  if (!range || !range.toString().trim()) {
+    transcriptMarkStatus.textContent = "Markera text i ett färdigtranskriberat yttrande först.";
+    return;
+  }
+  const mark = document.createElement("mark");
+  mark.className = `transcript-mark transcript-mark-${type}`;
+  mark.dataset.markType = type;
+  mark.title = `Texten är markerad som ${transcriptMarkLabels[type]}.`;
+  mark.appendChild(range.extractContents());
+  range.insertNode(mark);
+  window.getSelection()?.removeAllRanges();
+  transcriptMarkStatus.dataset.result = "true";
+  transcriptMarkStatus.textContent = `Texten markerades som ${transcriptMarkLabels[type]}.`;
+  updateTranscriptMarkControls();
+  transcriptMarkStatus.dataset.result = "true";
+}
+
+document.addEventListener("selectionchange", updateTranscriptMarkControls);
+$("transcriptMarkingToolbar").addEventListener("pointerdown", event => {
+  if (event.target.closest("[data-transcript-mark]")) event.preventDefault();
+});
+$("transcriptMarkingToolbar").addEventListener("click", event => {
+  const button = event.target.closest("[data-transcript-mark]");
+  if (button && !button.disabled) applyTranscriptMark(button.dataset.transcriptMark);
+});
+
 function updateTimers() {
   const time = clock(state.elapsed);
   $("timer").textContent = time;
@@ -763,7 +818,7 @@ $("editFinal").addEventListener("click", () => {
   $("editFinal").textContent = "Spara";
 });
 $("finishSession").addEventListener("click", () => { if (!state.finalCreated || state.finalDirty) return; setRecording(false); showToast("Förhöret avslutades i demot."); });
-$("addNote").addEventListener("click", () => showToast("Anteckningsfält ingår inte i den här första demon."));
+
 const speechPhrases = [[4, 13], [17, 27], [32, 43], [48, 56]];
 for (let i = 0; i < 120; i++) {
   const bar = document.createElement("i");
