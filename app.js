@@ -67,7 +67,7 @@ const toast = $("toast");
 
 // Keep each status panel movable within its parent, while preserving their left-to-right order.
 const recordingStatuses = $("recordingStatuses");
-const statusPositionStorageKey = "finsam-status-card-positions-v2";
+const statusPositionStorageKey = "finsam-status-card-positions-v3";
 const statusCards = Array.from(recordingStatuses.querySelectorAll("[data-status-card]"));
 const audioStatusCard = $("audioStatusCard");
 const transcriptionStatusCard = $("transcriptionStatusCard");
@@ -192,7 +192,7 @@ initializeStatusPositions();
 // Keep the remote-control unit movable inside its own area, like the status cards.
 const remoteControlArea = recordingStatuses;
 const remoteControlUnit = $("remoteControlUnit");
-const remotePositionStorageKey = "finsam-remote-control-position-v2";
+const remotePositionStorageKey = "finsam-remote-control-position-v3";
 let remotePosition = { x: 0, y: 0 };
 let activeRemoteDrag = null;
 function remoteControlSize() {
@@ -222,7 +222,51 @@ function saveRemotePosition() {
   try { localStorage.setItem(remotePositionStorageKey, JSON.stringify(remotePosition)); }
   catch (_) { /* Positioning still works until reload if storage is unavailable. */ }
 }
+function resolveSharedPanelPositions(nextStatuses, nextRemoteX, movingId) {
+  const bounded = constrainStatusPositions(
+    nextStatuses,
+    movingId === "audioStatusCard" || movingId === "transcriptionStatusCard" ? movingId : null
+  );
+  const panels = [
+    { id: "audioStatusCard", x: bounded.audioStatusCard.x, width: statusCardSize(audioStatusCard).width },
+    { id: "transcriptionStatusCard", x: bounded.transcriptionStatusCard.x, width: statusCardSize(transcriptionStatusCard).width },
+    { id: "remoteControlUnit", x: clamp(nextRemoteX, 0, Math.max(0, remoteControlArea.clientWidth - remoteControlSize().width)), width: remoteControlSize().width }
+  ];
+  panels.sort((left, right) => left.x - right.x || ["audioStatusCard", "transcriptionStatusCard", "remoteControlUnit"].indexOf(left.id) - ["audioStatusCard", "transcriptionStatusCard", "remoteControlUnit"].indexOf(right.id));
+  const audioIndex = panels.findIndex(panel => panel.id === "audioStatusCard");
+  const transcriptionIndex = panels.findIndex(panel => panel.id === "transcriptionStatusCard");
+  if (audioIndex > transcriptionIndex) {
+    const [audio] = panels.splice(audioIndex, 1);
+    panels.splice(panels.findIndex(panel => panel.id === "transcriptionStatusCard"), 0, audio);
+  }
+
+  const areaWidth = remoteControlArea.clientWidth;
+  const totalPanelWidth = panels.reduce((sum, panel) => sum + panel.width, 0);
+  const gap = Math.min(statusGap, Math.max(0, (areaWidth - totalPanelWidth) / Math.max(1, panels.length - 1)));
+  let previousRight = 0;
+  panels.forEach((panel, index) => {
+    const trailingWidth = panels.slice(index + 1).reduce((sum, trailing) => sum + trailing.width, 0);
+    const trailingGaps = (panels.length - index - 1) * gap;
+    const minimumX = index === 0 ? 0 : previousRight + gap;
+    const maximumX = Math.max(minimumX, areaWidth - panel.width - trailingWidth - trailingGaps);
+    panel.x = clamp(panel.x, minimumX, maximumX);
+    previousRight = panel.x + panel.width;
+  });
+
+  const resolvedStatuses = {
+    audioStatusCard: { ...bounded.audioStatusCard },
+    transcriptionStatusCard: { ...bounded.transcriptionStatusCard }
+  };
+  for (const panel of panels) {
+    if (panel.id === "audioStatusCard" || panel.id === "transcriptionStatusCard") {
+      resolvedStatuses[panel.id].x = panel.x;
+    }
+  }
+  renderStatusPositions(resolvedStatuses);
+  renderRemotePosition(panels.find(panel => panel.id === "remoteControlUnit").x);
+}
 initializeRemotePosition();
+resolveSharedPanelPositions(statusPositions, remotePosition.x, null);
 remoteControlUnit.addEventListener("pointerdown", event => {
   if (event.button !== undefined && event.button !== 0) return;
   if (event.target.closest("button")) return;
@@ -234,23 +278,27 @@ remoteControlUnit.addEventListener("pointerdown", event => {
 remoteControlUnit.addEventListener("keydown", event => {
   if (event.target !== remoteControlUnit) return;
   const step = event.shiftKey ? 64 : 20;
-  if (event.key === "ArrowLeft") renderRemotePosition(remotePosition.x - step);
-  else if (event.key === "ArrowRight") renderRemotePosition(remotePosition.x + step);
-  else if (event.key === "Home") renderRemotePosition(0);
-  else if (event.key === "End") renderRemotePosition(remoteControlArea.clientWidth - remoteControlSize().width);
+  let nextX;
+  if (event.key === "ArrowLeft") nextX = remotePosition.x - step;
+  else if (event.key === "ArrowRight") nextX = remotePosition.x + step;
+  else if (event.key === "Home") nextX = 0;
+  else if (event.key === "End") nextX = remoteControlArea.clientWidth - remoteControlSize().width;
   else return;
   event.preventDefault();
+  resolveSharedPanelPositions(statusPositions, nextX, "remoteControlUnit");
+  saveStatusPositions();
   saveRemotePosition();
 });
 window.addEventListener("pointermove", event => {
   const drag = activeRemoteDrag;
   if (!drag || drag.pointerId !== event.pointerId) return;
-  renderRemotePosition(drag.originX + event.clientX - drag.startX);
+  resolveSharedPanelPositions(statusPositions, drag.originX + event.clientX - drag.startX, "remoteControlUnit");
 });
 function finishRemoteDrag(event) {
   if (!activeRemoteDrag || (event && activeRemoteDrag.pointerId !== event.pointerId)) return;
   remoteControlUnit.classList.remove("is-dragging");
   activeRemoteDrag = null;
+  saveStatusPositions();
   saveRemotePosition();
 }
 window.addEventListener("pointerup", finishRemoteDrag);
@@ -279,26 +327,28 @@ for (const card of statusCards) {
     else if (event.key === "End") current.x = recordingStatuses.clientWidth - statusCardSize(card).width;
     else return;
     event.preventDefault();
-    renderStatusPositions({ ...statusPositions, [card.id]: current }, card.id);
+    resolveSharedPanelPositions({ ...statusPositions, [card.id]: current }, remotePosition.x, card.id);
     saveStatusPositions();
+    saveRemotePosition();
   });
 }
 window.addEventListener("pointermove", event => {
   const drag = activeStatusDrag;
   if (!drag || drag.pointerId !== event.pointerId) return;
-  renderStatusPositions({
+  resolveSharedPanelPositions({
     ...statusPositions,
     [drag.card.id]: {
       x: drag.origin.x + event.clientX - drag.startX,
       y: drag.origin.y
     }
-  }, drag.card.id);
+  }, remotePosition.x, drag.card.id);
 });
 function finishStatusDrag(event) {
   if (!activeStatusDrag || (event && activeStatusDrag.pointerId !== event.pointerId)) return;
   activeStatusDrag.card.classList.remove("is-dragging");
   activeStatusDrag = null;
   saveStatusPositions();
+  saveRemotePosition();
 }
 window.addEventListener("pointerup", finishStatusDrag);
 window.addEventListener("pointercancel", finishStatusDrag);
