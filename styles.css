@@ -1622,3 +1622,113 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .remote-control-actions{gap:6px}
   .remote-control-actions>.remote-action{padding:7px 8px;font-size:12px}
 }
+
+
+/* One shared drag area for recording, transcription and remote-control panels. */
+.recording-status-boundary{display:none!important}
+.status-remote-group{
+  position:relative;
+  display:block!important;
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  height:168px;
+  min-height:168px;
+}
+.recording-statuses{
+  position:relative!important;
+  display:block!important;
+  box-sizing:border-box;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:168px!important;
+  min-height:168px!important;
+  max-height:168px!important;
+  flex:none!important;
+  overflow:hidden!important;
+}
+.recording-statuses-heading{top:4px!important;left:0!important}
+.recording-status-card[data-status-card]{
+  width:340px!important;
+  min-width:340px!important;
+  max-width:340px!important;
+  height:96px!important;
+  min-height:96px!important;
+  max-height:96px!important;
+}
+.remote-control-area{display:contents!important}
+.remote-control-unit{
+  position:absolute!important;
+  top:4px!important;
+  width:340px!important;
+  max-width:calc(100% - 4px)!important;
+  touch-action:none;
+  cursor:grab;
+}
+.remote-control-unit.is-dragging{cursor:grabbing}
+.remote-control-panel{
+  box-sizing:border-box;
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  width:340px!important;
+  max-width:100%!important;
+  height:96px!important;
+  min-height:96px!important;
+  max-height:96px!important;
+  padding:8px!important;
+}
+.remote-control-actions{
+  display:flex!important;
+  align-items:center;
+  justify-content:center!important;
+  flex-wrap:nowrap!important;
+  width:100%!important;
+  max-width:100%!important;
+  gap:8px;
+}
+.remote-control-actions>.remote-action{
+  flex:0 1 auto!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:190px!important;
+}
+.session-strip-main{column-gap:16px!important}
+@media(min-width:1600px){
+  .session-strip-main{
+    grid-template-columns:minmax(1050px,1.6fr) minmax(300px,1fr)!important;
+    gap:16px!important;
+    width:calc(100% - 165px)!important;
+  }
+  .status-remote-group{min-width:1050px}
+  .recording-statuses{min-width:1050px!important}
+}
+@media(min-width:1201px) and (max-width:1599px){
+  .session-strip-main{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:12px!important;
+    width:100%!important;
+  }
+  .status-remote-group{grid-column:1;grid-row:1;width:100%;min-width:0}
+  .recording-statuses{min-width:0!important}
+  .followup-suggestions{grid-column:1;grid-row:2;width:100%;min-width:0;margin:0}
+}
+@media(max-width:1200px){
+  .session-strip-main{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:12px!important;
+    width:100%!important;
+  }
+  .status-remote-group{grid-column:1;grid-row:1;width:100%;min-width:0}
+  .recording-statuses{min-width:0!important}
+  .followup-suggestions{grid-column:1;grid-row:2;width:100%;min-width:0;margin:0}
+}
+@media(max-width:620px){
+  .recording-statuses{height:168px!important;min-height:168px!important}
+  .recording-status-card[data-status-card]{width:340px!important;min-width:340px!important}
+  .remote-control-unit{width:340px!important}
+  .remote-control-panel{width:340px!important}
+}
