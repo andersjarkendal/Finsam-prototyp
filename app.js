@@ -285,22 +285,7 @@ function updateTimers() {
 }
 function updateTranscriptionUI() {
   const { recording, transcriptionEnabled } = state;
-  const badge = $("transcriptStateBadge");
-  const badgeLabel = $("transcriptStateLabel");
   const notice = $("transcriptionPausedNotice");
-  if (recording && transcriptionEnabled) {
-    badgeLabel.textContent = "TRANSKRIBERING PÅ";
-  } else if (recording) {
-    badgeLabel.textContent = "LJUD PÅ · TRANSKRIBERING AV";
-  } else if (state.hasStarted && transcriptionEnabled) {
-    badgeLabel.textContent = "LJUD PAUSAT · TRANSKRIBERING VÄNTAR";
-  } else if (state.hasStarted) {
-    badgeLabel.textContent = "LJUD PAUSAT · TRANSKRIBERING AV";
-  } else if (transcriptionEnabled) {
-    badgeLabel.textContent = "TRANSKRIBERING PÅSLAGEN";
-  } else {
-    badgeLabel.textContent = "TRANSKRIBERING AV";
-  }
   const transcriptionStatus = recording
     ? transcriptionEnabled ? "PÅGÅR" : "AV"
     : state.hasStarted
@@ -317,8 +302,6 @@ function updateTranscriptionUI() {
   $("transcriptionStatusCard").classList.toggle("is-off", !transcriptionEnabled);
   $("transcriptionStatusCard").classList.toggle("is-waiting", state.hasStarted && !recording && transcriptionEnabled);
   $("transcriptionStatusCard").classList.toggle("is-active", recording && transcriptionEnabled);
-  badge.classList.toggle("transcript-off", !transcriptionEnabled);
-  badge.classList.toggle("transcript-live", recording && transcriptionEnabled);
   notice.classList.toggle("hidden", transcriptionEnabled && !(state.hasStarted && !recording));
   if (!transcriptionEnabled) {
     notice.textContent = recording
