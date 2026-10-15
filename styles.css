@@ -174,7 +174,6 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:4px solid #0
 @media(prefers-reduced-motion:reduce){.phone-frame{transition:none}.phone-record-card.recording .phone-wave{animation:none}}
 
 /* Separate audio capture from transcription and make the choice explicit. */
-.transcription-options{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:16px 20px;padding:15px 17px;border:2px solid #9bcac3;border-radius:10px;background:#eff8f6}
 .transcription-toggle{position:relative;display:flex;align-items:center;gap:14px;min-height:58px;cursor:pointer}
 .transcription-toggle input{position:absolute;width:48px;height:32px;left:0;top:50%;transform:translateY(-50%);opacity:0;cursor:pointer;z-index:2}
 .toggle-switch{position:relative;display:block;flex:0 0 56px;width:56px;height:32px;border-radius:99px;background:#77898c;border:2px solid #5d7477;transition:background .16s ease}
@@ -185,7 +184,6 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:4px solid #0
 .toggle-copy{display:flex;flex-direction:column;gap:3px}
 .toggle-copy b{font-size:16px;line-height:1.35;color:#173b40}
 .toggle-copy small{font-size:13px;line-height:1.45;color:#3e5a5e}
-.transcription-state{max-width:265px;padding:9px 12px;border-radius:8px;background:#fff;border:1px solid #b7d8d1;color:#184f4f;font-size:13px;font-weight:700;line-height:1.4}
 .transcript-off{background:#fff0e8!important;color:#7b321e!important;border:1px solid #dc9a7f!important}
 .transcript-live{background:#e5f6ef!important;color:#145c45!important;border:1px solid #9bcbb4!important}
 .transcription-paused-notice{margin:12px 0 18px;padding:15px 16px;border-left:6px solid #bd642e;border-radius:5px;background:#fff2e8;color:#622d18;font-size:14px;font-weight:700;line-height:1.55}
@@ -206,8 +204,7 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:4px solid #0
 .device-controls-panel .record-control:not(:disabled):hover{background:#96382d}
 .device-controls-panel .record-control:disabled{background:#fff0ec;color:#7d3027;border:2px solid #d49488}
 .device-controls-panel .pause-control:disabled,.mobile-preview-panel .phone-secondary-controls button:disabled{opacity:.55}
-@media(max-width:900px){.transcription-options{align-items:flex-start;flex-direction:column}.transcription-state{max-width:none;width:100%}}
-@media(max-width:620px){.transcription-options{margin:12px;padding:12px}.transcription-toggle{align-items:flex-start}.toggle-copy b{font-size:15px}.toggle-copy small{font-size:13px}.transcription-state{font-size:13px}.transcription-paused-notice{font-size:13px}}
+@media(max-width:620px){.transcription-toggle{align-items:flex-start}.toggle-copy b{font-size:15px}.toggle-copy small{font-size:13px}.transcription-paused-notice{font-size:13px}}
 .phone-connection-status{margin:12px 18px;padding:12px;border-radius:9px}
 
 /* The mobile recorder stays locked until the desktop pairing flow completes. */
@@ -304,4 +301,22 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:4px solid #0
   .session-strip-main{flex:0 1 auto;justify-content:center}
   .recording-statuses{justify-content:center}
   .session-strip .timer-block{position:absolute;top:50%;right:18px;transform:translateY(-50%)}
+}
+
+/* Keep transcription control on the transcript panel's heading row. */
+.transcript-panel-heading{align-items:center;gap:16px;flex-wrap:wrap}
+.transcript-heading-copy{flex:1 1 260px;min-width:0}
+.transcript-heading-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex:0 1 auto;margin-left:auto}
+.transcript-toggle-header{min-height:46px;padding:6px 10px;gap:9px;border:1px solid #c6ded9;border-radius:8px;background:#f2f8f6}
+.transcript-toggle-header .toggle-copy{order:1}
+.transcript-toggle-header .toggle-copy b{font-size:14px;white-space:nowrap}
+.transcript-toggle-header .toggle-copy small{font-size:11px;white-space:nowrap}
+.transcript-toggle-header .toggle-switch{order:2;flex:0 0 48px;width:48px;height:28px}
+.transcript-toggle-header .toggle-switch::after{width:20px;height:20px;left:2px;top:2px}
+.transcript-toggle-header input:checked+.toggle-switch::after{transform:translateX(20px)}
+.transcript-panel-heading .text-button{flex-shrink:0}
+@media(max-width:620px){
+  .transcript-heading-copy{flex-basis:100%}
+  .transcript-heading-actions{width:100%;justify-content:space-between;margin-left:0}
+  .transcript-toggle-header{align-items:center}
 }
