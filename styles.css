@@ -946,7 +946,8 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   background:#fff1b3;
   box-shadow:0 0 0 4px rgba(255,204,0,.35),0 8px 18px rgba(0,35,75,.18);
 }
-.followup-suggestions.is-hidden-by-user{display:none!important}
+.followup-suggestions.is-hidden-by-user #followupQuestionList,
+.followup-suggestions.is-hidden-by-user>.followup-empty{display:none!important}
 .followup-expanded.is-floating{
   position:fixed!important;
   z-index:1000;
