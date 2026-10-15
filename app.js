@@ -511,11 +511,6 @@ function renderSummaries() {
 function updateFinishSessionAvailability() {
   const ready = state.finalCreated && !state.finalDirty;
   $("finishSession").disabled = !ready;
-  $("finishSessionHelp").textContent = ready
-    ? "Slutsammanfattningen är klar. Förhöret kan avslutas."
-    : state.finalCreated
-      ? "Uppdatera slutsammanfattningen innan du avslutar."
-      : "Skapa en slutsammanfattning för att aktivera knappen.";
 }
 function createFinal() {
   if (!state.summaries.length) return;
