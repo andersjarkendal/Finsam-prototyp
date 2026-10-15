@@ -437,6 +437,7 @@ let openFollowupQuestion = null;
 let activeFollowupDrag = null;
 
 function renderFollowupQuestions(summaryNumber) {
+  if (openFollowupQuestion) closeFollowupCard(false);
   const panel = $("followupSuggestions");
   const showQuestions = $("followupToggle")?.checked ?? true;
   panel.innerHTML = `<div class="followup-heading"><b>FÖRHÖRSANALYS</b><label class="followup-toggle" for="followupToggle"><span>Visa följdfrågor</span><input id="followupToggle" type="checkbox" ${showQuestions ? "checked" : ""} aria-controls="followupQuestionList"><span class="followup-toggle-switch" aria-hidden="true"></span></label></div><div class="followup-list" id="followupQuestionList"></div>`;
