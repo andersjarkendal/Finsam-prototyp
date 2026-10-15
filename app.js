@@ -381,7 +381,6 @@ function updateTimers() {
 }
 function updateTranscriptionUI() {
   const { recording, transcriptionEnabled } = state;
-  const notice = $("transcriptionPausedNotice");
   const transcriptionStatus = recording
     ? transcriptionEnabled ? "PÅGÅR" : "AV"
     : state.hasStarted
@@ -398,14 +397,6 @@ function updateTranscriptionUI() {
   $("transcriptionStatusCard").classList.toggle("is-off", !transcriptionEnabled);
   $("transcriptionStatusCard").classList.toggle("is-waiting", state.hasStarted && !recording && transcriptionEnabled);
   $("transcriptionStatusCard").classList.toggle("is-active", recording && transcriptionEnabled);
-  notice.classList.toggle("hidden", transcriptionEnabled && !(state.hasStarted && !recording));
-  if (!transcriptionEnabled) {
-    notice.textContent = recording
-      ? "LJUDINSPELNINGEN FORTSÄTTER · TRANSKRIBERINGEN ÄR AV. Slå på transkribering när du vill att nya yttranden ska visas som text."
-      : "TRANSKRIBERINGEN ÄR AV. Ljudet spelas bara in när du startar ljudinspelningen.";
-  } else if (state.hasStarted && !recording) {
-    notice.textContent = "LJUDINSPELNINGEN ÄR PAUSAD. Transkriberingen fortsätter när du återupptar ljudinspelningen.";
-  }
   if (state.lines.length === 0) {
     const title = $("transcriptPlaceholderTitle");
     const copy = $("transcriptPlaceholderText");
