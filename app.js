@@ -256,7 +256,7 @@ function advanceTyping() {
     if (!state.recording || !state.transcriptionEnabled) return;
     job.index += 1;
     job.element.textContent = job.text.slice(0, job.index);
-    $("transcriptScroll").scrollTop = $("transcriptScroll").scrollHeight;
+    handleTranscriptContentGrowth();
     if (job.index >= job.text.length) {
       job.element.classList.remove("is-typing");
       state.typingJob = null;
@@ -287,7 +287,7 @@ function addTranscriptLine(line) {
   row.append(time, speaker, text);
   transcriptList.appendChild(row);
   setTimeout(() => row.classList.remove("new-line"), 1400);
-  $("transcriptScroll").scrollTop = $("transcriptScroll").scrollHeight;
+  handleTranscriptContentGrowth();
   typeTranscriptText(text, line.text, () => {
     state.lines.push(line);
     updateSummaryButton();
@@ -872,4 +872,42 @@ updateTranscriptionUI();
   window.addEventListener('resize',syncPanelHeight,{passive:true});
   media.addEventListener?.('change',syncPanelHeight);
   requestAnimationFrame(syncPanelHeight);
+})();
+
+
+// Preserve the reader's position while new transcript text arrives.
+const transcriptFollowState={followingLatest:true,hasUnread:false};
+function handleTranscriptContentGrowth(){
+  const scroller=$("transcriptScroll");
+  const jumpButton=$("transcriptLatestButton");
+  if(!scroller||!jumpButton)return;
+  if(transcriptFollowState.followingLatest){
+    scroller.scrollTop=scroller.scrollHeight;
+    transcriptFollowState.hasUnread=false;
+    jumpButton.hidden=true;
+  }else{
+    transcriptFollowState.hasUnread=true;
+    jumpButton.hidden=false;
+  }
+}
+(()=>{
+  const scroller=$("transcriptScroll");
+  const jumpButton=$("transcriptLatestButton");
+  if(!scroller||!jumpButton)return;
+  scroller.addEventListener("scroll",()=>{
+    const distanceToBottom=scroller.scrollHeight-scroller.scrollTop-scroller.clientHeight;
+    if(distanceToBottom<=36){
+      transcriptFollowState.followingLatest=true;
+      transcriptFollowState.hasUnread=false;
+      jumpButton.hidden=true;
+    }else{
+      transcriptFollowState.followingLatest=false;
+    }
+  },{passive:true});
+  jumpButton.addEventListener("click",()=>{
+    transcriptFollowState.followingLatest=true;
+    scroller.scrollTop=scroller.scrollHeight;
+    transcriptFollowState.hasUnread=false;
+    jumpButton.hidden=true;
+  });
 })();
