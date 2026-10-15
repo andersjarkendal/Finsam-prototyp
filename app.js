@@ -209,12 +209,12 @@ function setRecording(active) {
   if (active) {
     if (!state.timerId) state.timerId = setInterval(() => { state.elapsed += 1; updateTimers(); }, 1000);
     if (!state.feedId) state.feedId = setInterval(() => {
-      if (!state.recording || state.nextLine >= demoLines.length) return;
+      if (!state.recording || state.nextLine >= demoDialogue.length) return;
       if (!state.transcriptionEnabled) { state.nextLine += 1; return; }
-      addTranscriptLine(demoLines[state.nextLine++]);
+      addTranscriptLine(demoDialogue[state.nextLine++]);
     }, 5200);
-    if (state.lines.length === 0 && state.nextLine < demoLines.length) {
-      if (state.transcriptionEnabled) addTranscriptLine(demoLines[state.nextLine++]);
+    if (state.lines.length === 0 && state.nextLine < demoDialogue.length) {
+      if (state.transcriptionEnabled) addTranscriptLine(demoDialogue[state.nextLine++]);
       else state.nextLine += 1;
     }
   } else {
