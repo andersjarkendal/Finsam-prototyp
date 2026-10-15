@@ -284,3 +284,16 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:4px solid #0
 
 /* Let the desktop workspace use the full available screen width. */
 .desktop-view{width:100%;max-width:none;margin-left:0;margin-right:0}
+
+/* Keep the phone panel compact; give the transcript and summaries the space. */
+.work-grid{grid-template-columns:minmax(315px,360px) minmax(420px,1.65fr) minmax(320px,1.15fr);gap:18px}
+@media(max-width:1140px){
+  .work-grid{grid-template-columns:minmax(315px,360px) minmax(0,1fr);gap:16px}
+  .mobile-preview-panel{grid-column:1;grid-row:1}
+  .transcript-panel{grid-column:2;grid-row:1}
+  .summary-column{grid-column:1/-1;grid-row:2}
+}
+@media(max-width:850px){
+  .work-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+  .mobile-preview-panel,.transcript-panel,.summary-column{grid-column:1;grid-row:auto}
+}
