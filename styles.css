@@ -936,3 +936,51 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   outline:4px solid #003366;
   outline-offset:3px;
 }
+
+
+/* A single movable detail panel stays associated with its highlighted question tile. */
+.followup-list.has-open-followup .followup-card:not(.is-selected){display:none}
+.followup-card.is-selected .followup-tile{
+  border:3px solid #003366;
+  border-bottom:7px solid #ffcc00;
+  background:#fff1b3;
+  box-shadow:0 0 0 4px rgba(255,204,0,.35),0 8px 18px rgba(0,35,75,.18);
+}
+.followup-suggestions.is-hidden-by-user{display:none!important}
+.followup-expanded.is-floating{
+  position:fixed!important;
+  z-index:1000;
+  width:min(480px,calc(100vw - 32px));
+  max-height:calc(100vh - 32px);
+  padding:22px;
+  border:3px solid #003366;
+  border-top:8px solid #ffcc00;
+  border-radius:16px;
+  box-shadow:0 22px 60px rgba(0,25,55,.34);
+}
+.followup-expanded.is-floating .followup-expanded-head{
+  position:sticky;
+  top:-22px;
+  z-index:1;
+  margin:-22px -22px 16px;
+  padding:14px 16px;
+  border-bottom:1px solid #d9e2eb;
+  border-radius:12px 12px 0 0;
+  background:#f7f9fc;
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+}
+.followup-expanded.is-floating .followup-expanded-head.is-dragging{cursor:grabbing}
+.followup-expanded.is-floating .followup-close{cursor:pointer}
+.followup-expanded.is-floating .followup-source{font-size:13px}
+.followup-expanded.is-floating .followup-question{font-size:21px}
+.followup-expanded.is-floating .followup-visual{padding:14px}
+.followup-expanded.is-floating .followup-visual figcaption{font-size:13px}
+.followup-expanded.is-floating .followup-visual svg{max-height:190px}
+.followup-expanded.is-floating .followup-asked{min-height:56px;font-size:16px}
+@media(max-width:620px){
+  .followup-expanded.is-floating{width:calc(100vw - 24px);max-height:calc(100vh - 24px);padding:16px}
+  .followup-expanded.is-floating .followup-expanded-head{top:-16px;margin:-16px -16px 12px;padding:12px}
+  .followup-expanded.is-floating .followup-question{font-size:18px}
+}
