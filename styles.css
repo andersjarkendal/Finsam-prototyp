@@ -430,3 +430,25 @@ a:focus-visible,button:focus-visible{outline-color:#003366}
   #protocolTabPanel .final-result{padding:13px}
   #protocolTabPanel .final-result-body{font-size:13px}
 }
+
+/* Resize the transcript and protocol-summary panels on wide desktop screens. */
+.work-grid{grid-template-columns:minmax(315px,360px) minmax(380px,var(--transcript-panel-width,1.65fr)) 14px minmax(300px,var(--summary-panel-width,1.15fr));column-gap:14px}
+.transcript-panel{grid-column:2;grid-row:1;min-width:0}
+.summary-column{grid-column:4;grid-row:1;min-width:0}
+.panel-resizer{grid-column:3;grid-row:1;display:flex;align-items:center;justify-content:center;gap:4px;min-width:14px;padding:0;cursor:col-resize;touch-action:none;user-select:none;outline:none}
+.panel-resizer span{display:block;width:4px;height:4px;border-radius:50%;background:#8093a7;transition:transform .16s ease,background .16s ease}
+.panel-resizer:hover span,.panel-resizer:focus-visible span,.is-panel-resizing .panel-resizer span{background:#003366;transform:scale(1.25)}
+.panel-resizer:focus-visible{border-radius:8px;outline:3px solid #ffcc00;outline-offset:-2px}
+body.is-panel-resizing{cursor:col-resize;user-select:none}
+body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
+@media(max-width:1350px){
+  .work-grid{grid-template-columns:minmax(315px,360px) minmax(0,1fr);column-gap:16px}
+  .mobile-preview-panel{grid-column:1;grid-row:1}
+  .transcript-panel{grid-column:2;grid-row:1}
+  .panel-resizer{display:none}
+  .summary-column{grid-column:1/-1;grid-row:2}
+}
+@media(max-width:850px){
+  .work-grid{grid-template-columns:minmax(0,1fr);row-gap:14px}
+  .mobile-preview-panel,.transcript-panel,.summary-column{grid-column:1;grid-row:auto}
+}
