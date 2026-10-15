@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#003366" />
     <title>Förhörsflöde · Prototyp</title>
-    <link rel="stylesheet" href="styles.css?v=20261015-2051" />
+    <link rel="stylesheet" href="styles.css?v=20261015-2052" />
   </head>
   <body>
     <div class="prototype-banner"><span class="demo-dot"></span> PROTOTYP · ENDAST EXEMPELDATA · INGEN LJUDINSPELNING</div>
@@ -77,10 +77,13 @@
                     </label>
                   </div>
                 </div>
-                <div class="transcript-scroll" id="transcriptScroll">
-                  <div class="transcription-paused-notice hidden" id="transcriptionPausedNotice" role="status"></div>
-                  <div class="transcript-list" id="transcriptList" aria-live="polite"></div>
-                  <div class="transcript-placeholder" id="transcriptPlaceholder"><span class="placeholder-mic">◖</span><b id="transcriptPlaceholderTitle">Redo när du är</b><p id="transcriptPlaceholderText">Starta ljudinspelningen direkt på mobilen. Transkriberingen visas här om den är påslagen.</p></div>
+                <div class="transcript-scroll-region">
+                  <div class="transcript-scroll" id="transcriptScroll">
+                    <div class="transcription-paused-notice hidden" id="transcriptionPausedNotice" role="status"></div>
+                    <div class="transcript-list" id="transcriptList" aria-live="polite"></div>
+                    <div class="transcript-placeholder" id="transcriptPlaceholder"><span class="placeholder-mic">◖</span><b id="transcriptPlaceholderTitle">Redo när du är</b><p id="transcriptPlaceholderText">Starta ljudinspelningen direkt på mobilen. Transkriberingen visas här om den är påslagen.</p></div>
+                  </div>
+                  <button class="transcript-latest-button" id="transcriptLatestButton" type="button" aria-label="Visa den senaste transkriberingen" title="Visa senaste texten" hidden><span aria-hidden="true">↓</span><span>Ny text</span></button>
                 </div>
                 <div class="transcript-marking-toolbar" id="transcriptMarkingToolbar" role="toolbar" aria-label="Markera transkriberad text">
                   <p class="transcript-marking-status" id="transcriptMarkStatus" aria-live="polite">Markera text i ett yttrande för att välja en markering.</p>
@@ -141,6 +144,6 @@
       </div>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20261015-2050"></script>
+    <script src="app.js?v=20261015-2052"></script>
   </body>
 </html>
