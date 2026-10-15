@@ -141,6 +141,10 @@ function renderStatusPositions(next, movingId = null) {
   statusPositions = constrainStatusPositions(next, movingId);
   for (const card of statusCards) {
     const position = statusPositions[card.id];
+    card.style.height = "96px";
+    card.style.minHeight = "96px";
+    card.style.maxHeight = "96px";
+    card.style.overflow = "hidden";
     card.style.left = `${position.x}px`;
     card.style.top = `${position.y}px`;
   }
