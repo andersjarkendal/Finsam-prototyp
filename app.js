@@ -433,40 +433,169 @@ function updateFollowupVisibility() {
 }
 followupToggle.addEventListener("change", updateFollowupVisibility);
 
+let openFollowupQuestion = null;
+let activeFollowupDrag = null;
+
 function renderFollowupQuestions(summaryNumber) {
-  const list = $("followupQuestionList");
-  list.innerHTML = "";
+  const panel = $("followupSuggestions");
+  const showQuestions = $("followupToggle")?.checked ?? true;
+  panel.innerHTML = `<div class="followup-heading"><b>FÖRHÖRSANALYS</b><label class="followup-toggle" for="followupToggle"><span>Visa följdfrågor</span><input id="followupToggle" type="checkbox" ${showQuestions ? "checked" : ""} aria-controls="followupQuestionList"><span class="followup-toggle-switch" aria-hidden="true"></span></label></div><div class="followup-list" id="followupQuestionList"></div>`;
+  const list = panel.querySelector(".followup-list");
   demoFollowupQuestions.slice(0, 3).forEach((item, index) => {
     const card = document.createElement("article");
     card.className = "followup-card";
-    card.innerHTML = `<button class="followup-tile" type="button" aria-expanded="false"><span class="followup-tile-icon" aria-hidden="true">${item.icon}</span><strong>${item.title}</strong></button><section class="followup-expanded" hidden><div class="followup-expanded-head"><span>FÖRSLAG ${index + 1} · DEL ${summaryNumber}</span><button type="button" class="followup-close" aria-label="Fäll ihop frågan">×</button></div><div class="followup-source">${item.source}</div><p class="followup-question">${item.question}</p><figure class="followup-visual"><figcaption>${item.visualTitle}<span>EXEMPEL</span></figcaption>${item.visual}</figure><label class="followup-asked"><input type="checkbox"><span>Frågan är ställd</span></label></section>`;
+    card.dataset.questionId = `followup-${summaryNumber}-${index + 1}`;
+    card.innerHTML = `<button class="followup-tile" type="button" aria-expanded="false" aria-label="Visa följdfråga: ${item.title}"><span class="followup-tile-icon" aria-hidden="true">${item.icon}</span><strong>${item.title}</strong></button><section class="followup-expanded" data-question-panel hidden><div class="followup-expanded-head" tabindex="0" aria-label="Dra för att flytta frågepanelen. Använd piltangenterna för att flytta den med tangentbordet."><span>FÖRSLAG ${index + 1} · DEL ${summaryNumber}</span><button type="button" class="followup-close" aria-label="Fäll ihop frågan">×</button></div><div class="followup-source">${item.source}</div><p class="followup-question">${item.question}</p><figure class="followup-visual"><figcaption>${item.visualTitle}<span>EXEMPEL</span></figcaption>${item.visual}</figure><label class="followup-asked"><input type="checkbox"><span>Frågan är ställd</span></label></section>`;
     list.appendChild(card);
   });
+  panel.classList.add("is-visible");
+  panel.classList.toggle("is-hidden-by-user", !showQuestions);
 }
+
+function openFollowupCard(card) {
+  if (openFollowupQuestion?.card === card) return;
+  if (openFollowupQuestion) closeFollowupCard(false);
+  const tile = card.querySelector(".followup-tile");
+  const detail = card.querySelector("[data-question-panel]");
+  const list = card.closest(".followup-list");
+  tile.setAttribute("aria-expanded", "true");
+  card.classList.add("is-selected");
+  list.classList.add("has-open-followup");
+  detail.hidden = false;
+  detail.classList.add("is-floating");
+  detail.setAttribute("role", "dialog");
+  detail.setAttribute("aria-label", `Följdfråga: ${tile.innerText.trim()}`);
+  document.body.appendChild(detail);
+  const rect = detail.getBoundingClientRect();
+  const left = Math.max(16, window.innerWidth - rect.width - 24);
+  const top = Math.max(16, window.innerHeight - rect.height - 24);
+  detail.style.left = `${left}px`;
+  detail.style.top = `${top}px`;
+  detail.style.right = "auto";
+  openFollowupQuestion = { card, tile, detail, list };
+  detail.querySelector(".followup-expanded-head").focus({ preventScroll: true });
+}
+
+function closeFollowupCard(returnFocus = true) {
+  if (!openFollowupQuestion) return;
+  const { card, tile, detail, list } = openFollowupQuestion;
+  detail.hidden = true;
+  detail.classList.remove("is-floating");
+  detail.removeAttribute("role");
+  detail.removeAttribute("aria-label");
+  detail.removeAttribute("style");
+  card.appendChild(detail);
+  card.classList.remove("is-selected");
+  tile.setAttribute("aria-expanded", "false");
+  list.classList.remove("has-open-followup");
+  openFollowupQuestion = null;
+  if (returnFocus && tile.isConnected) tile.focus();
+}
+
+function clampFollowupPanel() {
+  if (!openFollowupQuestion) return;
+  const panel = openFollowupQuestion.detail;
+  const rect = panel.getBoundingClientRect();
+  const left = clamp(rect.left, 8, Math.max(8, window.innerWidth - rect.width - 8));
+  const top = clamp(rect.top, 8, Math.max(8, window.innerHeight - rect.height - 8));
+  panel.style.left = `${left}px`;
+  panel.style.top = `${top}px`;
+}
+
 $("followupSuggestions").addEventListener("click", event => {
-  const card = event.target.closest(".followup-card");
-  if (!card) return;
+  const tile = event.target.closest(".followup-tile");
+  if (tile) openFollowupCard(tile.closest(".followup-card"));
+});
+
+document.addEventListener("click", event => {
   if (event.target.closest(".followup-close")) {
-    card.classList.remove("is-expanded");
-    card.querySelector(".followup-tile").hidden = false;
-    card.querySelector(".followup-tile").setAttribute("aria-expanded", "false");
-    card.querySelector(".followup-expanded").hidden = true;
+    closeFollowupCard(true);
     return;
   }
-  if (event.target.closest(".followup-asked")) {
-    card.remove();
-    if (!$("followupQuestionList").querySelector(".followup-card")) {
-      $("followupQuestionList").innerHTML = '<p class="followup-empty">Alla föreslagna frågor är markerade som ställda.</p>';
-    }
+  const asked = event.target.closest(".followup-asked");
+  if (!asked) return;
+  const questionCard = openFollowupQuestion?.detail.contains(asked)
+    ? openFollowupQuestion.card
+    : asked.closest(".followup-card");
+  if (questionCard) questionCard.querySelector(".followup-asked input").checked = true;
+});
+
+document.addEventListener("change", event => {
+  if (event.target.matches(".followup-asked input") && event.target.checked) {
+    const questionCard = openFollowupQuestion?.detail.contains(event.target)
+      ? openFollowupQuestion.card
+      : event.target.closest(".followup-card");
+    if (!questionCard) return;
+    if (openFollowupQuestion?.card === questionCard) closeFollowupCard(false);
+    questionCard.remove();
+    const panel = $("followupSuggestions");
+    if (!panel.querySelector(".followup-card")) panel.classList.remove("is-visible");
     return;
   }
-  if (event.target.closest(".followup-tile")) {
-    const tile = card.querySelector(".followup-tile");
-    tile.hidden = true;
-    tile.setAttribute("aria-expanded", "true");
-    card.querySelector(".followup-expanded").hidden = false;
-    card.classList.add("is-expanded");
+  if (event.target.id === "followupToggle") {
+    const panel = $("followupSuggestions");
+    panel.classList.toggle("is-hidden-by-user", !event.target.checked);
+    if (!event.target.checked) closeFollowupCard(false);
   }
+});
+
+$("followupSuggestions").addEventListener("pointerdown", event => {
+  const handle = event.target.closest(".followup-expanded-head");
+  if (!handle || !openFollowupQuestion || !openFollowupQuestion.detail.contains(handle) || event.target.closest(".followup-close")) return;
+  if (event.button !== undefined && event.button !== 0) return;
+  const rect = openFollowupQuestion.detail.getBoundingClientRect();
+  activeFollowupDrag = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, left: rect.left, top: rect.top, handle };
+  handle.classList.add("is-dragging");
+  event.preventDefault();
+});
+
+document.addEventListener("pointerdown", event => {
+  const handle = event.target.closest(".followup-expanded-head");
+  if (!handle || !openFollowupQuestion || !openFollowupQuestion.detail.contains(handle) || event.target.closest(".followup-close")) return;
+  if (event.button !== undefined && event.button !== 0) return;
+  const rect = openFollowupQuestion.detail.getBoundingClientRect();
+  activeFollowupDrag = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, left: rect.left, top: rect.top, handle };
+  handle.classList.add("is-dragging");
+  event.preventDefault();
+});
+
+window.addEventListener("pointermove", event => {
+  const drag = activeFollowupDrag;
+  if (!drag || drag.pointerId !== event.pointerId || !openFollowupQuestion) return;
+  const panel = openFollowupQuestion.detail;
+  const rect = panel.getBoundingClientRect();
+  panel.style.left = `${clamp(drag.left + event.clientX - drag.x, 8, Math.max(8, window.innerWidth - rect.width - 8))}px`;
+  panel.style.top = `${clamp(drag.top + event.clientY - drag.y, 8, Math.max(8, window.innerHeight - rect.height - 8))}px`;
+});
+function finishFollowupDrag(event) {
+  if (!activeFollowupDrag || (event && activeFollowupDrag.pointerId !== event.pointerId)) return;
+  activeFollowupDrag.handle.classList.remove("is-dragging");
+  activeFollowupDrag = null;
+}
+window.addEventListener("pointerup", finishFollowupDrag);
+window.addEventListener("pointercancel", finishFollowupDrag);
+window.addEventListener("resize", clampFollowupPanel);
+
+document.addEventListener("keydown", event => {
+  if (!openFollowupQuestion) return;
+  if (event.key === "Escape") {
+    closeFollowupCard(true);
+    return;
+  }
+  const handle = event.target.closest(".followup-expanded-head");
+  if (!handle) return;
+  const step = event.shiftKey ? 60 : 20;
+  const rect = openFollowupQuestion.detail.getBoundingClientRect();
+  let left = rect.left;
+  let top = rect.top;
+  if (event.key === "ArrowLeft") left -= step;
+  else if (event.key === "ArrowRight") left += step;
+  else if (event.key === "ArrowUp") top -= step;
+  else if (event.key === "ArrowDown") top += step;
+  else return;
+  event.preventDefault();
+  openFollowupQuestion.detail.style.left = `${clamp(left, 8, Math.max(8, window.innerWidth - rect.width - 8))}px`;
+  openFollowupQuestion.detail.style.top = `${clamp(top, 8, Math.max(8, window.innerHeight - rect.height - 8))}px`;
 });
 function createSummary() {
   if (state.lines.length === state.lastSummarized) {
