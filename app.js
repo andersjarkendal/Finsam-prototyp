@@ -426,17 +426,22 @@ const demoFollowupQuestions = [
     visual: `<svg viewBox="0 0 300 136" role="img" aria-label="Fiktiv tidslinje med ankomst klockan 07.50, telefonsamtal 09.24 och e-post 10.02"><path d="M26 78h248" fill="none" stroke="#a8bbce" stroke-width="4" stroke-linecap="round"/><circle cx="48" cy="78" r="9" fill="#003366"/><circle cx="150" cy="78" r="9" fill="#ffcc00" stroke="#003366" stroke-width="2"/><circle cx="251" cy="78" r="9" fill="#003366"/><text x="48" y="45" text-anchor="middle" fill="#173b63" font-size="12" font-weight="700">07:50</text><text x="150" y="45" text-anchor="middle" fill="#173b63" font-size="12" font-weight="700">09:24</text><text x="251" y="45" text-anchor="middle" fill="#173b63" font-size="12" font-weight="700">10:02</text><text x="48" y="108" text-anchor="middle" fill="#536b84" font-size="9">Ankomst</text><text x="150" y="108" text-anchor="middle" fill="#536b84" font-size="9">Samtal</text><text x="251" y="108" text-anchor="middle" fill="#536b84" font-size="9">E-post</text></svg>`
   }
 ];
+const followupToggle = $("followupToggle");
+const followupQuestionList = $("followupQuestionList");
+function updateFollowupVisibility() {
+  followupQuestionList.hidden = !followupToggle.checked;
+}
+followupToggle.addEventListener("change", updateFollowupVisibility);
+
 function renderFollowupQuestions(summaryNumber) {
-  const panel = $("followupSuggestions");
-  panel.innerHTML = `<div class="followup-heading"><b>FÖLJDFRÅGOR</b><span>DEMO · 3 FÖRSLAG</span></div><div class="followup-list"></div>`;
-  const list = panel.querySelector(".followup-list");
+  const list = $("followupQuestionList");
+  list.innerHTML = "";
   demoFollowupQuestions.slice(0, 3).forEach((item, index) => {
     const card = document.createElement("article");
     card.className = "followup-card";
     card.innerHTML = `<button class="followup-tile" type="button" aria-expanded="false"><span class="followup-tile-icon" aria-hidden="true">${item.icon}</span><strong>${item.title}</strong><small>Visa fråga</small></button><section class="followup-expanded" hidden><div class="followup-expanded-head"><span>FÖRSLAG ${index + 1} · DEL ${summaryNumber}</span><button type="button" class="followup-close" aria-label="Fäll ihop frågan">×</button></div><div class="followup-source">${item.source}</div><p class="followup-question">${item.question}</p><figure class="followup-visual"><figcaption>${item.visualTitle}<span>EXEMPEL</span></figcaption>${item.visual}</figure><label class="followup-asked"><input type="checkbox"><span>Frågan är ställd</span></label></section>`;
     list.appendChild(card);
   });
-  panel.classList.add("is-visible");
 }
 $("followupSuggestions").addEventListener("click", event => {
   const card = event.target.closest(".followup-card");
@@ -450,7 +455,9 @@ $("followupSuggestions").addEventListener("click", event => {
   }
   if (event.target.closest(".followup-asked")) {
     card.remove();
-    if (!$("followupSuggestions").querySelector(".followup-card")) $("followupSuggestions").classList.remove("is-visible");
+    if (!$("followupQuestionList").querySelector(".followup-card")) {
+      $("followupQuestionList").innerHTML = '<p class="followup-empty">Alla föreslagna frågor är markerade som ställda.</p>';
+    }
     return;
   }
   if (event.target.closest(".followup-tile")) {
@@ -471,7 +478,7 @@ function createSummary() {
   state.summaries.push({ title: `Del ${state.summaries.length + 1}`, time: clock(state.elapsed), text: makeSummaryText(chunk) });
   renderSummaries();
   renderFollowupQuestions(state.summaries.length);
-  showToast("Delsammanfattning skapad · 3 följdfrågor från exempeldata visas.");
+  showToast("Delsammanfattning skapad · Förhörsanalys visar upp till 3 följdfrågor.");
 }
 function renderSummaries() {
   const list = $("summaryList");
