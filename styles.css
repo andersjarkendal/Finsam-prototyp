@@ -1732,3 +1732,53 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .remote-control-unit{width:340px!important}
   .remote-control-panel{width:340px!important}
 }
+
+
+/* Keep one clear boundary between the shared movable area and Förhörsanalys. */
+.recording-status-boundary{
+  display:block!important;
+  box-sizing:border-box;
+  justify-self:center;
+  align-self:center;
+  width:4px!important;
+  height:82px!important;
+  min-height:82px!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:4px;
+  background:#7891a8!important;
+  box-shadow:0 0 0 3px #edf2f7;
+  pointer-events:none;
+}
+@media(min-width:1600px){
+  .session-strip-main{
+    grid-template-columns:minmax(1050px,1.6fr) 4px minmax(300px,1fr)!important;
+    gap:16px!important;
+    width:calc(100% - 165px)!important;
+  }
+  .status-remote-group{grid-column:1;grid-row:1;min-width:1050px}
+  .recording-statuses{min-width:1050px!important}
+  .recording-status-boundary{grid-column:2;grid-row:1}
+  .followup-suggestions{grid-column:3;grid-row:1;min-width:300px;margin-left:0}
+}
+@media(max-width:1599px){
+  .session-strip-main{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:12px!important;
+    width:100%!important;
+  }
+  .status-remote-group{grid-column:1;grid-row:1;width:100%;min-width:0}
+  .recording-statuses{min-width:0!important}
+  .recording-status-boundary{
+    grid-column:1;
+    grid-row:2;
+    justify-self:stretch;
+    align-self:center;
+    width:100%!important;
+    height:4px!important;
+    min-height:4px!important;
+    background:#7891a8!important;
+  }
+  .followup-suggestions{grid-column:1;grid-row:3;width:100%;min-width:0;margin:0}
+}
