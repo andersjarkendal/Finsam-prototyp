@@ -402,6 +402,67 @@ function makeSummaryText(lines) {
     : "Sammanfattningen återger Person A:s uppgifter. Kontrollera dem mot den fullständiga transkriberingen och eventuella stödhandlingar.";
   return `PERSON A:S UPPGIFTER\n${details}\n\nFÖRHÖRSLEDARENS FÖLJDFRÅGOR\n${questions} frågor berörde ${topics.join(", ").toLowerCase()}. Sammanfattningen bygger på ${personLines.length} transkriberade svar i den här delen.\n\nATT KONTROLLERA\n${review}`;
 }
+const demoFollowupQuestions = [
+  {
+    title: "Styrelsen",
+    icon: "♧",
+    question: "Du berättar att rutinen för kvittohantering ändrades. Vem föreslog eller beslutade om den ändringen?",
+    source: "Påhittat bolagsregister · styrelsesammansättning",
+    visualTitle: "Nordhamn Ekonomi AB · styrelseöversikt",
+    visual: `<svg viewBox="0 0 300 136" role="img" aria-label="Fiktivt organisationsschema med en ordförande och två ledamöter"><path d="M150 45v18M75 63h150M75 63v12M150 63v12M225 63v12" fill="none" stroke="#9db1c7" stroke-width="2"/><rect x="91" y="8" width="118" height="38" rx="9" fill="#003366"/><text x="150" y="24" text-anchor="middle" fill="#ffcc00" font-size="9" font-weight="700">ORDFÖRANDE</text><text x="150" y="37" text-anchor="middle" fill="#fff" font-size="11">M. Lind</text><rect x="18" y="76" width="114" height="48" rx="9" fill="#f3f6fa" stroke="#cbd7e4"/><text x="75" y="94" text-anchor="middle" fill="#536b84" font-size="9" font-weight="700">LEDAMOT</text><text x="75" y="111" text-anchor="middle" fill="#173b63" font-size="11">S. Berg</text><rect x="168" y="76" width="114" height="48" rx="9" fill="#fff8dc" stroke="#ead37f"/><text x="225" y="94" text-anchor="middle" fill="#826300" font-size="9" font-weight="700">LEDAMOT</text><text x="225" y="111" text-anchor="middle" fill="#173b63" font-size="11">J. Hall</text></svg>`
+  },
+  {
+    title: "Nyckelåtkomst",
+    icon: "⌑",
+    question: "Du nämner att flera i gruppen hade nyckel. Vilka personer kunde öppna arkivskåpet under den aktuella helgen?",
+    source: "Påhittat behörighetssystem · nyckelregister",
+    visualTitle: "Arkivskåp · fiktiv åtkomstöversikt",
+    visual: `<svg viewBox="0 0 300 136" role="img" aria-label="Fiktiv åtkomstöversikt för tre personer och ett arkivskåp"><path d="M80 36h42M178 36h42M150 56v34M92 105h116" fill="none" stroke="#9db1c7" stroke-width="2"/><rect x="8" y="15" width="92" height="42" rx="9" fill="#f3f6fa" stroke="#cbd7e4"/><text x="54" y="32" text-anchor="middle" fill="#536b84" font-size="9" font-weight="700">PERSON A</text><text x="54" y="47" text-anchor="middle" fill="#173b63" font-size="10">Nyckel</text><rect x="108" y="15" width="84" height="42" rx="9" fill="#fff8dc" stroke="#ead37f"/><text x="150" y="32" text-anchor="middle" fill="#826300" font-size="9" font-weight="700">KOLLEGA B</text><text x="150" y="47" text-anchor="middle" fill="#173b63" font-size="10">Nyckel</text><rect x="200" y="15" width="92" height="42" rx="9" fill="#f3f6fa" stroke="#cbd7e4"/><text x="246" y="32" text-anchor="middle" fill="#536b84" font-size="9" font-weight="700">ADMIN C</text><text x="246" y="47" text-anchor="middle" fill="#173b63" font-size="10">Huvudnyckel</text><rect x="91" y="87" width="118" height="40" rx="9" fill="#003366"/><text x="150" y="112" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">ARKIVSKÅP</text></svg>`
+  },
+  {
+    title: "Tidslinjen",
+    icon: "◷",
+    question: "Du uppskattar att samtalet kom runt halv tio. Finns det något som kan hjälpa dig att ringa in tidpunkten mer exakt?",
+    source: "Påhittad kalender och e-post · händelsetider",
+    visualTitle: "Exempel på tidslinje · måndag",
+    visual: `<svg viewBox="0 0 300 136" role="img" aria-label="Fiktiv tidslinje med ankomst klockan 07.50, telefonsamtal 09.24 och e-post 10.02"><path d="M26 78h248" fill="none" stroke="#a8bbce" stroke-width="4" stroke-linecap="round"/><circle cx="48" cy="78" r="9" fill="#003366"/><circle cx="150" cy="78" r="9" fill="#ffcc00" stroke="#003366" stroke-width="2"/><circle cx="251" cy="78" r="9" fill="#003366"/><text x="48" y="45" text-anchor="middle" fill="#173b63" font-size="12" font-weight="700">07:50</text><text x="150" y="45" text-anchor="middle" fill="#173b63" font-size="12" font-weight="700">09:24</text><text x="251" y="45" text-anchor="middle" fill="#173b63" font-size="12" font-weight="700">10:02</text><text x="48" y="108" text-anchor="middle" fill="#536b84" font-size="9">Ankomst</text><text x="150" y="108" text-anchor="middle" fill="#536b84" font-size="9">Samtal</text><text x="251" y="108" text-anchor="middle" fill="#536b84" font-size="9">E-post</text></svg>`
+  }
+];
+function renderFollowupQuestions(summaryNumber) {
+  const panel = $("followupSuggestions");
+  panel.innerHTML = `<div class="followup-heading"><b>FÖLJDFRÅGOR</b><span>DEMO · 3 FÖRSLAG</span></div><div class="followup-list"></div>`;
+  const list = panel.querySelector(".followup-list");
+  demoFollowupQuestions.slice(0, 3).forEach((item, index) => {
+    const card = document.createElement("article");
+    card.className = "followup-card";
+    card.innerHTML = `<button class="followup-tile" type="button" aria-expanded="false"><span class="followup-tile-icon" aria-hidden="true">${item.icon}</span><strong>${item.title}</strong><small>Visa fråga</small></button><section class="followup-expanded" hidden><div class="followup-expanded-head"><span>FÖRSLAG ${index + 1} · DEL ${summaryNumber}</span><button type="button" class="followup-close" aria-label="Fäll ihop frågan">×</button></div><div class="followup-source">${item.source}</div><p class="followup-question">${item.question}</p><figure class="followup-visual"><figcaption>${item.visualTitle}<span>EXEMPEL</span></figcaption>${item.visual}</figure><label class="followup-asked"><input type="checkbox"><span>Frågan är ställd</span></label></section>`;
+    list.appendChild(card);
+  });
+  panel.classList.add("is-visible");
+}
+$("followupSuggestions").addEventListener("click", event => {
+  const card = event.target.closest(".followup-card");
+  if (!card) return;
+  if (event.target.closest(".followup-close")) {
+    card.classList.remove("is-expanded");
+    card.querySelector(".followup-tile").hidden = false;
+    card.querySelector(".followup-tile").setAttribute("aria-expanded", "false");
+    card.querySelector(".followup-expanded").hidden = true;
+    return;
+  }
+  if (event.target.closest(".followup-asked")) {
+    card.remove();
+    if (!$("followupSuggestions").querySelector(".followup-card")) $("followupSuggestions").classList.remove("is-visible");
+    return;
+  }
+  if (event.target.closest(".followup-tile")) {
+    const tile = card.querySelector(".followup-tile");
+    tile.hidden = true;
+    tile.setAttribute("aria-expanded", "true");
+    card.querySelector(".followup-expanded").hidden = false;
+    card.classList.add("is-expanded");
+  }
+});
 function createSummary() {
   if (state.lines.length === state.lastSummarized) {
     showToast("Det finns ingen ny transkriberad text att sammanfatta ännu.");
@@ -411,7 +472,8 @@ function createSummary() {
   state.lastSummarized = state.lines.length;
   state.summaries.push({ title: `Del ${state.summaries.length + 1}`, time: clock(state.elapsed), text: makeSummaryText(chunk) });
   renderSummaries();
-  showToast("Delsammanfattning skapad från exempeltexten.");
+  renderFollowupQuestions(state.summaries.length);
+  showToast("Delsammanfattning skapad · 3 följdfrågor från exempeldata visas.");
 }
 function renderSummaries() {
   const list = $("summaryList");
