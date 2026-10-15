@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#003366" />
     <title>Förhörsflöde · Prototyp</title>
-    <link rel="stylesheet" href="styles.css?v=20261015-2063" />
+    <link rel="stylesheet" href="styles.css?v=20261015-2064" />
   </head>
   <body>
     <div class="prototype-banner"><span class="demo-dot"></span> PROTOTYP · ENDAST EXEMPELDATA · INGEN LJUDINSPELNING</div>
@@ -31,6 +31,16 @@
                 <div class="recording-status-card transcription-status-card" id="transcriptionStatusCard" data-status-card role="status" aria-live="polite" aria-describedby="statusMoveHelp" aria-keyshortcuts="ArrowLeft ArrowRight Shift+ArrowLeft Shift+ArrowRight Home End" tabindex="0" title="Dra panelen horisontellt inom statusområdet till vänster om avgränsaren"><span class="recording-status-label">TRANSKRIBERING</span><b id="transcriptionStatusValue">PÅSLAGEN</b></div>
               </div>
               <div class="recording-status-boundary" role="separator" aria-orientation="vertical" aria-label="Gräns mellan statuspaneler och följdfrågor"></div>
+              <section class="remote-control-panel" id="remoteControlPanel" aria-labelledby="remoteControlTitle">
+                <div class="remote-control-heading"><b id="remoteControlTitle">FJÄRRKONTROLL</b><span>Samma funktioner som i mobilvyn</span></div>
+                <div class="remote-control-actions">
+                  <button type="button" class="remote-action remote-record" id="remoteRecord" disabled title="Anslut mobilen för att använda fjärrkontrollen"><span class="remote-action-icon" aria-hidden="true">●</span><span id="remoteRecordText">Starta inspelning</span></button>
+                  <button type="button" class="remote-action remote-pause" id="remotePause" disabled><span class="remote-action-icon" aria-hidden="true">Ⅱ</span><span id="remotePauseText">Pausa ljud</span></button>
+                </div>
+                <button type="button" class="remote-transcription-toggle" id="remoteTranscriptionToggle" role="switch" aria-checked="true" aria-label="Transkribera förhöret">
+                  <span class="remote-toggle-copy"><b>Transkribera förhöret</b><small id="remoteTranscriptionState">På</small></span><span class="remote-toggle-switch" aria-hidden="true"></span>
+                </button>
+              </section>
               <div class="followup-suggestions is-visible" id="followupSuggestions" role="region" aria-label="Förhörsanalys" aria-live="polite">
                 <div class="followup-heading"><b>FÖRHÖRSANALYS</b><label class="followup-toggle" for="followupToggle"><span>Visa följdfrågor</span><input id="followupToggle" type="checkbox" checked aria-controls="followupQuestionList"><span class="followup-toggle-switch" aria-hidden="true"></span></label></div>
                 <p class="followup-empty">Skapa en delsammanfattning för att få förslag på följdfrågor.</p>
