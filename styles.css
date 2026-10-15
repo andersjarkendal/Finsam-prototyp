@@ -1365,3 +1365,65 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .remote-action{min-height:50px;padding:7px 5px;font-size:12px;white-space:normal}
   .remote-toggle-copy>b{font-size:12px}
 }
+
+
+/* Keep the analysis in its original right-hand grid column.
+   The status cards and remote controls share the existing left-side area. */
+@media(min-width:1600px){
+  .session-strip-main{
+    display:grid!important;
+    grid-template-columns:minmax(1050px,1.6fr) 4px minmax(300px,1fr)!important;
+    align-items:center;
+    gap:0!important;
+    width:calc(100% - 165px)!important;
+    flex:1 1 auto!important;
+  }
+  .status-remote-group{
+    display:grid;
+    grid-template-columns:700px minmax(330px,1fr);
+    align-items:center;
+    gap:clamp(18px,2vw,32px);
+    min-width:1050px;
+    width:100%;
+  }
+  .recording-statuses{grid-column:auto;grid-row:auto;width:700px!important;min-width:700px!important;flex:0 0 700px!important}
+  .remote-control-panel{grid-column:auto;grid-row:auto;min-width:330px}
+  .recording-status-boundary{display:block!important;grid-column:2;grid-row:1;width:4px;height:76px;margin:0;background:#aebfd0}
+  .followup-suggestions{grid-column:3;grid-row:1;width:auto;min-width:300px;margin-left:16px}
+}
+
+@media(min-width:1201px) and (max-width:1599px){
+  .session-strip{flex-wrap:wrap!important;gap:12px}
+  .session-strip-main{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:12px!important;
+    width:100%!important;
+    flex:1 1 100%!important;
+  }
+  .status-remote-group{
+    display:grid;
+    grid-template-columns:minmax(700px,1.15fr) minmax(330px,.85fr);
+    align-items:center;
+    gap:16px;
+    min-width:0;
+    width:100%;
+  }
+  .recording-statuses{grid-column:1;grid-row:1;width:100%!important;min-width:700px!important;flex:0 0 100%!important}
+  .remote-control-panel{grid-column:2;grid-row:1;min-width:330px;align-self:stretch}
+  .recording-status-boundary{display:none!important}
+  .followup-suggestions{grid-column:1;grid-row:2;width:100%;min-width:0;margin:0}
+  .session-strip .timer-block{margin-left:auto}
+}
+@media(max-width:1200px){
+  .status-remote-group{
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:12px;
+    width:100%;
+    min-width:0;
+  }
+  .recording-statuses{grid-column:1;grid-row:1}
+  .remote-control-panel{grid-column:1;grid-row:2;width:100%}
+  .recording-status-boundary{grid-column:1;grid-row:auto}
+}
