@@ -320,3 +320,8 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:4px solid #0
   .transcript-heading-actions{width:100%;justify-content:space-between;margin-left:0}
   .transcript-toggle-header{align-items:center}
 }
+
+/* Show incoming transcript text progressively and preserve summary paragraphs. */
+.transcript-text.is-typing::after{content:"▍";display:inline-block;margin-left:2px;color:#08777a;animation:typing-caret .9s steps(1,end) infinite}
+.summary-card-text{white-space:pre-line}
+@keyframes typing-caret{50%{opacity:0}}
