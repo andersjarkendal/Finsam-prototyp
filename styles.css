@@ -1177,3 +1177,29 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 #protocolTabPanel .final-result:not(.hidden){display:flex;flex:1 1 0;flex-direction:column;min-height:0;overflow:hidden}
 #protocolTabPanel .final-result-head{flex:0 0 auto}
 #protocolTabPanel .final-result-body{flex:1 1 0;min-height:0;max-height:none;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain}
+
+ 
+/* Full-screen reading view for the protocol summary. */
+.final-result-actions{display:flex;align-items:center;gap:16px;flex:0 0 auto}
+.final-summary-open{overflow:hidden}
+.final-summary-modal{position:fixed;z-index:3000;inset:0;display:flex;align-items:center;justify-content:center;padding:clamp(8px,2vw,24px);background:rgba(0,24,48,.48);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.final-summary-modal-card{display:flex;flex-direction:column;width:100%;height:100%;min-width:0;min-height:0;overflow:hidden;border:1px solid #b7c8d8;border-radius:16px;background:#fff;box-shadow:0 24px 80px rgba(0,20,45,.3)}
+.final-summary-modal-header{display:flex;align-items:center;justify-content:space-between;gap:24px;flex:0 0 auto;padding:20px 26px;border-bottom:1px solid #d8e2ec;background:#f7f9fc}
+.final-summary-modal-heading{min-width:0}
+.final-summary-modal-heading h2{margin:0;color:#003366;font-size:22px;line-height:1.3}
+.final-summary-modal-heading p{margin:5px 0 0;color:#536b84;font-size:14px}
+.final-summary-modal-controls{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap}
+.final-summary-size-group{display:flex;align-items:center;gap:4px;padding:4px;border:1px solid #b8c8d9;border-radius:10px;background:#fff}
+.final-summary-size-group button,.final-summary-contrast-button,.final-summary-close-button{min-height:48px;padding:0 15px;border:1px solid #b8c8d9;border-radius:8px;background:#fff;color:#123d63;font-size:15px;font-weight:800;white-space:nowrap}
+.final-summary-size-group button[aria-pressed="true"]{border-color:#003366;background:#003366;color:#fff}
+.final-summary-contrast-button[aria-pressed="true"]{border-color:#003366;background:#003366;color:#fff}
+.final-summary-close-button{border-color:#003366;background:#003366;color:#fff}
+.final-summary-close-button span{margin-left:8px;font-size:20px;line-height:0;vertical-align:-1px}
+.final-summary-modal-content{flex:1 1 auto;min-height:0;overflow:auto;padding:clamp(24px,5vw,64px);color:#173b5c;background:#fff;font-size:23px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere;overscroll-behavior:contain}
+.final-summary-modal-content.text-size-small{font-size:19px}
+.final-summary-modal-content.text-size-medium{font-size:24px}
+.final-summary-modal-content.text-size-large{font-size:30px}
+.final-summary-modal-card.is-inverted .final-summary-modal-content{background:#071b2b;color:#fff}
+.final-summary-modal-content:focus-visible{outline:4px solid #ffcc00;outline-offset:-6px}
+.final-summary-modal button:focus-visible{outline:4px solid #ffcc00;outline-offset:3px}
+@media(max-width:760px){.final-result-actions{gap:10px}.final-summary-modal{padding:6px}.final-summary-modal-card{border-radius:10px}.final-summary-modal-header{align-items:flex-start;flex-direction:column;gap:14px;padding:15px}.final-summary-modal-heading h2{font-size:18px}.final-summary-modal-heading p{font-size:12px}.final-summary-modal-controls{justify-content:flex-start;width:100%;gap:8px}.final-summary-size-group button,.final-summary-contrast-button,.final-summary-close-button{min-height:44px;padding:0 10px;font-size:13px}.final-summary-modal-content{padding:22px 18px}.final-summary-modal-content.text-size-small{font-size:17px}.final-summary-modal-content.text-size-medium{font-size:20px}.final-summary-modal-content.text-size-large{font-size:25px}}
