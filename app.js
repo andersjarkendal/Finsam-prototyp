@@ -429,7 +429,6 @@ $("editFinal").addEventListener("click", () => {
 });
 $("finishSession").addEventListener("click", () => { setRecording(false); showToast("Förhöret avslutades i demot."); });
 $("addNote").addEventListener("click", () => showToast("Anteckningsfält ingår inte i den här första demon."));
-$("scrollLatest").addEventListener("click", () => { $("transcriptScroll").scrollTop = $("transcriptScroll").scrollHeight; });
 for (let i = 0; i < 120; i++) { const bar = document.createElement("i"); $("phoneWave").appendChild(bar); }
 renderSummaries();
 updatePairingUI();
