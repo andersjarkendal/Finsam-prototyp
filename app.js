@@ -67,7 +67,7 @@ const toast = $("toast");
 
 // Keep each status panel movable within its parent, while preserving their left-to-right order.
 const recordingStatuses = $("recordingStatuses");
-const statusPositionStorageKey = "finsam-status-card-positions-v1";
+const statusPositionStorageKey = "finsam-status-card-positions-v2";
 const statusCards = Array.from(recordingStatuses.querySelectorAll("[data-status-card]"));
 const audioStatusCard = $("audioStatusCard");
 const transcriptionStatusCard = $("transcriptionStatusCard");
@@ -86,9 +86,10 @@ function defaultStatusPositions() {
   const height = recordingStatuses.clientHeight;
   const audio = statusCardSize(audioStatusCard);
   const transcription = statusCardSize(transcriptionStatusCard);
-  const gap = Math.min(statusGap, Math.max(0, width - audio.width - transcription.width));
-  const pairWidth = audio.width + gap + transcription.width;
-  const left = Math.max(0, (width - pairWidth) / 2);
+  const remoteWidth = $("remoteControlUnit").getBoundingClientRect().width || 340;
+  const gap = Math.min(statusGap, Math.max(0, (width - audio.width - transcription.width - remoteWidth) / 2));
+  const groupWidth = audio.width + gap + transcription.width + gap + remoteWidth;
+  const left = Math.max(0, (width - groupWidth) / 2);
   const maxTop = Math.max(0, height - Math.max(audio.height, transcription.height));
   const top = clamp(Math.max(statusHeadingHeight, maxTop / 2), Math.min(statusHeadingHeight, maxTop), maxTop);
   return {
@@ -189,9 +190,9 @@ function initializeStatusPositions() {
 initializeStatusPositions();
 
 // Keep the remote-control unit movable inside its own area, like the status cards.
-const remoteControlArea = $("remoteControlArea");
+const remoteControlArea = recordingStatuses;
 const remoteControlUnit = $("remoteControlUnit");
-const remotePositionStorageKey = "finsam-remote-control-position-v1";
+const remotePositionStorageKey = "finsam-remote-control-position-v2";
 let remotePosition = { x: 0, y: 0 };
 let activeRemoteDrag = null;
 function remoteControlSize() {
@@ -210,7 +211,7 @@ function renderRemotePosition(x) {
 }
 function initializeRemotePosition() {
   const maxX = Math.max(0, remoteControlArea.clientWidth - remoteControlSize().width);
-  let startX = maxX / 2;
+  let startX = statusPositions.transcriptionStatusCard.x + statusCardSize(transcriptionStatusCard).width + statusGap;
   try {
     const saved = JSON.parse(localStorage.getItem(remotePositionStorageKey) || "null");
     if (Number.isFinite(saved?.x)) startX = saved.x;
