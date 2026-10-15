@@ -683,3 +683,13 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   }
   .followup-suggestions{width:100%;min-width:0;margin:0}
 }
+
+@media(min-width:1000px){
+  .session-strip-main{grid-template-columns:minmax(468px,min(1100px,max(468px,48vw))) 4px minmax(0,1fr)!important}
+  .recording-status-boundary{
+    width:4px;
+    height:82px;
+    background:#7891a8;
+    box-shadow:0 0 0 3px #edf2f7;
+  }
+}
