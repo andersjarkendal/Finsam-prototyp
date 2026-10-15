@@ -325,3 +325,59 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:4px solid #0
 .transcript-text.is-typing::after{content:"▍";display:inline-block;margin-left:2px;color:#08777a;animation:typing-caret .9s steps(1,end) infinite}
 .summary-card-text{white-space:pre-line}
 @keyframes typing-caret{50%{opacity:0}}
+
+/* Skatteverkets primärfärger: guldgul och djupblå. */
+:root{
+  --ink:#003366;
+  --muted:#61758d;
+  --line:#d9e2eb;
+  --canvas:#f4f7fa;
+  --teal:#003366;
+  --teal-dark:#00264d;
+  --mint:#fff5cc;
+}
+.prototype-banner{background:#003366;color:#fff8dc}
+.demo-dot{background:#ffcc00;box-shadow:0 0 0 3px rgba(255,204,0,.22)}
+.brand-mark,.phone-brand-mark,.modal-icon{background:#003366;color:#ffcc00}
+.brand strong,.page-heading h1,.mobile-view-heading h1,.panel-title,.phone-pair-screen h2,.phone-session b{color:#003366}
+.button-primary,.pairing-panel-button,.final-summary-bar .button-primary,.modal-action{background:#ffcc00;border-color:#e6b800;color:#003366}
+.button-primary:hover,.pairing-panel-button:hover,.final-summary-bar .button-primary:hover,.modal-action:hover{background:#e6b800;border-color:#ccaa00;color:#00264d}
+.button-primary:disabled{background:#edf0f3;border-color:#d9e0e7;color:#758398}
+.button-quiet,.nav-item.active,.view-tab.selected{background:#eaf0f6;color:#003366}
+.button:focus-visible,.transcription-toggle input:focus-visible+.toggle-switch{outline-color:#003366;box-shadow:0 0 0 3px #ffcc00}
+a:focus-visible,button:focus-visible{outline-color:#003366}
+.text-button,.add-summary,.button-small,.final-icon,.footer-shield,.tiny-lock,.pairing-code-block strong{color:#003366}
+.add-summary{background:#fff5cc;border-color:#e9c94e}
+.button-small{background:#fff9df;border-color:#e9d37a}
+.workflow-step.current>span,.phone-pair-steps span{background:#003366;color:#ffcc00}
+.workflow-step.current b{color:#003366}
+.workflow-connector{background:#c9d5e2}
+.recording-status-card{border-color:#b8c8d9;background:#eef3f8;color:#003366}
+.recording-status-label{color:#536b84}
+.recording-status-card>b{color:#003366}
+.transcript-toggle-header{border-color:#c5d2e0;background:#f1f5f9}
+.transcription-toggle input:checked+.toggle-switch{background:#003366;border-color:#00264d}
+.transcript-text.is-typing::after{color:#003366}
+.live-pill,.transcript-live{color:#145c45}
+.phone-pair-screen{background:linear-gradient(180deg,#f7f9fc 0%,#eaf0f6 100%)}
+.phone-pair-symbol{border-color:#c3d0df;background:#e8eef5;color:#003366}
+.phone-pair-eyebrow{background:#fff5cc;color:#003366}
+.phone-pair-steps>div{border-color:#d6e0eb;color:#003366}
+.phone-pair-demo-note{border-left-color:#ffcc00;background:#fff9df;color:#3f5064}
+.phone-stage{background:radial-gradient(ellipse at 50% 26%,rgba(255,255,255,.86),transparent 54%),repeating-linear-gradient(96deg,rgba(255,255,255,.32) 0 2px,transparent 2px 86px),linear-gradient(132deg,#dbe4ee,#eef2f6 48%,#d5dfeb);border-top-color:#cbd6e2}
+.phone-frame{box-shadow:0 25px 36px rgba(0,35,75,.22),0 10px 16px rgba(0,35,75,.13)}
+.phone-main-record:not(.recording){background:#003366;color:#fff}
+.phone-main-record:not(.recording):hover{background:#00264d}
+.phone-wave i{background:#8fa9c2}
+.phone-record-card.recording .phone-wave i{background:#003366}
+.phone-record-card.recording .phone-wave i:nth-child(5n){background:#ffcc00}
+.final-summary-bar{border-color:#ead37f;background:#fff8dc}
+.final-icon{background:#ffcc00}
+.final-copy b{color:#003366}
+.final-result{border-top:4px solid #ffcc00}
+.summary-card{border-color:#dbe3eb;background:#fbfcfe}
+.summary-card-head b{color:#003366}
+.summary-card textarea{border-color:#c5d2df}
+.pairing-panel-button{box-shadow:0 4px 12px rgba(0,51,102,.16)}
+::selection{background:#ffcc00;color:#003366}
+@media(prefers-reduced-motion:reduce){.phone-record-card.recording .phone-wave i{animation:none}}
