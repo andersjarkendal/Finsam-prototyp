@@ -1084,3 +1084,38 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .transcript-panel{height:660px;min-height:0!important;max-height:660px}
   .transcript-scroll{height:0;min-height:0!important;max-height:none!important}
 }
+
+
+/* Lock desktop columns to the handset panel height; transcript content scrolls inside its own area. */
+@media (min-width:1121px){
+  .work-grid{align-items:stretch}
+  .transcript-panel{
+    box-sizing:border-box;
+    display:flex;
+    flex-direction:column;
+    height:var(--workspace-panel-height,auto)!important;
+    min-height:0!important;
+    max-height:var(--workspace-panel-height,none);
+    overflow:hidden;
+  }
+  .transcript-panel .transcript-panel-heading,
+  .transcript-panel .transcript-marking-toolbar{flex:0 0 auto}
+  .transcript-panel .transcript-scroll{
+    box-sizing:border-box;
+    flex:1 1 0!important;
+    height:0!important;
+    min-height:0!important;
+    max-height:none!important;
+    overflow-x:hidden;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+  }
+  .summary-column{
+    box-sizing:border-box;
+    height:calc(var(--workspace-panel-height,auto) + 8px)!important;
+    min-height:0!important;
+    max-height:calc(var(--workspace-panel-height,none) + 8px);
+    overflow:hidden;
+  }
+  .summary-column .parts-panel{box-sizing:border-box;height:auto!important;min-height:0!important;flex:1 1 0;overflow:hidden}
+}
