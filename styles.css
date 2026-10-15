@@ -486,3 +486,22 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 .recording-status-card[data-status-card]{cursor:grab;}
 .status-drag-grip{width:36px;height:42px;right:10px;border-color:#003366;background:#003366;color:#ffcc00;font-size:24px;cursor:grab;}
 .recording-status-card[data-status-card].is-dragging,.recording-status-card[data-status-card].is-dragging .status-drag-grip{cursor:grabbing;}
+
+/* Free positioning inside the status area, with audio permanently on the left. */
+.session-strip{justify-content:flex-start;}
+.session-strip-main{flex:1 1 auto;width:100%;justify-content:flex-start;}
+.recording-statuses{position:relative;display:block;flex:1 1 auto;width:100%;height:104px;min-height:104px;overflow:hidden;gap:0;}
+.recording-status-card[data-status-card]{position:absolute;left:0;top:0;z-index:1;display:flex;flex:none;width:min(225px,calc((100% - 12px)/2));max-width:225px;min-width:0;min-height:76px;padding:11px 54px 11px 15px;touch-action:none;cursor:grab;}
+.recording-status-card[data-status-card].is-dragging{z-index:2;box-shadow:0 10px 24px rgba(0,35,75,.25);}
+@media(max-width:1100px){
+  .session-strip{flex-wrap:wrap;}
+  .session-strip-main{flex:1 1 100%;width:100%;}
+  .recording-statuses{flex:1 1 100%;width:100%;}
+  .session-strip .timer-block{margin-left:auto;}
+}
+@media(max-width:620px){
+  .recording-statuses{height:112px;min-height:112px;}
+  .recording-status-card[data-status-card]{min-height:76px;padding:10px 48px 10px 11px;}
+  .recording-status-card[data-status-card]>b{font-size:15px;}
+  .recording-status-card .status-drag-grip{right:7px;width:32px;height:38px;}
+}
