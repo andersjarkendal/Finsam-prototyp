@@ -1491,3 +1491,92 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 @media(max-width:620px){
   .remote-control-actions>.remote-action{min-height:50px;padding:7px 9px;font-size:12px}
 }
+
+
+/* Place the remote heading above a compact button panel and make both movable together. */
+.remote-control-area{
+  position:relative;
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  height:168px;
+  min-height:168px;
+  overflow:hidden;
+}
+.remote-control-unit{
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:10px;
+  width:max-content;
+  max-width:100%;
+  margin:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+}
+.remote-control-unit.is-dragging{z-index:5;cursor:grabbing}
+.remote-control-unit:focus-visible{outline:3px solid #ffcc00;outline-offset:4px;border-radius:8px}
+.remote-control-heading{
+  display:block;
+  width:max-content;
+  max-width:100%;
+  padding:0;
+  border:0;
+  background:transparent;
+}
+.remote-control-heading>b{
+  display:block;
+  color:#003366;
+  font-size:13px;
+  font-weight:850;
+  letter-spacing:.05em;
+  line-height:1.2;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.remote-control-panel{
+  box-sizing:border-box;
+  display:block;
+  width:max-content;
+  max-width:100%;
+  min-width:0;
+  min-height:0;
+  padding:9px;
+  border:2px solid #b8c8d9;
+  border-radius:12px;
+  background:linear-gradient(145deg,#f8fbff,#eef4fa);
+  box-shadow:0 3px 10px rgba(0,35,75,.07);
+  cursor:grab;
+}
+.remote-control-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  flex-wrap:wrap;
+  gap:8px;
+  width:max-content;
+  max-width:100%;
+}
+.remote-control-actions>.remote-action{
+  box-sizing:border-box;
+  flex:0 1 auto;
+  width:auto;
+  min-width:0;
+  max-width:190px;
+  padding:7px 10px;
+  font-size:13px;
+  white-space:nowrap;
+  cursor:pointer;
+}
+@media(max-width:620px){
+  .remote-control-area{height:136px;min-height:136px}
+  .remote-control-actions>.remote-action{min-height:50px;padding:7px 9px;font-size:12px}
+}
