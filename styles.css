@@ -984,3 +984,7 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .followup-expanded.is-floating .followup-expanded-head{top:-16px;margin:-16px -16px 12px;padding:12px}
   .followup-expanded.is-floating .followup-question{font-size:18px}
 }
+
+/* Keep the full summary action label on one line. */
+.summary-content-toolbar .button-small{white-space:nowrap;min-height:52px;padding:0 16px;font-size:14px}
+@media(max-width:620px){.summary-content-toolbar .button-small{min-height:48px;padding:0 11px;font-size:12px}}
