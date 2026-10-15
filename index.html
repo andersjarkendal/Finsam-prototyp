@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#003366" />
     <title>Förhörsflöde · Prototyp</title>
-    <link rel="stylesheet" href="styles.css?v=20261015-2059" />
+    <link rel="stylesheet" href="styles.css?v=20261015-2060" />
   </head>
   <body>
     <div class="prototype-banner"><span class="demo-dot"></span> PROTOTYP · ENDAST EXEMPELDATA · INGEN LJUDINSPELNING</div>
@@ -107,7 +107,7 @@
                       <div class="final-icon">✦</div><div class="final-copy"><b>Förhörsprotokoll</b><span>Samla alla delsammanfattningar till en överblick</span></div><span class="final-count" id="finalCount">0 delar</span><button class="button button-primary" id="makeFinal" disabled>Skapa sammanfattning <span>→</span></button>
                     </div>
                     <p class="summary-stale-note hidden" id="summaryStaleNote" role="status">Delsammanfattningarna har ändrats. Uppdatera sammanfattningen för förhörsprotokollet.</p>
-                    <section class="final-result panel hidden" id="finalResult"><div class="final-result-head"><div><div class="panel-title">Sammanfattning till Förhörsprotokollet</div><div class="panel-caption">Genererad från delsammanfattningarna · demotext</div></div><button class="text-button" id="editFinal">Redigera</button></div><div class="final-result-body" id="finalText"></div></section>
+                    <section class="final-result panel hidden" id="finalResult"><div class="final-result-head"><div><div class="panel-title">Sammanfattning till Förhörsprotokollet</div><div class="panel-caption">Genererad från delsammanfattningarna · demotext</div></div><div class="final-result-actions"><button class="text-button" id="openFinalSummaryModal" type="button" aria-haspopup="dialog">Visa större <span aria-hidden="true">⛶</span></button><button class="text-button" id="editFinal" type="button">Redigera</button></div></div><div class="final-result-body" id="finalText"></div></section>
                   </section>
                 </section>
                 <div class="summary-column-actions"><button class="button button-outline finish-session-button" id="finishSession" type="button" disabled>Avsluta förhör <span aria-hidden="true">↗</span></button></div>
@@ -137,7 +137,27 @@
         <div class="modal-foot">Skanning är inte aktiverad i prototypen.</div>
       </div>
     </div>
+    <div class="final-summary-modal hidden" id="finalSummaryModal" role="dialog" aria-modal="true" aria-labelledby="finalSummaryModalTitle">
+      <section class="final-summary-modal-card" tabindex="-1">
+        <header class="final-summary-modal-header">
+          <div class="final-summary-modal-heading">
+            <h2 id="finalSummaryModalTitle">Sammanfattning till Förhörsprotokollet</h2>
+            <p>Förstorat läsläge</p>
+          </div>
+          <div class="final-summary-modal-controls">
+            <div class="final-summary-size-group" role="group" aria-label="Textstorlek">
+              <button type="button" data-final-summary-size="small" aria-label="Liten text" aria-pressed="false">Liten</button>
+              <button type="button" data-final-summary-size="medium" aria-label="Mellan text" aria-pressed="true">Mellan</button>
+              <button type="button" data-final-summary-size="large" aria-label="Stor text" aria-pressed="false">Stor</button>
+            </div>
+            <button class="final-summary-contrast-button" id="toggleFinalSummaryContrast" type="button" aria-pressed="false">Invertera färger</button>
+            <button class="final-summary-close-button" id="closeFinalSummaryModal" type="button" aria-label="Stäng sammanfattningen">Stäng <span aria-hidden="true">×</span></button>
+          </div>
+        </header>
+        <div class="final-summary-modal-content text-size-medium" id="finalSummaryModalContent" tabindex="0"></div>
+      </section>
+    </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20261015-2059"></script>
+    <script src="app.js?v=20261015-2060"></script>
   </body>
 </html>
