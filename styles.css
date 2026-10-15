@@ -1132,3 +1132,14 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 @media(prefers-reduced-motion:reduce){
   .followup-list.has-open-followup .followup-card:not(.is-selected){transition:none}
 }
+
+
+/* Keep the transcript scroller as a fixed viewport with a floating latest-text control. */
+.transcript-scroll-region{position:relative;flex:1 1 0%;min-height:0;overflow:hidden}
+.transcript-scroll-region>.transcript-scroll{position:absolute;inset:0;width:100%;height:auto!important;min-height:0!important;max-height:none!important;overflow-x:hidden;overflow-y:auto;flex:none;overscroll-behavior:contain}
+.transcript-latest-button{position:absolute;z-index:3;right:18px;bottom:16px;display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:6px 14px 6px 8px;border:1px solid #8eb4a9;border-radius:24px;background:#fff;color:#003366;font-size:13px;font-weight:800;box-shadow:0 5px 16px rgba(0,35,75,.18);cursor:pointer}
+.transcript-latest-button[hidden]{display:none!important}
+.transcript-latest-button>span:first-child{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#003366;color:#fff;font-size:20px;line-height:1}
+.transcript-latest-button:hover{background:#fff7d8;border-color:#c69d00;transform:translateY(-1px)}
+.transcript-latest-button:focus-visible{outline:4px solid #ffcc00;outline-offset:3px}
+@media(max-width:620px){.transcript-latest-button{right:12px;bottom:12px;min-height:40px;font-size:12px}}
