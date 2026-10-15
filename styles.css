@@ -636,7 +636,7 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .session-strip{flex-wrap:nowrap!important}
   .session-strip-main{
     display:grid!important;
-    grid-template-columns:minmax(468px,min(900px,max(468px,48vw))) 2px minmax(0,1fr)!important;
+    grid-template-columns:minmax(468px,min(1100px,max(468px,48vw))) 2px minmax(0,1fr)!important;
     align-items:center;
     gap:0!important;
     flex:1 1 auto!important;
@@ -646,8 +646,8 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .recording-statuses{
     position:relative;
     box-sizing:border-box;
-    flex:0 0 min(900px,max(468px,48vw))!important;
-    width:min(900px,max(468px,48vw))!important;
+    flex:0 0 min(1100px,max(468px,48vw))!important;
+    width:min(1100px,max(468px,48vw))!important;
     min-width:468px!important;
     height:104px;
     min-height:104px;
