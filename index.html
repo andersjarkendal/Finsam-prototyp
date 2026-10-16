@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#003366" />
     <title>Förhörsflöde · Prototyp</title>
-    <link rel="stylesheet" href="styles.css?v=20261016-1118" />
+    <link rel="stylesheet" href="styles.css?v=20261016-1158" />
   </head>
   <body>
     <div class="prototype-banner"><span class="demo-dot"></span> PROTOTYP · ENDAST EXEMPELDATA · INGEN LJUDINSPELNING</div>
@@ -26,7 +26,7 @@
             <div class="session-strip-main">
               <div class="status-remote-group">
               <div class="recording-statuses" id="recordingStatuses" aria-label="Gemensamt område för statuspaneler och fjärrkontroll">
-                <div class="recording-statuses-heading"><span>Statuspanel</span></div>
+                <div class="recording-statuses-heading"><span>Statuspanel</span><label class="analysis-toggle-copy" id="analysisPanelLabel" for="analysisPanelToggle">Förhörsanalys</label></div>
                 <span class="sr-only" id="statusMoveHelp">Dra panelerna åt höger eller vänster inom det gemensamma statusområdet. Ljudinspelning ligger alltid till vänster om transkriberingen. Med tangentbordet flyttar du en statuspanel med vänster- och högerpil, 20 pixlar åt gången, eller 64 pixlar med Skift.</span>
                 <div class="recording-status-card audio-status-card" id="audioStatusCard" data-status-card role="status" aria-live="polite" aria-describedby="statusMoveHelp" aria-keyshortcuts="ArrowLeft ArrowRight Shift+ArrowLeft Shift+ArrowRight Home End" tabindex="0" title="Dra panelen horisontellt inom det gemensamma statusområdet"><span class="recording-status-label">LJUDINSPELNING</span><b id="audioStatusValue">REDO ATT SPELA IN</b></div>
                 <div class="recording-status-card transcription-status-card" id="transcriptionStatusCard" data-status-card role="status" aria-live="polite" aria-describedby="statusMoveHelp" aria-keyshortcuts="ArrowLeft ArrowRight Shift+ArrowLeft Shift+ArrowRight Home End" tabindex="0" title="Dra panelen horisontellt inom det gemensamma statusområdet"><span class="recording-status-label">TRANSKRIBERING</span><b id="transcriptionStatusValue">PÅSLAGEN</b></div>
@@ -44,7 +44,7 @@
             </div>
             <div class="recording-status-boundary" role="separator" aria-orientation="vertical" aria-label="Avgränsare mellan statuspanelerna och Förhörsanalys"></div>
               <div class="followup-suggestions is-visible is-analysis-disabled" id="followupSuggestions" role="region" aria-label="Förhörsanalys" aria-live="polite">
-                <div class="followup-heading"><b>FÖRHÖRSANALYS</b><label class="app-toggle followup-toggle analysis-panel-toggle" for="analysisPanelToggle"><span>Förhörsanalys</span><input id="analysisPanelToggle" type="checkbox" aria-controls="followupSuggestions" aria-expanded="false"><span class="app-toggle-track followup-toggle-switch" aria-hidden="true"></span></label></div>
+                <div class="followup-heading"><b>FÖRHÖRSANALYS</b><label class="app-toggle followup-toggle analysis-panel-toggle" for="analysisPanelToggle"><input id="analysisPanelToggle" type="checkbox" aria-labelledby="analysisPanelLabel" aria-controls="followupSuggestions" aria-expanded="false"><span class="app-toggle-track followup-toggle-switch" aria-hidden="true"></span></label></div>
                 <p class="followup-empty">Skapa en delsammanfattning för att få förslag på följdfrågor.</p>
                 <div class="followup-list" id="followupQuestionList"></div>
               </div>
