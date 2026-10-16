@@ -1206,6 +1206,31 @@ updateTranscriptionUI();
 })();
 
 
+// Collapse transcription while keeping its restore tab beside the workspace.
+(()=>{
+  const grid=$("workGrid");
+  const transcript=$("transcriptPanel");
+  const collapseButton=$("collapseTranscriptPanel");
+  const showButton=$("showTranscriptPanel");
+  if(!grid||!transcript||!collapseButton||!showButton)return;
+  const setCollapsed=collapsed=>{
+    grid.classList.toggle("transcript-panel-collapsed",collapsed);
+    transcript.hidden=collapsed;
+    showButton.hidden=!collapsed;
+    collapseButton.setAttribute("aria-expanded",String(!collapsed));
+    showButton.setAttribute("aria-expanded",String(!collapsed));
+  };
+  collapseButton.addEventListener("click",()=>{
+    setCollapsed(true);
+    showButton.focus();
+  });
+  showButton.addEventListener("click",()=>{
+    setCollapsed(false);
+    collapseButton.focus();
+  });
+})();
+
+
 // Fill the available desktop viewport below the case header and recording status.
 (()=>{
   const grid=document.getElementById('workGrid');
