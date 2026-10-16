@@ -719,6 +719,8 @@ let activeFollowupDrag = null;
 function renderFollowupQuestions(summaryNumber) {
   if (openFollowupQuestion) closeFollowupCard(false);
   const panel = $("followupSuggestions");
+  const emptyState = panel.querySelector(".followup-empty");
+  if (emptyState) emptyState.hidden = true;
   const list = $("followupQuestionList");
   list.replaceChildren();
   demoFollowupQuestions.slice(0, 3).forEach((item, index) => {
@@ -1048,7 +1050,10 @@ function resetSessionForNewHearing() {
   $("transcriptPlaceholder").classList.remove("hidden");
   $("finalResult").classList.add("hidden");
   $("summaryStaleNote").classList.add("hidden");
-  $("followupSuggestions").querySelector(".followup-list")?.replaceChildren();
+  const followupPanel = $("followupSuggestions");
+  followupPanel.querySelector(".followup-list")?.replaceChildren();
+  const followupEmptyState = followupPanel.querySelector(".followup-empty");
+  if (followupEmptyState) followupEmptyState.hidden = false;
   delete $("transcriptMarkStatus").dataset.result;
   $("transcriptMarkStatus").textContent = "Markera text i transkriberingen för att välja en markering.";
   $("finishSession").disabled = true;
