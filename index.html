@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#003366" />
     <title>Förhörsflöde · Prototyp</title>
-    <link rel="stylesheet" href="styles.css?v=20261015-2074" />
+    <link rel="stylesheet" href="styles.css?v=20261016-0735" />
   </head>
   <body>
     <div class="prototype-banner"><span class="demo-dot"></span> PROTOTYP · ENDAST EXEMPELDATA · INGEN LJUDINSPELNING</div>
@@ -35,8 +35,8 @@
                   <div class="remote-control-heading"><b id="remoteControlTitle">FJÄRRKONTROLL</b></div>
                   <section class="remote-control-panel" id="remoteControlPanel" aria-label="Fjärrkontrollens knappar">
                     <div class="remote-control-actions">
-                      <button type="button" class="remote-action remote-record" id="remoteRecord" disabled title="Anslut mobilen för att använda fjärrkontrollen"><span class="remote-action-icon" aria-hidden="true">●</span><span id="remoteRecordText">Starta inspelning</span></button>
-                      <button type="button" class="remote-action remote-pause" id="remotePause" disabled><span class="remote-action-icon" aria-hidden="true">Ⅱ</span><span id="remotePauseText">Pausa ljud</span></button>
+                      <button type="button" class="remote-action remote-record" id="remoteRecord" disabled title="Anslut mobilen för att använda fjärrkontrollen" aria-label="Starta ljudinspelning"><span class="remote-action-icon" id="remoteRecordIcon" aria-hidden="true">●</span><span id="remoteRecordText">Starta ljudinspelning</span></button>
+                      <button type="button" class="remote-action remote-stop" id="remoteStop" disabled><span class="remote-action-icon" aria-hidden="true">■</span><span>Avsluta ljudinspelning</span></button>
                     </div>
                   </section>
                 </div>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="phone-connected-view hidden" id="phoneConnectedView">
                 <div class="phone-record-card" id="phoneRecordCard"><div class="phone-record-state" aria-live="polite"><div class="phone-record-audio-state"><span class="phone-record-dot" id="phoneRecordDot"></span><span id="phoneRecordState">MOBIL REDO ATT SPELA IN LJUD</span></div><div class="phone-transcription-state" id="phoneTranscriptionState">TRANSKRIBERING PÅ</div></div><div class="phone-timer" id="phoneTimer">00:00</div><div class="phone-wave-window" role="img" aria-label="Animerad ljudvåg visas när inspelning simuleras"><div class="phone-wave" id="phoneWave"></div><span class="wave-playhead"></span></div><div class="phone-secure"><span>◆</span> Endast demo · inget ljud sparas</div></div>
-                <div class="phone-controls"><button class="phone-main-record" id="phoneRecord"><span class="phone-button-dot"></span><span id="phoneRecordText">Starta ljudinspelning</span></button><div class="phone-secondary-controls"><button id="phonePause" disabled><span>Ⅱ</span> Pausa ljud</button></div></div>
+                <div class="phone-controls"><button class="phone-main-record" id="phoneRecord" aria-label="Starta ljudinspelning"><span class="phone-button-dot" id="phoneRecordIcon" aria-hidden="true">●</span><span id="phoneRecordText">Starta ljudinspelning</span></button><div class="phone-secondary-controls"><button class="phone-stop" id="phoneStop" disabled><span aria-hidden="true">■</span> Avsluta ljudinspelning</button></div></div>
                 </div>
               </div></div></div>
               <div class="mobile-panel-actions"><button class="button button-primary pairing-panel-button" id="openPairing"><span class="button-glyph">▯</span> Anslut mobil</button></div>
@@ -170,6 +170,6 @@
       </section>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20261015-2063"></script>
+    <script src="app.js?v=20261016-0735"></script>
   </body>
 </html>
