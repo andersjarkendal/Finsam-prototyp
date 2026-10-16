@@ -1892,3 +1892,30 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 @media(max-width:620px){
   .remote-control-unit{width:min(340px,100%)!important}
 }
+
+/* Align both status cards with the full-height remote-control panel. */
+.status-remote-group{
+  height:176px!important;
+  min-height:176px!important;
+  max-height:176px!important;
+}
+.recording-statuses{
+  height:176px!important;
+  min-height:176px!important;
+  max-height:176px!important;
+}
+.recording-status-card[data-status-card]{
+  height:140px!important;
+  min-height:140px!important;
+  max-height:140px!important;
+}
+.remote-control-unit{
+  top:4px!important;
+  gap:16px!important;
+  height:172px!important;
+}
+.remote-control-panel{
+  height:140px!important;
+  min-height:140px!important;
+  max-height:140px!important;
+}
