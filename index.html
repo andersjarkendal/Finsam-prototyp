@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#003366" />
     <title>Förhörsflöde · Prototyp</title>
-    <link rel="stylesheet" href="styles.css?v=20261016-1100" />
+    <link rel="stylesheet" href="styles.css?v=20261016-1054" />
   </head>
   <body>
     <div class="prototype-banner"><span class="demo-dot"></span> PROTOTYP · ENDAST EXEMPELDATA · INGEN LJUDINSPELNING</div>
@@ -53,11 +53,11 @@
           </div>
 
           <div class="work-grid" id="workGrid">
-            <button class="mobile-view-reopen" id="showMobileView" type="button" aria-label="Visa mobilvyn" title="Visa mobilvyn" aria-controls="mobilePreviewPanel" aria-expanded="false" hidden><span aria-hidden="true">›</span></button>
-            <button class="transcript-panel-reopen panel-reopen-arrow" id="showTranscriptPanel" type="button" aria-label="Visa transkribering" title="Visa transkribering" aria-controls="transcriptPanel" aria-expanded="false" hidden><span aria-hidden="true">›</span></button>
-            <button class="summary-panel-reopen panel-reopen-arrow" id="showSummaryPanel" type="button" aria-label="Visa sammanfattning" title="Visa sammanfattning" aria-controls="summaryPanel" aria-expanded="false" hidden><span aria-hidden="true">‹</span></button>
+            <button class="mobile-view-reopen" id="showMobileView" type="button" aria-label="Visa mobilvyn" title="Visa mobilvyn" aria-controls="mobilePreviewPanel" aria-expanded="false" hidden><span aria-hidden="true">›</span><span class="panel-control-label">Visa mobilvyn</span></button>
+            <button class="transcript-panel-reopen panel-reopen-arrow" id="showTranscriptPanel" type="button" aria-label="Visa transkriberingspanelen" title="Visa transkriberingspanelen" aria-controls="transcriptPanel" aria-expanded="false" hidden><span aria-hidden="true">›</span><span class="panel-control-label">Visa transkriberingspanelen</span></button>
+            <button class="summary-panel-reopen panel-reopen-arrow" id="showSummaryPanel" type="button" aria-label="Visa sammanfattningspanelen" title="Visa sammanfattningspanelen" aria-controls="summaryPanel" aria-expanded="false" hidden><span aria-hidden="true">‹</span><span class="panel-control-label">Visa sammanfattningspanelen</span></button>
             <aside class="panel mobile-preview-panel" id="mobilePreviewPanel" aria-label="Mobilens inspelare">
-              <button class="mobile-view-collapse" id="collapseMobileView" type="button" aria-label="Fäll in mobilvyn" title="Fäll in mobilvyn" aria-controls="mobilePreviewPanel" aria-expanded="true"><span aria-hidden="true">‹</span></button>
+              <button class="mobile-view-collapse" id="collapseMobileView" type="button" aria-label="Fäll ihop mobilvyn" title="Fäll ihop mobilvyn" aria-controls="mobilePreviewPanel" aria-expanded="true"><span aria-hidden="true">‹</span><span class="panel-control-label">Fäll ihop mobilvyn</span></button>
               <div class="phone-stage"><div class="phone-frame"><div class="phone-notch"></div><div class="phone-screen" id="phoneScreen">
                 <div class="phone-statusbar"><span>9:41</span><span>●●● ▰</span></div>
                 <div class="phone-pair-screen" id="phonePairScreen" aria-live="polite">
@@ -78,7 +78,7 @@
 
             <div class="work-content-grid">
               <section class="panel transcript-panel transcription-on" id="transcriptPanel">
-                <button class="transcript-panel-collapse panel-collapse-arrow" id="collapseTranscriptPanel" type="button" aria-label="Fäll ihop transkriberingen" title="Fäll ihop transkriberingen" aria-controls="transcriptPanel" aria-expanded="true"><span aria-hidden="true">‹</span></button>
+                <button class="transcript-panel-collapse panel-collapse-arrow" id="collapseTranscriptPanel" type="button" aria-label="Fäll ihop transkriberingspanelen" title="Fäll ihop transkriberingspanelen" aria-controls="transcriptPanel" aria-expanded="true"><span aria-hidden="true">‹</span><span class="panel-control-label">Fäll ihop transkriberingspanelen</span></button>
                 <div class="panel-heading transcript-panel-heading">
                   <div class="transcript-heading-copy"><div class="panel-title">Transkribering av ljudinspelning</div><div class="panel-caption" id="transcriptionHelp">Välj om talet ska transkriberas. Ljud kan fortsätta spelas in även när reglaget är av.</div></div>
                   <div class="transcript-heading-actions">
@@ -110,7 +110,7 @@
 
               <aside class="summary-column" id="summaryPanel">
                 <section class="panel parts-panel">
-                  <button class="summary-panel-collapse panel-collapse-arrow" id="collapseSummaryPanel" type="button" aria-label="Fäll ihop sammanfattningen" title="Fäll ihop sammanfattningen" aria-controls="summaryPanel" aria-expanded="true"><span aria-hidden="true">›</span></button>
+                  <button class="summary-panel-collapse panel-collapse-arrow" id="collapseSummaryPanel" type="button" aria-label="Fäll ihop sammanfattningspanelen" title="Fäll ihop sammanfattningspanelen" aria-controls="summaryPanel" aria-expanded="true"><span aria-hidden="true">›</span><span class="panel-control-label">Fäll ihop sammanfattningspanelen</span></button>
                   <div class="summary-tabs" id="summaryTabs" role="tablist" aria-label="Sammanfattningar">
                     <button class="summary-tab active" id="partsTab" type="button" role="tab" aria-selected="true" aria-controls="partsTabPanel" tabindex="0">Delsammanfattningar <span class="count-badge" id="summaryCount">0</span></button>
                     <button class="summary-tab" id="protocolTab" type="button" role="tab" aria-selected="false" aria-controls="protocolTabPanel" tabindex="-1">Sammanfattning till Förhörsprotokollet</button>
