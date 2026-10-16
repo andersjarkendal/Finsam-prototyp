@@ -985,7 +985,7 @@ function setTranscriptPanelWidth(width) {
   panelResizer.setAttribute("aria-valuetext", `Transkribering ${Math.round(transcriptWidth)} pixlar; sammanfattning ${Math.round(summaryWidth)} pixlar`);
 }
 panelResizer.addEventListener("pointerdown", event => {
-  if (window.matchMedia("(max-width: 1350px)").matches) return;
+  if (window.matchMedia("(max-width: 1350px)").matches || transcriptPanel.hidden || summaryColumn.hidden) return;
   const transcriptWidth = transcriptPanel.getBoundingClientRect().width;
   const summaryWidth = summaryColumn.getBoundingClientRect().width;
   panelResizeStart = { x: event.clientX, transcriptWidth, combinedWidth: transcriptWidth + summaryWidth };
@@ -1216,6 +1216,31 @@ updateTranscriptionUI();
   const setCollapsed=collapsed=>{
     grid.classList.toggle("transcript-panel-collapsed",collapsed);
     transcript.hidden=collapsed;
+    showButton.hidden=!collapsed;
+    collapseButton.setAttribute("aria-expanded",String(!collapsed));
+    showButton.setAttribute("aria-expanded",String(!collapsed));
+  };
+  collapseButton.addEventListener("click",()=>{
+    setCollapsed(true);
+    showButton.focus();
+  });
+  showButton.addEventListener("click",()=>{
+    setCollapsed(false);
+    collapseButton.focus();
+  });
+})();
+
+
+// Collapse the summary panel independently and leave an edge arrow to restore it.
+(()=>{
+  const grid=$("workGrid");
+  const summary=$("summaryPanel");
+  const collapseButton=$("collapseSummaryPanel");
+  const showButton=$("showSummaryPanel");
+  if(!grid||!summary||!collapseButton||!showButton)return;
+  const setCollapsed=collapsed=>{
+    grid.classList.toggle("summary-panel-collapsed",collapsed);
+    summary.hidden=collapsed;
     showButton.hidden=!collapsed;
     collapseButton.setAttribute("aria-expanded",String(!collapsed));
     showButton.setAttribute("aria-expanded",String(!collapsed));
