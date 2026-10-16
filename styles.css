@@ -2132,3 +2132,125 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   #workGrid.mobile-preview-collapsed.transcript-panel-collapsed #showTranscriptPanel{grid-column:1;grid-row:2}
   #workGrid.mobile-preview-collapsed.transcript-panel-collapsed .summary-column{grid-column:1;grid-row:3}
 }
+
+/* Use compact edge arrows to collapse and restore the transcript and summary panels. */
+.transcript-panel{position:relative}
+.panel-collapse-arrow,.panel-reopen-arrow{
+  display:grid;
+  place-items:center;
+  box-sizing:border-box;
+  width:28px;
+  min-width:28px;
+  height:28px;
+  min-height:28px;
+  padding:0;
+  border:1px solid #d8e3e4;
+  border-radius:6px;
+  background:#fff;
+  color:#087f82;
+  font-size:18px;
+  line-height:1;
+  box-shadow:0 2px 7px rgba(29,61,67,.08);
+}
+.panel-collapse-arrow:hover,.panel-reopen-arrow:hover{background:#e7f5f2;border-color:#a9ceca}
+.panel-collapse-arrow:focus-visible,.panel-reopen-arrow:focus-visible{outline:3px solid #ffcc00;outline-offset:2px}
+.transcript-panel .transcript-panel-collapse{
+  position:absolute;
+  z-index:3;
+  top:10px;
+  right:10px;
+  display:grid;
+  gap:0;
+  width:28px;
+  min-width:28px;
+  height:28px;
+  min-height:28px;
+  padding:0;
+  font-size:18px;
+}
+.transcript-panel-heading{padding-right:48px}
+.summary-column{position:relative}
+.summary-column[hidden]{display:none!important}
+.summary-column .summary-panel-collapse{
+  position:absolute;
+  z-index:3;
+  top:10px;
+  right:10px;
+}
+.summary-column .summary-tabs{padding-right:48px}
+.transcript-panel-reopen,.summary-panel-reopen{box-shadow:0 2px 7px rgba(29,61,67,.08)}
+.transcript-panel-reopen[hidden],.summary-panel-reopen[hidden]{display:none!important}
+@media(min-width:1351px){
+  #workGrid.transcript-panel-collapsed:not(.mobile-preview-collapsed):not(.summary-panel-collapsed){
+    grid-template-columns:minmax(315px,360px) 32px minmax(300px,var(--summary-panel-width,1.15fr))!important;
+    column-gap:14px!important;
+  }
+  #workGrid.transcript-panel-collapsed #panelResizer{display:none}
+  #workGrid.transcript-panel-collapsed:not(.mobile-preview-collapsed):not(.summary-panel-collapsed) #showTranscriptPanel{grid-column:2;grid-row:1;align-self:start;justify-self:center;width:28px;min-width:28px;writing-mode:horizontal-tb;transform:none}
+  #workGrid.transcript-panel-collapsed:not(.mobile-preview-collapsed):not(.summary-panel-collapsed) .summary-column{grid-column:3;grid-row:1}
+  #workGrid.mobile-preview-collapsed.transcript-panel-collapsed:not(.summary-panel-collapsed){
+    grid-template-columns:32px 32px minmax(300px,var(--summary-panel-width,1fr))!important;
+    column-gap:12px!important;
+  }
+  #workGrid.mobile-preview-collapsed.transcript-panel-collapsed:not(.summary-panel-collapsed) #showMobileView{grid-column:1;grid-row:1}
+  #workGrid.mobile-preview-collapsed.transcript-panel-collapsed:not(.summary-panel-collapsed) #showTranscriptPanel{grid-column:2;grid-row:1;align-self:start;width:28px;min-width:28px;writing-mode:horizontal-tb;transform:none}
+  #workGrid.mobile-preview-collapsed.transcript-panel-collapsed:not(.summary-panel-collapsed) .summary-column{grid-column:3;grid-row:1}
+
+  #workGrid.summary-panel-collapsed:not(.mobile-preview-collapsed):not(.transcript-panel-collapsed){
+    grid-template-columns:minmax(315px,360px) minmax(380px,var(--transcript-panel-width,1.65fr)) 32px!important;
+    column-gap:14px!important;
+  }
+  #workGrid.summary-panel-collapsed:not(.mobile-preview-collapsed):not(.transcript-panel-collapsed) #transcriptPanel{grid-column:2;grid-row:1}
+  #workGrid.summary-panel-collapsed:not(.mobile-preview-collapsed):not(.transcript-panel-collapsed) #panelResizer{display:none}
+  #workGrid.summary-panel-collapsed:not(.mobile-preview-collapsed):not(.transcript-panel-collapsed) #showSummaryPanel{grid-column:3;grid-row:1;align-self:start;justify-self:center}
+  #workGrid.mobile-preview-collapsed.summary-panel-collapsed:not(.transcript-panel-collapsed){
+    grid-template-columns:32px minmax(380px,var(--transcript-panel-width,1fr)) 32px!important;
+    column-gap:12px!important;
+  }
+  #workGrid.mobile-preview-collapsed.summary-panel-collapsed:not(.transcript-panel-collapsed) #showMobileView{grid-column:1;grid-row:1}
+  #workGrid.mobile-preview-collapsed.summary-panel-collapsed:not(.transcript-panel-collapsed) #transcriptPanel{grid-column:2;grid-row:1}
+  #workGrid.mobile-preview-collapsed.summary-panel-collapsed:not(.transcript-panel-collapsed) #panelResizer{display:none}
+  #workGrid.mobile-preview-collapsed.summary-panel-collapsed:not(.transcript-panel-collapsed) #showSummaryPanel{grid-column:3;grid-row:1;align-self:start;justify-self:center}
+
+  #workGrid.transcript-panel-collapsed.summary-panel-collapsed:not(.mobile-preview-collapsed){
+    grid-template-columns:minmax(315px,360px) 32px 32px!important;
+    column-gap:12px!important;
+  }
+  #workGrid.transcript-panel-collapsed.summary-panel-collapsed:not(.mobile-preview-collapsed) #showTranscriptPanel{grid-column:2;grid-row:1;align-self:start;justify-self:center;width:28px;min-width:28px;writing-mode:horizontal-tb;transform:none}
+  #workGrid.transcript-panel-collapsed.summary-panel-collapsed:not(.mobile-preview-collapsed) #showSummaryPanel{grid-column:3;grid-row:1;align-self:start;justify-self:center}
+  #workGrid.mobile-preview-collapsed.transcript-panel-collapsed.summary-panel-collapsed{
+    grid-template-columns:32px 32px 32px!important;
+    column-gap:10px!important;
+  }
+  #workGrid.mobile-preview-collapsed.transcript-panel-collapsed.summary-panel-collapsed #showMobileView{grid-column:1;grid-row:1}
+  #workGrid.mobile-preview-collapsed.transcript-panel-collapsed.summary-panel-collapsed #showTranscriptPanel{grid-column:2;grid-row:1;align-self:start;width:28px;min-width:28px;writing-mode:horizontal-tb;transform:none}
+  #workGrid.mobile-preview-collapsed.transcript-panel-collapsed.summary-panel-collapsed #showSummaryPanel{grid-column:3;grid-row:1;align-self:start;justify-self:center}
+}
+@media(min-width:851px) and (max-width:1350px){
+  #workGrid.mobile-preview-collapsed,
+  #workGrid.transcript-panel-collapsed,
+  #workGrid.summary-panel-collapsed{grid-template-columns:minmax(0,1fr)!important;row-gap:12px!important}
+  #workGrid.mobile-preview-collapsed #showMobileView{grid-column:1;grid-row:1;justify-self:start;align-self:start}
+  #workGrid.transcript-panel-collapsed #showTranscriptPanel{grid-column:1;grid-row:2;justify-self:start;align-self:start;width:28px;min-width:28px;height:28px;min-height:28px;writing-mode:horizontal-tb;transform:none}
+  #workGrid.summary-panel-collapsed #showSummaryPanel{grid-column:1;grid-row:3;justify-self:start;align-self:start}
+  #workGrid.mobile-preview-collapsed.transcript-panel-collapsed #showTranscriptPanel{grid-row:2}
+  #workGrid.mobile-preview-collapsed.transcript-panel-collapsed.summary-panel-collapsed #showSummaryPanel{grid-row:3}
+  #workGrid.transcript-panel-collapsed.summary-panel-collapsed #showSummaryPanel{grid-row:3}
+  #workGrid.mobile-preview-collapsed #transcriptPanel{grid-column:1;grid-row:2}
+  #workGrid.mobile-preview-collapsed #panelResizer{display:none}
+  #workGrid.mobile-preview-collapsed .summary-column{grid-column:1;grid-row:3}
+  #workGrid.transcript-panel-collapsed:not(.mobile-preview-collapsed) .summary-column{grid-column:1;grid-row:3}
+  #workGrid.summary-panel-collapsed #transcriptPanel{grid-column:1;grid-row:2}
+  #workGrid.transcript-panel-collapsed #panelResizer,
+  #workGrid.summary-panel-collapsed #panelResizer{display:none}
+  #workGrid.transcript-panel-collapsed.summary-panel-collapsed #showSummaryPanel{grid-row:3}
+  #workGrid.transcript-panel-collapsed.summary-panel-collapsed .summary-column{grid-column:1;grid-row:3}
+}
+@media(max-width:850px){
+  .transcript-panel .transcript-panel-collapse{top:8px;right:8px}
+  .transcript-panel-heading{padding-right:44px}
+  #workGrid.mobile-preview-collapsed #showMobileView{grid-row:1;min-height:36px}
+  #workGrid.transcript-panel-collapsed #showTranscriptPanel{grid-column:1;grid-row:2;justify-self:start;align-self:start;width:28px;min-width:28px;height:28px;min-height:28px;writing-mode:horizontal-tb;transform:none}
+  #workGrid.summary-panel-collapsed #showSummaryPanel{grid-column:1;grid-row:3;justify-self:start;align-self:start}
+  #workGrid.transcript-panel-collapsed.summary-panel-collapsed #showSummaryPanel{grid-row:3}
+}
