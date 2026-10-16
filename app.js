@@ -505,17 +505,21 @@ function updateTranscriptionUI() {
   const { recording, transcriptionEnabled } = state;
   $("transcriptPanel").classList.toggle("transcription-on", transcriptionEnabled);
   $("transcriptPanel").classList.toggle("transcription-off", !transcriptionEnabled);
-  const transcriptionStatus = recording
-    ? transcriptionEnabled ? "PÅGÅR" : "AV"
-    : state.hasStarted
-      ? transcriptionEnabled ? "VÄNTAR · LJUD PAUSAT" : "AV"
-      : transcriptionEnabled ? "PÅSLAGEN · VÄNTAR PÅ LJUD" : "AV";
+  const transcriptionStatus = state.audioEnded
+    ? "AVSLUTAD"
+    : recording
+      ? transcriptionEnabled ? "PÅGÅR" : "AV"
+      : state.hasStarted
+        ? transcriptionEnabled ? "VÄNTAR · LJUD PAUSAT" : "AV"
+        : transcriptionEnabled ? "PÅSLAGEN · VÄNTAR PÅ LJUD" : "AV";
   $("transcriptionStatusValue").textContent = transcriptionStatus;
-  $("phoneTranscriptionState").textContent = recording
-    ? transcriptionEnabled ? "TRANSKRIBERING PÅGÅR" : "TRANSKRIBERING AV"
-    : state.hasStarted
-      ? transcriptionEnabled ? "TRANSKRIBERING VÄNTAR" : "TRANSKRIBERING AV"
-      : transcriptionEnabled ? "TRANSKRIBERING PÅ" : "TRANSKRIBERING AV";
+  $("phoneTranscriptionState").textContent = state.audioEnded
+    ? "TRANSKRIBERING AVSLUTAD"
+    : recording
+      ? transcriptionEnabled ? "TRANSKRIBERING PÅGÅR" : "TRANSKRIBERING AV"
+      : state.hasStarted
+        ? transcriptionEnabled ? "TRANSKRIBERING VÄNTAR" : "TRANSKRIBERING AV"
+        : transcriptionEnabled ? "TRANSKRIBERING PÅ" : "TRANSKRIBERING AV";
   $("phoneRecordCard").classList.toggle("transcription-off", !transcriptionEnabled);
   $("phoneRecordCard").classList.toggle("transcription-waiting", state.hasStarted && !recording && transcriptionEnabled);
   $("transcriptionStatusCard").classList.toggle("is-off", !transcriptionEnabled);
@@ -594,7 +598,7 @@ function updateAudioStatus() {
   const card = $("audioStatusCard");
   $("audioStatusValue").textContent = state.audioEnded ? "AVSLUTAD" : state.recording ? "INSPELNING PÅGÅR" : state.hasStarted ? "PAUSAD" : "REDO ATT SPELA IN";
   card.classList.toggle("is-active", state.recording);
-  card.classList.toggle("is-paused", state.hasStarted && !state.recording);
+  card.classList.toggle("is-paused", state.hasStarted && !state.recording && !state.audioEnded);
   updateRemoteControls();
 }
 function startRecording() {
@@ -613,6 +617,7 @@ function stopRecording() {
   $("phoneStop").disabled = true;
   $("phoneStop").classList.add("is-ended");
   updateAudioStatus();
+  updateTranscriptionUI();
   updateRemoteControls();
   showToast("Ljudinspelningen har avslutats.");
 }
