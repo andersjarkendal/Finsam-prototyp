@@ -820,7 +820,7 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 }
 @media(max-width:620px){
   .followup-heading{align-items:center;flex-direction:row;gap:8px}
-  .followup-heading .analysis-panel-toggle{gap:8px;min-height:42px;padding:4px 8px 4px 10px;font-size:12px}
+  .followup-heading .analysis-panel-toggle{min-height:42px;padding:4px 8px}
   .followup-card{flex-basis:min(136px,calc((100vw - 60px)/2));width:min(136px,calc((100vw - 60px)/2));height:132px}
   .followup-tile{width:100%;height:132px;padding:8px}
 }
@@ -2417,11 +2417,14 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .transcript-panel-heading{padding:18px 14px 14px!important}
 }
 
-/* Keep the Förhörsanalys panel and its switch anchored at the far right. */
-@media(min-width:1600px){
-  .followup-suggestions{
-    justify-self:end;
-    width:min(420px,100%);
-    min-width:300px;
-  }
+
+/* Keep the Förhörsanalys text with status while only its switch sits at right. */
+.analysis-toggle-copy{
+  pointer-events:auto;
+  cursor:pointer;
+  color:#244866;
+  font-size:12px;
+  font-weight:750;
+  letter-spacing:0;
+  text-transform:none;
 }
