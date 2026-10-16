@@ -656,17 +656,36 @@ function stopRecording() {
   showToast("Ljudinspelningen har avslutats.");
 }
 function makeSummaryText(lines) {
-  const personLines = lines.filter(line => line.kind === "person");
-  if (!personLines.length) return "I den här delen ställdes frågor om händelseförloppet. Inga uppgifter från Person A finns med i den här delsammanfattningen ännu.";
-  const points = [...new Set(personLines.map(line => line.summary).filter(Boolean))];
-  const topics = [...new Set(lines.map(line => line.topic))];
-  const questions = lines.filter(line => line.kind === "speaker").length;
-  const uncertain = personLines.some(line => line.uncertain);
-  const details = points.length ? points.map(point => `• ${point}`).join("\n") : `• Person A lämnade ${personLines.length} yttranden i den här delen. Uppgifterna behöver läsas tillsammans med de fullständiga transkriberade svaren.`;
-  const review = uncertain
-    ? "Flera uppgifter, särskilt tider och minnesbilder, angavs som ungefärliga eller osäkra. De bör kontrolleras mot möjliga stöd som mejl, kalender och passerkortsloggar."
-    : "Sammanfattningen återger Person A:s uppgifter. Kontrollera dem mot den fullständiga transkriberingen och eventuella stödhandlingar.";
-  return `PERSON A:S UPPGIFTER\n${details}\n\nFÖRHÖRSLEDARENS FÖLJDFRÅGOR\n${questions} frågor berörde ${topics.join(", ").toLowerCase()}. Sammanfattningen bygger på ${personLines.length} transkriberade svar i den här delen.\n\nATT KONTROLLERA\n${review}`;
+  const suspectLines = lines.filter(line => line.kind === "person");
+  const topics = [...new Set(lines.map(line => line.topic).filter(Boolean))];
+  const questionCount = lines.filter(line => line.kind === "speaker").length;
+  if (!suspectLines.length) {
+    return `Inga svar från den misstänkte har transkriberats i den här delen ännu. Förhörsledaren har ställt ${questionCount} frågor om ${topics.join(", ").toLowerCase()}.`;
+  }
+
+  const points = [...new Set(suspectLines
+    .map(line => (line.summary || line.text || "").replace(/^Den misstänkte uppger att\\s*/i, "").trim())
+    .filter(text => text && !/^(Ja, jag förstår|Okej\\.)/i.test(text)))];
+  const details = points.length
+    ? points.map(point => `• ${point}`).join("\\n")
+    : `• Den misstänkte har lämnat ${suspectLines.length} svar i den här delen.`;
+  const transcriptText = lines.map(line => line.text).join(" ");
+  const hasUncertainDetails = suspectLines.some(line => line.uncertain);
+  const review = hasUncertainDetails
+    ? "Flera uppgifter anges som osäkra eller ungefärliga. Kontrollera dem mot den fullständiga transkriberingen och tillgängliga bokföringsunderlag."
+    : "Sammanfattningen återger den misstänktes uppgifter. Kontrollera dem mot den fullständiga transkriberingen och tillgängliga underlag.";
+  const transferNote = /86\\s?000/.test(transcriptText)
+    ? "\\nSärskilt att följa upp: underlaget för överföringen på 86 000 kronor och vilka utlägg den avsåg."
+    : "";
+
+  return `DEN MISSTÄNKTES UPPGIFTER
+${details}
+
+FÖRHÖR SOM BEHANDLATS
+${questionCount} frågor berörde ${topics.join(", ").toLowerCase()}. Delen bygger på ${suspectLines.length} transkriberade svar.
+
+ATT KONTROLLERA
+${review}${transferNote}`;
 }
 const demoFollowupQuestions = [
   {
