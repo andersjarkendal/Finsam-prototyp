@@ -2402,3 +2402,6 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   .mobile-preview-panel{padding-top:58px}
   #workGrid.summary-panel-collapsed #showSummaryPanel{justify-self:end!important}
 }
+
+/* Align the remote-control title with the status-panel title. */
+.remote-control-heading{position:relative;top:24px}
