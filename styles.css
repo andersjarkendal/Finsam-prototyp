@@ -1195,14 +1195,14 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 .final-summary-contrast-button[aria-pressed="true"]{border-color:#003366;background:#003366;color:#fff}
 .final-summary-close-button{border-color:#003366;background:#003366;color:#fff}
 .final-summary-close-button span{margin-left:8px;font-size:20px;line-height:0;vertical-align:-1px}
-.final-summary-modal-content{flex:1 1 auto;min-height:0;overflow:auto;padding:clamp(24px,5vw,64px);color:#173b5c;background:#fff;font-size:23px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere;overscroll-behavior:contain}
-.final-summary-modal-content.text-size-small{font-size:19px}
-.final-summary-modal-content.text-size-medium{font-size:24px}
-.final-summary-modal-content.text-size-large{font-size:30px}
+.final-summary-modal-content{flex:1 1 auto;min-height:0;overflow:auto;padding:clamp(24px,5vw,64px);color:#1f2933;background:#fff;font-size:16px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere;overscroll-behavior:contain}
+.final-summary-modal-content.text-size-small{font-size:14px}
+.final-summary-modal-content.text-size-medium{font-size:16px}
+.final-summary-modal-content.text-size-large{font-size:20px}
 .final-summary-modal-card.is-inverted .final-summary-modal-content{background:#071b2b;color:#fff}
 .final-summary-modal-content:focus-visible{outline:4px solid #ffcc00;outline-offset:-6px}
 .final-summary-modal button:focus-visible{outline:4px solid #ffcc00;outline-offset:3px}
-@media(max-width:760px){.final-result-actions{gap:10px}.final-summary-modal{padding:6px}.final-summary-modal-card{border-radius:10px}.final-summary-modal-header{align-items:flex-start;flex-direction:column;gap:14px;padding:15px}.final-summary-modal-heading h2{font-size:18px}.final-summary-modal-heading p{font-size:12px}.final-summary-modal-controls{justify-content:flex-start;width:100%;gap:8px}.final-summary-size-group button,.final-summary-contrast-button,.final-summary-close-button{min-height:44px;padding:0 10px;font-size:13px}.final-summary-modal-content{padding:22px 18px}.final-summary-modal-content.text-size-small{font-size:17px}.final-summary-modal-content.text-size-medium{font-size:20px}.final-summary-modal-content.text-size-large{font-size:25px}}
+@media(max-width:760px){.final-result-actions{gap:10px}.final-summary-modal{padding:6px}.final-summary-modal-card{border-radius:10px}.final-summary-modal-header{align-items:flex-start;flex-direction:column;gap:14px;padding:15px}.final-summary-modal-heading h2{font-size:18px}.final-summary-modal-heading p{font-size:12px}.final-summary-modal-controls{justify-content:flex-start;width:100%;gap:8px}.final-summary-size-group button,.final-summary-contrast-button,.final-summary-close-button{min-height:44px;padding:0 10px;font-size:13px}.final-summary-modal-content{padding:22px 18px}.final-summary-modal-content.text-size-small{font-size:14px}.final-summary-modal-content.text-size-medium{font-size:16px}.final-summary-modal-content.text-size-large{font-size:20px}}
 
 /* Keep the enlarged protocol summary in an A4-like portrait reading window. */
 .final-summary-modal-card{width:min(90vw,63.6vh,840px);height:auto;max-height:90vh;aspect-ratio:210 / 297}
