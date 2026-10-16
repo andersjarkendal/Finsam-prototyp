@@ -1782,3 +1782,20 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   }
   .followup-suggestions{grid-column:1;grid-row:3;width:100%;min-width:0;margin:0}
 }
+
+/* Recording controls: one state-aware start/pause/resume action and a separate stop. */
+.remote-control-actions{display:flex!important;flex-direction:column!important;align-items:stretch!important;width:min(100%,260px)!important;max-width:100%;gap:8px}
+.remote-control-actions>.remote-action{box-sizing:border-box;flex:0 0 auto!important;width:100%!important;max-width:none!important;min-height:56px!important;padding:9px 12px;font-size:14px;white-space:nowrap}
+.remote-stop:not(:disabled),.remote-stop.is-ended{border-color:#a53c2d;background:#b84636;color:#fff}
+.remote-stop:disabled{border-color:#d4dde6;background:#f0f3f6;color:#8594a3}
+.remote-stop:not(:disabled):hover{background:#96382d}
+.remote-record.is-recording:not(:disabled){border-color:#c62828;background:#fff0ee;color:#8e201c}
+.mobile-preview-panel .phone-secondary-controls{flex-direction:column}
+.mobile-preview-panel .phone-secondary-controls button{width:100%}
+.mobile-preview-panel .phone-secondary-controls .phone-stop{border:2px solid #a53c2d;background:#b84636;color:#fff}
+.mobile-preview-panel .phone-secondary-controls .phone-stop:disabled{border-color:#d4dde6;background:#f0f3f6;color:#8594a3}
+.mobile-preview-panel .phone-secondary-controls .phone-stop:not(:disabled):hover{background:#96382d}
+.mobile-preview-panel .phone-secondary-controls .phone-stop span{font-size:18px}
+.mobile-preview-panel .phone-record-card.recording~.phone-controls .phone-main-record{background:#fff0ee;color:#8e201c;border:2px solid #c62828}
+.mobile-preview-panel .phone-record-card.recording~.phone-controls .phone-main-record .phone-button-dot{color:#c62828;background:none;font-size:16px;line-height:1}
+.mobile-preview-panel .phone-record-card.recording~.phone-controls .phone-main-record:hover{background:#ffe5e1}
