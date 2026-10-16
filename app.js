@@ -800,6 +800,11 @@ document.addEventListener("click", event => {
 });
 
 document.addEventListener("change", event => {
+  if (event.target.id === "analysisPanelToggle") {
+    const sessionStripMain = event.target.closest(".session-strip-main");
+    sessionStripMain?.classList.toggle("analysis-hidden", !event.target.checked);
+    return;
+  }
   if (event.target.matches(".followup-asked input") && event.target.checked) {
     const questionCard = openFollowupQuestion?.detail.contains(event.target)
       ? openFollowupQuestion.card
