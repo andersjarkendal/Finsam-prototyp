@@ -2419,3 +2419,19 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 
 
 .followup-suggestions>.followup-empty[hidden]{display:none!important}
+
+/* Keep every collapse/restore control the same compact size in either state. */
+#collapseMobileView,#showMobileView,
+#collapseTranscriptPanel,#showTranscriptPanel,
+#collapseSummaryPanel,#showSummaryPanel{
+  box-sizing:border-box!important;
+  width:150px!important;
+  min-width:150px!important;
+  max-width:150px!important;
+  height:38px!important;
+  min-height:38px!important;
+  max-height:38px!important;
+  padding:5px 9px!important;
+  gap:7px!important;
+  font-size:12px!important;
+}
