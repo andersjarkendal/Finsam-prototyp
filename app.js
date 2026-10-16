@@ -1018,10 +1018,44 @@ function updatePairingUI() {
   $("phoneConnectedView").setAttribute("aria-hidden", String(!state.pairConnected));
   updateRemoteControls();
 }
+function resetSessionForNewHearing() {
+  clearInterval(state.timerId); state.timerId = null;
+  clearInterval(state.feedId); state.feedId = null;
+  clearTimeout(state.typingTimeout); state.typingTimeout = null;
+  state.recording = false;
+  state.hasStarted = false;
+  state.audioEnded = false;
+  state.elapsed = 0;
+  state.lines = [];
+  state.summaries = [];
+  state.nextLine = 0;
+  state.lastSummarized = 0;
+  state.finalCreated = false;
+  state.finalDirty = false;
+  state.typingJob = null;
+  state.typingQueue = [];
+  $("transcriptList").replaceChildren();
+  $("transcriptPlaceholder").classList.remove("hidden");
+  $("finalResult").classList.add("hidden");
+  $("summaryStaleNote").classList.add("hidden");
+  $("followupSuggestions").querySelector(".followup-list")?.replaceChildren();
+  delete $("transcriptMarkStatus").dataset.result;
+  $("transcriptMarkStatus").textContent = "Markera text i transkriberingen för att välja en markering.";
+  $("finishSession").disabled = true;
+  document.body.classList.remove("is-recording");
+  renderSummaries();
+  activateSummaryTab("partsTab");
+  setRecording(false);
+  updateTimers();
+  updateSummaryButton();
+  updateTranscriptMarkControls();
+}
 function simulatePairing() {
+  if (state.audioEnded) resetSessionForNewHearing();
   state.pairConnected = true;
   updatePairingUI();
-  closePairing(); showToast("Demomobilen är nu simulerat ansluten.");
+  closePairing();
+  showToast("Demomobilen är ansluten och redo för ett nytt förhör.");
 }
 $("openPairing").addEventListener("click", openPairing);
 $("closePairing").addEventListener("click", closePairing);
@@ -1095,7 +1129,17 @@ $("toggleFinalSummaryContrast").addEventListener("click", event => {
 document.addEventListener("keydown", event => {
   if (event.key === "Escape" && !finalSummaryModal.classList.contains("hidden")) closeFinalSummaryModal();
 });
-$("finishSession").addEventListener("click", () => { if (!state.finalCreated || state.finalDirty) return; setRecording(false); showToast("Förhöret avslutades i demot."); });
+$("finishSession").addEventListener("click", () => {
+  if (!state.finalCreated || state.finalDirty) return;
+  setRecording(false);
+  state.audioEnded = true;
+  state.pairConnected = false;
+  $("finishSession").disabled = true;
+  updateAudioStatus();
+  updateTranscriptionUI();
+  updatePairingUI();
+  showToast("Förhöret avslutades. Anslut mobilen igen för att starta ett nytt.");
+});
 
 const speechPhrases = [[4, 13], [17, 27], [32, 43], [48, 56]];
 for (let i = 0; i < 120; i++) {
