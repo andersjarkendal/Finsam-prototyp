@@ -60,7 +60,7 @@ const demoDialogue = [
 ].map((line, index) => ({ ...line, time: clock(index * 5 + 3) }));
 
 const $ = (id) => document.getElementById(id);
-const state = { recording: false, hasStarted: false, audioEnded: false, transcriptionEnabled: true, elapsed: 0, lines: [], summaries: [], timerId: null, feedId: null, typingJob: null, typingTimeout: null, nextLine: 0, lastSummarized: 0, finalCreated: false, pairConnected: false };
+const state = { recording: false, hasStarted: false, audioEnded: false, transcriptionEnabled: true, elapsed: 0, lines: [], summaries: [], timerId: null, feedId: null, typingJob: null, typingQueue: [], typingTimeout: null, nextLine: 0, lastSummarized: 0, finalCreated: false, pairConnected: false };
 const transcriptList = $("transcriptList");
 const transcriptPlaceholder = $("transcriptPlaceholder");
 const toast = $("toast");
@@ -373,13 +373,20 @@ function showToast(message) {
 function pauseTyping() {
   clearTimeout(state.typingTimeout);
   state.typingTimeout = null;
+  state.typingJob?.element.classList.remove("is-typing");
 }
 function advanceTyping() {
+  if (!state.recording || !state.transcriptionEnabled || state.typingTimeout) return;
+  if (!state.typingJob) state.typingJob = state.typingQueue.shift() || null;
   const job = state.typingJob;
-  if (!job || state.typingTimeout || !state.recording || !state.transcriptionEnabled) return;
+  if (!job) return;
+  job.element.classList.add("is-typing");
   const typeNext = () => {
     state.typingTimeout = null;
-    if (!state.recording || !state.transcriptionEnabled) return;
+    if (!state.recording || !state.transcriptionEnabled) {
+      job.element.classList.remove("is-typing");
+      return;
+    }
     job.index += 1;
     job.element.textContent = job.text.slice(0, job.index);
     handleTranscriptContentGrowth();
@@ -387,6 +394,7 @@ function advanceTyping() {
       job.element.classList.remove("is-typing");
       state.typingJob = null;
       job.onComplete();
+      advanceTyping();
       return;
     }
     state.typingTimeout = setTimeout(typeNext, 22);
@@ -394,9 +402,20 @@ function advanceTyping() {
   typeNext();
 }
 function typeTranscriptText(element, text, onComplete) {
-  element.classList.add("is-typing");
-  state.typingJob = { element, text, index: 0, onComplete };
+  state.typingQueue.push({ element, text, index: 0, onComplete });
   advanceTyping();
+}
+function finishPendingTyping() {
+  pauseTyping();
+  const pending = [state.typingJob, ...state.typingQueue].filter(Boolean);
+  state.typingJob = null;
+  state.typingQueue = [];
+  for (const job of pending) {
+    job.element.textContent = job.text;
+    job.element.classList.remove("is-typing");
+    job.onComplete();
+  }
+  handleTranscriptContentGrowth();
 }
 function addTranscriptLine(line) {
   transcriptPlaceholder.classList.add("hidden");
@@ -609,6 +628,7 @@ function startRecording() {
 function stopRecording() {
   if (!state.pairConnected || !state.hasStarted || state.audioEnded) return;
   setRecording(false);
+  finishPendingTyping();
   state.audioEnded = true;
   $("phoneRecordState").textContent = "LJUDINSPELNING AVSLUTAD";
   $("phoneRecordText").textContent = "Ljudinspelning avslutad";
