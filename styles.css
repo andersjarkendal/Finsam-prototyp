@@ -1207,6 +1207,84 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 /* Keep the enlarged protocol summary in an A4-like portrait reading window. */
 .final-summary-modal-card{width:min(90vw,63.6vh,840px);height:auto;max-height:90vh;aspect-ratio:210 / 297}
 
+/* Keep every on/off control consistent with the transcription switch. */
+.app-toggle,
+.recording-statuses-heading .app-toggle,
+.followup-heading .app-toggle,
+.transcript-heading-actions .app-toggle,
+.final-summary-modal-controls .app-toggle{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  box-sizing:border-box;
+  min-height:46px;
+  padding:6px 10px 6px 14px;
+  border:2px solid #b8c8d9;
+  border-radius:12px;
+  background:#eef3f8;
+  color:#173b40;
+  font-size:clamp(12px,1vw,16px);
+  font-weight:800;
+  line-height:1.2;
+  letter-spacing:0;
+  text-transform:none;
+  white-space:nowrap;
+  cursor:pointer;
+}
+.app-toggle input{
+  position:absolute;
+  z-index:2;
+  top:50%;
+  right:10px;
+  width:48px;
+  height:28px;
+  margin:0;
+  opacity:0;
+  transform:translateY(-50%);
+  cursor:pointer;
+}
+.app-toggle .app-toggle-track{
+  position:relative;
+  display:block;
+  flex:0 0 48px;
+  order:1;
+  box-sizing:border-box;
+  width:48px;
+  height:28px;
+  padding:0;
+  border:2px solid #70849a;
+  border-radius:99px;
+  background:#a8b5c3;
+  color:transparent;
+  transition:background .16s ease,border-color .16s ease;
+}
+.app-toggle .app-toggle-track::after{
+  content:"";
+  position:absolute;
+  top:2px;
+  left:2px;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 1px 3px rgba(0,35,75,.22);
+  transition:transform .16s ease;
+}
+.followup-heading .app-toggle .app-toggle-track{border:2px solid #70849a;border-radius:99px;background:#a8b5c3;color:transparent}
+.app-toggle input:checked+.app-toggle-track{
+  border-color:#00264d;
+  background:#003366;
+}
+.followup-heading .app-toggle input:checked+.app-toggle-track{border-color:#00264d;background:#003366}
+.app-toggle input:checked+.app-toggle-track::after{transform:translateX(20px)}
+.app-toggle input:focus-visible+.app-toggle-track{outline:3px solid #ffcc00;outline-offset:3px}
+.app-toggle:focus-within{border-color:#003366}
+.app-toggle .toggle-copy{order:0}
+.app-toggle .toggle-copy b{font-size:inherit;color:inherit}
+.followup-heading .app-toggle>span:first-child{padding:0;border:0;border-radius:0;background:transparent;color:inherit;font-size:inherit;letter-spacing:0}
+
 
 /* Align the summary creation action to the left without its removed helper copy. */
 .summary-content-toolbar{justify-content:flex-start}
