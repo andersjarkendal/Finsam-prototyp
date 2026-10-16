@@ -2417,15 +2417,5 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
 }
 
 
-/* Keep the Förhörsanalys text with status while only its switch sits at right. */
-.analysis-toggle-copy{
-  pointer-events:auto;
-  cursor:pointer;
-  color:#244866;
-  font-size:12px;
-  font-weight:750;
-  letter-spacing:0;
-  text-transform:none;
-}
 
 .followup-suggestions>.followup-empty[hidden]{display:none!important}
