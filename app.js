@@ -719,8 +719,8 @@ let activeFollowupDrag = null;
 function renderFollowupQuestions(summaryNumber) {
   if (openFollowupQuestion) closeFollowupCard(false);
   const panel = $("followupSuggestions");
-  panel.innerHTML = `<div class="followup-heading"><b>FÖRHÖRSANALYS</b></div><div class="followup-list" id="followupQuestionList"></div>`;
-  const list = panel.querySelector(".followup-list");
+  const list = $("followupQuestionList");
+  list.replaceChildren();
   demoFollowupQuestions.slice(0, 3).forEach((item, index) => {
     const card = document.createElement("article");
     card.className = "followup-card";
