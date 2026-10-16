@@ -792,8 +792,8 @@ document.addEventListener("click", event => {
 
 document.addEventListener("change", event => {
   if (event.target.id === "analysisPanelToggle") {
-    const sessionStripMain = event.target.closest(".session-strip-main");
-    sessionStripMain?.classList.toggle("analysis-hidden", !event.target.checked);
+    const analysisPanel = $("followupSuggestions");
+    analysisPanel.classList.toggle("is-analysis-disabled", !event.target.checked);
     event.target.setAttribute("aria-expanded", String(event.target.checked));
     if (!event.target.checked) closeFollowupCard(false);
     return;
@@ -805,8 +805,6 @@ document.addEventListener("change", event => {
     if (!questionCard) return;
     if (openFollowupQuestion?.card === questionCard) closeFollowupCard(false);
     questionCard.remove();
-    const panel = $("followupSuggestions");
-    if (!panel.querySelector(".followup-card")) panel.classList.remove("is-visible");
     return;
   }
 });
