@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#003366" />
     <title>Förhörsflöde · Prototyp</title>
-    <link rel="stylesheet" href="styles.css?v=20261016-0800" />
+    <link rel="stylesheet" href="styles.css?v=20261016-0845" />
   </head>
   <body>
     <div class="prototype-banner"><span class="demo-dot"></span> PROTOTYP · ENDAST EXEMPELDATA · INGEN LJUDINSPELNING</div>
@@ -26,7 +26,7 @@
             <div class="session-strip-main">
               <div class="status-remote-group">
               <div class="recording-statuses" id="recordingStatuses" aria-label="Gemensamt område för statuspaneler och fjärrkontroll">
-                <div class="recording-statuses-heading">Statuspanel</div>
+                <div class="recording-statuses-heading"><span>Statuspanel</span><label class="analysis-panel-toggle" for="analysisPanelToggle"><span>Visa Förhörsanalys</span><input id="analysisPanelToggle" type="checkbox" checked aria-controls="followupSuggestions"><span class="followup-toggle-switch" aria-hidden="true"></span></label></div>
                 <span class="sr-only" id="statusMoveHelp">Dra panelerna åt höger eller vänster inom det gemensamma statusområdet. Ljudinspelning ligger alltid till vänster om transkriberingen. Med tangentbordet flyttar du en statuspanel med vänster- och högerpil, 20 pixlar åt gången, eller 64 pixlar med Skift.</span>
                 <div class="recording-status-card audio-status-card" id="audioStatusCard" data-status-card role="status" aria-live="polite" aria-describedby="statusMoveHelp" aria-keyshortcuts="ArrowLeft ArrowRight Shift+ArrowLeft Shift+ArrowRight Home End" tabindex="0" title="Dra panelen horisontellt inom det gemensamma statusområdet"><span class="recording-status-label">LJUDINSPELNING</span><b id="audioStatusValue">REDO ATT SPELA IN</b></div>
                 <div class="recording-status-card transcription-status-card" id="transcriptionStatusCard" data-status-card role="status" aria-live="polite" aria-describedby="statusMoveHelp" aria-keyshortcuts="ArrowLeft ArrowRight Shift+ArrowLeft Shift+ArrowRight Home End" tabindex="0" title="Dra panelen horisontellt inom det gemensamma statusområdet"><span class="recording-status-label">TRANSKRIBERING</span><b id="transcriptionStatusValue">PÅSLAGEN</b></div>
