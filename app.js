@@ -1181,6 +1181,31 @@ updateAudioStatus();
 updateTranscriptionUI();
 
 
+// Collapse the mobile preview so the transcript and summary can use the width.
+(()=>{
+  const grid=$("workGrid");
+  const handset=$("mobilePreviewPanel");
+  const collapseButton=$("collapseMobileView");
+  const showButton=$("showMobileView");
+  if(!grid||!handset||!collapseButton||!showButton)return;
+  const setCollapsed=collapsed=>{
+    grid.classList.toggle("mobile-preview-collapsed",collapsed);
+    handset.hidden=collapsed;
+    showButton.hidden=!collapsed;
+    collapseButton.setAttribute("aria-expanded",String(!collapsed));
+    showButton.setAttribute("aria-expanded",String(!collapsed));
+  };
+  collapseButton.addEventListener("click",()=>{
+    setCollapsed(true);
+    showButton.focus();
+  });
+  showButton.addEventListener("click",()=>{
+    setCollapsed(false);
+    collapseButton.focus();
+  });
+})();
+
+
 // Fill the available desktop viewport below the case header and recording status.
 (()=>{
   const grid=document.getElementById('workGrid');
