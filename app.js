@@ -713,21 +713,13 @@ const demoFollowupQuestions = [
     visual: `<svg viewBox="0 0 300 136" role="img" aria-label="Ungefärlig tidslinje enligt förhöret: avvikelser upptäcks vid bokslutet i januari eller februari 2025, kontakt med redovisningskonsult och konsultbyte under våren 2025"><path d="M36 72h228" stroke="#a8bbce" stroke-width="4" stroke-linecap="round"/><circle cx="48" cy="72" r="9" fill="#003366"/><circle cx="150" cy="72" r="9" fill="#ffcc00" stroke="#003366" stroke-width="2"/><circle cx="252" cy="72" r="9" fill="#003366"/><text x="48" y="38" text-anchor="middle" fill="#173b63" font-size="10" font-weight="700">Jan/feb 2025</text><text x="150" y="38" text-anchor="middle" fill="#173b63" font-size="10" font-weight="700">Kontakt</text><text x="252" y="38" text-anchor="middle" fill="#173b63" font-size="10" font-weight="700">Våren 2025</text><text x="48" y="103" text-anchor="middle" fill="#536b84" font-size="9">Avvikelser vid</text><text x="48" y="116" text-anchor="middle" fill="#536b84" font-size="9">bokslutet</text><text x="150" y="109" text-anchor="middle" fill="#536b84" font-size="9">Redovisnings-</text><text x="150" y="121" text-anchor="middle" fill="#536b84" font-size="9">konsult</text><text x="252" y="109" text-anchor="middle" fill="#536b84" font-size="9">Ny konsult</text><text x="252" y="121" text-anchor="middle" fill="#536b84" font-size="9">tar över</text></svg>`
   }
 ];
-const followupToggle = $("followupToggle");
-const followupQuestionList = $("followupQuestionList");
-function updateFollowupVisibility() {
-  followupQuestionList.hidden = !followupToggle.checked;
-}
-followupToggle.addEventListener("change", updateFollowupVisibility);
-
 let openFollowupQuestion = null;
 let activeFollowupDrag = null;
 
 function renderFollowupQuestions(summaryNumber) {
   if (openFollowupQuestion) closeFollowupCard(false);
   const panel = $("followupSuggestions");
-  const showQuestions = $("followupToggle")?.checked ?? true;
-  panel.innerHTML = `<div class="followup-heading"><b>FÖRHÖRSANALYS</b><label class="app-toggle followup-toggle" for="followupToggle"><span>Visa följdfrågor</span><input id="followupToggle" type="checkbox" ${showQuestions ? "checked" : ""} aria-controls="followupQuestionList"><span class="app-toggle-track followup-toggle-switch" aria-hidden="true"></span></label></div><div class="followup-list" id="followupQuestionList"></div>`;
+  panel.innerHTML = `<div class="followup-heading"><b>FÖRHÖRSANALYS</b></div><div class="followup-list" id="followupQuestionList"></div>`;
   const list = panel.querySelector(".followup-list");
   demoFollowupQuestions.slice(0, 3).forEach((item, index) => {
     const card = document.createElement("article");
@@ -737,7 +729,6 @@ function renderFollowupQuestions(summaryNumber) {
     list.appendChild(card);
   });
   panel.classList.add("is-visible");
-  panel.classList.toggle("is-hidden-by-user", !showQuestions);
 }
 
 function openFollowupCard(card) {
@@ -803,6 +794,8 @@ document.addEventListener("change", event => {
   if (event.target.id === "analysisPanelToggle") {
     const sessionStripMain = event.target.closest(".session-strip-main");
     sessionStripMain?.classList.toggle("analysis-hidden", !event.target.checked);
+    event.target.setAttribute("aria-expanded", String(event.target.checked));
+    if (!event.target.checked) closeFollowupCard(false);
     return;
   }
   if (event.target.matches(".followup-asked input") && event.target.checked) {
@@ -815,11 +808,6 @@ document.addEventListener("change", event => {
     const panel = $("followupSuggestions");
     if (!panel.querySelector(".followup-card")) panel.classList.remove("is-visible");
     return;
-  }
-  if (event.target.id === "followupToggle") {
-    const panel = $("followupSuggestions");
-    panel.classList.toggle("is-hidden-by-user", !event.target.checked);
-    if (!event.target.checked) closeFollowupCard(false);
   }
 });
 
