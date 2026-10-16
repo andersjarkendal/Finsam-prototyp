@@ -60,7 +60,7 @@ const demoDialogue = [
 ].map((line, index) => ({ ...line, time: clock(index * 5 + 3) }));
 
 const $ = (id) => document.getElementById(id);
-const state = { recording: false, hasStarted: false, transcriptionEnabled: true, elapsed: 0, lines: [], summaries: [], timerId: null, feedId: null, typingJob: null, typingTimeout: null, nextLine: 0, lastSummarized: 0, finalCreated: false, pairConnected: false };
+const state = { recording: false, hasStarted: false, audioEnded: false, transcriptionEnabled: true, elapsed: 0, lines: [], summaries: [], timerId: null, feedId: null, typingJob: null, typingTimeout: null, nextLine: 0, lastSummarized: 0, finalCreated: false, pairConnected: false };
 const transcriptList = $("transcriptList");
 const transcriptPlaceholder = $("transcriptPlaceholder");
 const toast = $("toast");
@@ -545,25 +545,31 @@ function updateTranscriptionUI() {
 function updateRemoteControls() {
   const connected = state.pairConnected;
   const recordButton = $("remoteRecord");
-  const pauseButton = $("remotePause");
-  recordButton.disabled = !connected || state.recording;
+  recordButton.disabled = !connected || state.audioEnded;
   recordButton.classList.toggle("is-recording", state.recording);
-  $("remoteRecordText").textContent = state.recording
-    ? "Inspelning pågår"
-    : state.hasStarted ? "Fortsätt inspelning" : "Starta inspelning";
-  pauseButton.disabled = !connected || !state.recording;
+  const actionText = state.audioEnded ? "Ljudinspelning avslutad" : state.recording ? "Pausa ljudinspelning" : state.hasStarted ? "Fortsätt ljudinspelning" : "Starta ljudinspelning";
+  $("remoteRecordText").textContent = actionText;
+  $("remoteRecordIcon").textContent = state.recording ? "Ⅱ" : "●";
+  recordButton.setAttribute("aria-label", actionText);
+  $("remoteStop").disabled = !connected || !state.hasStarted || state.audioEnded;
+  $("remoteStop").classList.toggle("is-ended", state.audioEnded);
 }
 
 function setRecording(active) {
+  if (active && state.audioEnded) return;
   state.recording = active;
   if (active) advanceTyping();
   else pauseTyping();
   document.body.classList.toggle("is-recording", active);
   if (active) state.hasStarted = true;
-  $("phoneRecord").disabled = active;
-  $("phoneRecordText").textContent = active ? "Ljud spelas in" : state.hasStarted ? "Fortsätt ljudinspelning" : "Starta ljudinspelning";
-  $("phonePause").disabled = !active;
-  $("phoneRecordState").textContent = active ? "LJUDINSPELNING PÅGÅR" : state.hasStarted ? "LJUD PAUSAT" : "MOBIL REDO ATT SPELA IN LJUD";
+  $("phoneRecord").disabled = state.audioEnded;
+  const actionText = state.audioEnded ? "Ljudinspelning avslutad" : active ? "Pausa ljudinspelning" : state.hasStarted ? "Fortsätt ljudinspelning" : "Starta ljudinspelning";
+  $("phoneRecordText").textContent = actionText;
+  $("phoneRecord").setAttribute("aria-label", actionText);
+  $("phoneRecordIcon").textContent = active ? "Ⅱ" : "●";
+  $("phoneStop").disabled = !state.hasStarted || state.audioEnded;
+  $("phoneStop").classList.toggle("is-ended", state.audioEnded);
+  $("phoneRecordState").textContent = state.audioEnded ? "LJUDINSPELNING AVSLUTAD" : active ? "LJUDINSPELNING PÅGÅR" : state.hasStarted ? "LJUD PAUSAT" : "MOBIL REDO ATT SPELA IN LJUD";
   $("phoneRecordCard").classList.toggle("recording", active);
   updateAudioStatus();
   updateTranscriptionUI();
@@ -586,16 +592,29 @@ function setRecording(active) {
 }
 function updateAudioStatus() {
   const card = $("audioStatusCard");
-  $("audioStatusValue").textContent = state.recording
-    ? "INSPELNING PÅGÅR"
-    : state.hasStarted ? "PAUSAD" : "REDO ATT SPELA IN";
+  $("audioStatusValue").textContent = state.audioEnded ? "AVSLUTAD" : state.recording ? "INSPELNING PÅGÅR" : state.hasStarted ? "PAUSAD" : "REDO ATT SPELA IN";
   card.classList.toggle("is-active", state.recording);
   card.classList.toggle("is-paused", state.hasStarted && !state.recording);
   updateRemoteControls();
 }
 function startRecording() {
   if (!state.pairConnected) { showToast("Anslut mobilen genom att skanna QR-koden i datorvyn först."); return; }
-  if (!state.recording) setRecording(true);
+  if (state.audioEnded) return;
+  setRecording(!state.recording);
+}
+function stopRecording() {
+  if (!state.pairConnected || !state.hasStarted || state.audioEnded) return;
+  setRecording(false);
+  state.audioEnded = true;
+  $("phoneRecordState").textContent = "LJUDINSPELNING AVSLUTAD";
+  $("phoneRecordText").textContent = "Ljudinspelning avslutad";
+  $("phoneRecord").setAttribute("aria-label", "Ljudinspelning avslutad");
+  $("phoneRecord").disabled = true;
+  $("phoneStop").disabled = true;
+  $("phoneStop").classList.add("is-ended");
+  updateAudioStatus();
+  updateRemoteControls();
+  showToast("Ljudinspelningen har avslutats.");
 }
 function makeSummaryText(lines) {
   const personLines = lines.filter(line => line.kind === "person");
@@ -970,9 +989,9 @@ $("closePairing").addEventListener("click", closePairing);
 $("pairingModal").addEventListener("click", event => { if (event.target === $("pairingModal")) closePairing(); });
 $("simulatePair").addEventListener("click", simulatePairing);
 $("phoneRecord").addEventListener("click", startRecording);
-$("phonePause").addEventListener("click", () => setRecording(false));
+$("phoneStop").addEventListener("click", stopRecording);
 $("remoteRecord").addEventListener("click", startRecording);
-$("remotePause").addEventListener("click", () => setRecording(false));
+$("remoteStop").addEventListener("click", stopRecording);
 $("transcriptionToggle").addEventListener("change", event => {
   state.transcriptionEnabled = event.target.checked;
   if (state.transcriptionEnabled) advanceTyping();
