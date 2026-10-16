@@ -2021,14 +2021,35 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   box-shadow:0 4px 14px rgba(0,35,75,.08);
 }
 .mobile-view-reopen>span:first-child{font-size:22px;line-height:1}
+.mobile-preview-panel{position:relative}
+.mobile-preview-panel #collapseMobileView{
+  position:absolute;
+  z-index:2;
+  top:10px;
+  right:10px;
+  display:grid;
+  place-items:center;
+  width:28px;
+  min-width:28px;
+  height:28px;
+  min-height:28px;
+  padding:0;
+  border:1px solid #d8e3e4;
+  border-radius:6px;
+  background:#fff;
+  color:#087f82;
+  font-size:18px;
+}
+.mobile-preview-panel #collapseMobileView:hover{background:#e7f5f2;border-color:#a9ceca}
 @media(min-width:851px){
   #workGrid.mobile-preview-collapsed{
-    grid-template-columns:42px minmax(0,1.65fr) minmax(320px,1.15fr)!important;
+    grid-template-columns:32px minmax(380px,var(--transcript-panel-width,1.65fr)) 14px minmax(300px,var(--summary-panel-width,1.15fr))!important;
     gap:16px!important;
   }
-  #workGrid.mobile-preview-collapsed #showMobileView{grid-column:1;grid-row:1;align-self:stretch;width:42px;writing-mode:vertical-rl;transform:rotate(180deg)}
+  #workGrid.mobile-preview-collapsed #showMobileView{grid-column:1;grid-row:1;align-self:start;justify-self:center;width:28px;min-width:28px;min-height:36px;padding:4px;writing-mode:horizontal-tb;transform:none}
   #workGrid.mobile-preview-collapsed #transcriptPanel{grid-column:2;grid-row:1}
-  #workGrid.mobile-preview-collapsed .summary-column{grid-column:3;grid-row:1}
+  #workGrid.mobile-preview-collapsed #panelResizer{grid-column:3;grid-row:1}
+  #workGrid.mobile-preview-collapsed .summary-column{grid-column:4;grid-row:1}
 }
 @media(min-width:851px) and (max-width:1140px){
   #workGrid.mobile-preview-collapsed{
@@ -2090,6 +2111,7 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
     grid-template-columns:42px 42px minmax(320px,1fr)!important;
     gap:12px!important;
   }
+  #workGrid.mobile-preview-collapsed.transcript-panel-collapsed #panelResizer{display:none}
   #workGrid.mobile-preview-collapsed.transcript-panel-collapsed #showMobileView{grid-column:1;grid-row:1}
   #workGrid.mobile-preview-collapsed.transcript-panel-collapsed #showTranscriptPanel{grid-column:2;grid-row:1;align-self:stretch;width:42px;writing-mode:vertical-rl;transform:rotate(180deg)}
   #workGrid.mobile-preview-collapsed.transcript-panel-collapsed .summary-column{grid-column:3;grid-row:1}
