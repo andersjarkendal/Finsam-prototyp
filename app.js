@@ -689,28 +689,28 @@ ${review}${transferNote}`;
 }
 const demoFollowupQuestions = [
   {
-    title: "Styrelsen",
-    icon: "♧",
-    question: "Du berättar att rutinen för kvittohantering ändrades. Vem föreslog eller beslutade om den ändringen?",
-    source: "Påhittat bolagsregister · styrelsesammansättning",
-    visualTitle: "Nordhamn Ekonomi AB · styrelseöversikt",
-    visual: `<svg viewBox="0 0 300 136" role="img" aria-label="Fiktivt organisationsschema med en ordförande och två ledamöter"><path d="M150 45v18M75 63h150M75 63v12M150 63v12M225 63v12" fill="none" stroke="#9db1c7" stroke-width="2"/><rect x="91" y="8" width="118" height="38" rx="9" fill="#003366"/><text x="150" y="24" text-anchor="middle" fill="#ffcc00" font-size="9" font-weight="700">ORDFÖRANDE</text><text x="150" y="37" text-anchor="middle" fill="#fff" font-size="11">M. Lind</text><rect x="18" y="76" width="114" height="48" rx="9" fill="#f3f6fa" stroke="#cbd7e4"/><text x="75" y="94" text-anchor="middle" fill="#536b84" font-size="9" font-weight="700">LEDAMOT</text><text x="75" y="111" text-anchor="middle" fill="#173b63" font-size="11">S. Berg</text><rect x="168" y="76" width="114" height="48" rx="9" fill="#fff8dc" stroke="#ead37f"/><text x="225" y="94" text-anchor="middle" fill="#826300" font-size="9" font-weight="700">LEDAMOT</text><text x="225" y="111" text-anchor="middle" fill="#173b63" font-size="11">J. Hall</text></svg>`
+    title: "Saknade fakturor",
+    icon: "▤",
+    question: "Du berättar att fakturor från Berglunds Fastighet saknades i bokföringen. Hur brukade du skicka dem till Karin, och vad kan visa om eller när de skickades?",
+    source: "Transkriberingen · fakturor och bokföringsunderlag",
+    visualTitle: "Fakturor · från kund till bokföring",
+    visual: `<svg viewBox="0 0 300 136" role="img" aria-label="Illustration av flödet från kundfaktura via redovisningskonsult till bokföring"><path d="M92 68h22M184 68h22" stroke="#9db1c7" stroke-width="3" stroke-linecap="round"/><path d="m108 61 8 7-8 7m76-14 8 7-8 7" fill="none" stroke="#9db1c7" stroke-width="3"/><rect x="8" y="30" width="84" height="76" rx="10" fill="#f3f6fa" stroke="#cbd7e4"/><text x="50" y="57" text-anchor="middle" fill="#173b63" font-size="11" font-weight="700">Kundfaktura</text><text x="50" y="77" text-anchor="middle" fill="#536b84" font-size="9">Berglunds</text><text x="50" y="91" text-anchor="middle" fill="#536b84" font-size="9">Fastighet</text><rect x="108" y="30" width="84" height="76" rx="10" fill="#fff8dc" stroke="#ead37f"/><text x="150" y="57" text-anchor="middle" fill="#826300" font-size="10" font-weight="700">Underlag</text><text x="150" y="77" text-anchor="middle" fill="#536b84" font-size="9">skickas till</text><text x="150" y="91" text-anchor="middle" fill="#536b84" font-size="9">Karin</text><rect x="208" y="30" width="84" height="76" rx="10" fill="#f3f6fa" stroke="#cbd7e4"/><text x="250" y="57" text-anchor="middle" fill="#173b63" font-size="10" font-weight="700">Bokföring</text><text x="250" y="77" text-anchor="middle" fill="#536b84" font-size="9">betalning</text><text x="250" y="91" text-anchor="middle" fill="#536b84" font-size="9">stämms av</text></svg>`
   },
   {
-    title: "Nyckelåtkomst",
-    icon: "⌑",
-    question: "Du nämner att flera i gruppen hade nyckel. Vilka personer kunde öppna arkivskåpet under den aktuella helgen?",
-    source: "Påhittat behörighetssystem · nyckelregister",
-    visualTitle: "Arkivskåp · fiktiv åtkomstöversikt",
-    visual: `<svg viewBox="0 0 300 136" role="img" aria-label="Fiktiv åtkomstöversikt för tre personer och ett arkivskåp"><path d="M80 36h42M178 36h42M150 56v34M92 105h116" fill="none" stroke="#9db1c7" stroke-width="2"/><rect x="8" y="15" width="92" height="42" rx="9" fill="#f3f6fa" stroke="#cbd7e4"/><text x="54" y="32" text-anchor="middle" fill="#536b84" font-size="9" font-weight="700">PERSON A</text><text x="54" y="47" text-anchor="middle" fill="#173b63" font-size="10">Nyckel</text><rect x="108" y="15" width="84" height="42" rx="9" fill="#fff8dc" stroke="#ead37f"/><text x="150" y="32" text-anchor="middle" fill="#826300" font-size="9" font-weight="700">KOLLEGA B</text><text x="150" y="47" text-anchor="middle" fill="#173b63" font-size="10">Nyckel</text><rect x="200" y="15" width="92" height="42" rx="9" fill="#f3f6fa" stroke="#cbd7e4"/><text x="246" y="32" text-anchor="middle" fill="#536b84" font-size="9" font-weight="700">ADMIN C</text><text x="246" y="47" text-anchor="middle" fill="#173b63" font-size="10">Huvudnyckel</text><rect x="91" y="87" width="118" height="40" rx="9" fill="#003366"/><text x="150" y="112" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">ARKIVSKÅP</text></svg>`
+    title: "Överföringen",
+    icon: "↗",
+    question: "Du uppger att överföringen på 86 000 kronor avsåg återbetalning för utlägg. Kan du gå igenom vilka utlägg beloppet bestod av och vilket underlag som styrker varje del?",
+    source: "Transkriberingen · kundbetalning och privat överföring",
+    visualTitle: "Överföring · uppgifter i förhöret",
+    visual: `<svg viewBox="0 0 300 136" role="img" aria-label="Tidsföljd enligt förhöret: kundbetalning kommer in och två dagar senare görs en överföring på 86 000 kronor till ett privat konto"><path d="M46 68h208" stroke="#a8bbce" stroke-width="4" stroke-linecap="round"/><circle cx="54" cy="68" r="10" fill="#003366"/><circle cx="246" cy="68" r="10" fill="#ffcc00" stroke="#003366" stroke-width="2"/><text x="54" y="35" text-anchor="middle" fill="#173b63" font-size="10" font-weight="700">Kundbetalning</text><text x="54" y="104" text-anchor="middle" fill="#536b84" font-size="9">på bolagets konto</text><text x="150" y="58" text-anchor="middle" fill="#536b84" font-size="10" font-weight="700">2 dagar senare</text><text x="246" y="35" text-anchor="middle" fill="#173b63" font-size="10" font-weight="700">86 000 kr</text><text x="246" y="104" text-anchor="middle" fill="#536b84" font-size="9">till privat konto</text></svg>`
   },
   {
-    title: "Tidslinjen",
+    title: "Bokföringsansvar",
     icon: "◷",
-    question: "Du uppskattar att samtalet kom runt halv tio. Finns det något som kan hjälpa dig att ringa in tidpunkten mer exakt?",
-    source: "Påhittad kalender och e-post · händelsetider",
-    visualTitle: "Exempel på tidslinje · måndag",
-    visual: `<svg viewBox="0 0 300 136" role="img" aria-label="Fiktiv tidslinje med ankomst klockan 07.50, telefonsamtal 09.24 och e-post 10.02"><path d="M26 78h248" fill="none" stroke="#a8bbce" stroke-width="4" stroke-linecap="round"/><circle cx="48" cy="78" r="9" fill="#003366"/><circle cx="150" cy="78" r="9" fill="#ffcc00" stroke="#003366" stroke-width="2"/><circle cx="251" cy="78" r="9" fill="#003366"/><text x="48" y="45" text-anchor="middle" fill="#173b63" font-size="12" font-weight="700">07:50</text><text x="150" y="45" text-anchor="middle" fill="#173b63" font-size="12" font-weight="700">09:24</text><text x="251" y="45" text-anchor="middle" fill="#173b63" font-size="12" font-weight="700">10:02</text><text x="48" y="108" text-anchor="middle" fill="#536b84" font-size="9">Ankomst</text><text x="150" y="108" text-anchor="middle" fill="#536b84" font-size="9">Samtal</text><text x="251" y="108" text-anchor="middle" fill="#536b84" font-size="9">E-post</text></svg>`
+    question: "Du uppger att du upptäckte avvikelser vid bokslutet i januari eller februari 2025 och kontaktade Karin. Vad gjorde du sedan för att komplettera bokföringen, och vad informerades den nya konsulten om?",
+    source: "Transkriberingen · bokslut och konsultbyte",
+    visualTitle: "Uppföljning enligt förhöret",
+    visual: `<svg viewBox="0 0 300 136" role="img" aria-label="Ungefärlig tidslinje enligt förhöret: avvikelser upptäcks vid bokslutet i januari eller februari 2025, kontakt med redovisningskonsult och konsultbyte under våren 2025"><path d="M36 72h228" stroke="#a8bbce" stroke-width="4" stroke-linecap="round"/><circle cx="48" cy="72" r="9" fill="#003366"/><circle cx="150" cy="72" r="9" fill="#ffcc00" stroke="#003366" stroke-width="2"/><circle cx="252" cy="72" r="9" fill="#003366"/><text x="48" y="38" text-anchor="middle" fill="#173b63" font-size="10" font-weight="700">Jan/feb 2025</text><text x="150" y="38" text-anchor="middle" fill="#173b63" font-size="10" font-weight="700">Kontakt</text><text x="252" y="38" text-anchor="middle" fill="#173b63" font-size="10" font-weight="700">Våren 2025</text><text x="48" y="103" text-anchor="middle" fill="#536b84" font-size="9">Avvikelser vid</text><text x="48" y="116" text-anchor="middle" fill="#536b84" font-size="9">bokslutet</text><text x="150" y="109" text-anchor="middle" fill="#536b84" font-size="9">Redovisnings-</text><text x="150" y="121" text-anchor="middle" fill="#536b84" font-size="9">konsult</text><text x="252" y="109" text-anchor="middle" fill="#536b84" font-size="9">Ny konsult</text><text x="252" y="121" text-anchor="middle" fill="#536b84" font-size="9">tar över</text></svg>`
   }
 ];
 const followupToggle = $("followupToggle");
