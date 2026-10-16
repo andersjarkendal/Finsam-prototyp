@@ -1919,3 +1919,57 @@ body.is-panel-resizing *{cursor:col-resize!important;user-select:none!important}
   min-height:140px!important;
   max-height:140px!important;
 }
+
+/* Keep the whole-panel control available while Förhörsanalys is hidden. */
+.recording-statuses-heading{
+  display:flex!important;
+  align-items:center;
+  justify-content:space-between;
+  pointer-events:none;
+}
+.recording-statuses-heading>span{pointer-events:none}
+.analysis-panel-toggle{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:#244866;
+  font-size:12px;
+  font-weight:750;
+  letter-spacing:0;
+  text-transform:none;
+  cursor:pointer;
+  pointer-events:auto;
+  white-space:nowrap;
+}
+.analysis-panel-toggle input{
+  position:absolute;
+  width:1px;
+  height:1px;
+  opacity:0;
+}
+.analysis-panel-toggle input:checked+.followup-toggle-switch{
+  border-color:#003366;
+  background:#003366;
+}
+.analysis-panel-toggle:focus-within .followup-toggle-switch{
+  outline:3px solid #ffcc00;
+  outline-offset:3px;
+}
+.session-strip-main.analysis-hidden{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+}
+.session-strip-main.analysis-hidden .status-remote-group{
+  grid-column:1!important;
+  grid-row:1!important;
+  width:100%!important;
+  min-width:0!important;
+}
+.session-strip-main.analysis-hidden .recording-statuses{
+  width:100%!important;
+  min-width:0!important;
+}
+.session-strip-main.analysis-hidden .recording-status-boundary,
+.session-strip-main.analysis-hidden .followup-suggestions{
+  display:none!important;
+}
