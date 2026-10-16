@@ -727,7 +727,7 @@ function renderFollowupQuestions(summaryNumber) {
   if (openFollowupQuestion) closeFollowupCard(false);
   const panel = $("followupSuggestions");
   const showQuestions = $("followupToggle")?.checked ?? true;
-  panel.innerHTML = `<div class="followup-heading"><b>FÖRHÖRSANALYS</b><label class="followup-toggle" for="followupToggle"><span>Visa följdfrågor</span><input id="followupToggle" type="checkbox" ${showQuestions ? "checked" : ""} aria-controls="followupQuestionList"><span class="followup-toggle-switch" aria-hidden="true"></span></label></div><div class="followup-list" id="followupQuestionList"></div>`;
+  panel.innerHTML = `<div class="followup-heading"><b>FÖRHÖRSANALYS</b><label class="app-toggle followup-toggle" for="followupToggle"><span>Visa följdfrågor</span><input id="followupToggle" type="checkbox" ${showQuestions ? "checked" : ""} aria-controls="followupQuestionList"><span class="app-toggle-track followup-toggle-switch" aria-hidden="true"></span></label></div><div class="followup-list" id="followupQuestionList"></div>`;
   const list = panel.querySelector(".followup-list");
   demoFollowupQuestions.slice(0, 3).forEach((item, index) => {
     const card = document.createElement("article");
@@ -1143,11 +1143,8 @@ document.querySelectorAll("[data-final-summary-size]").forEach(button => {
     });
   });
 });
-$("toggleFinalSummaryContrast").addEventListener("click", event => {
-  const button = event.currentTarget;
-  const inverted = button.getAttribute("aria-pressed") !== "true";
-  button.setAttribute("aria-pressed", String(inverted));
-  button.textContent = inverted ? "Återställ färger" : "Invertera färger";
+$("toggleFinalSummaryContrast").addEventListener("change", event => {
+  const inverted = event.currentTarget.checked;
   $("finalSummaryModal").querySelector(".final-summary-modal-card").classList.toggle("is-inverted", inverted);
 });
 document.addEventListener("keydown", event => {
